@@ -1,0 +1,59 @@
+<section class="section" id="hand">
+  <div class="container container--wide">
+    <div class="section__head reveal">
+      <span class="eyebrow">// THE HAND</span>
+      <h2 class="section__title">The <span class="accent">hand</span>.</h2>
+      <p class="lead">Almost every robotic hand is built to grip. TrueSkate-AI's needs the opposite — speed and human-like motion under no load — so it borrows from several open-source designs and recombines them.</p>
+    </div>
+
+    <div class="hand__grid">
+      <!-- ===================== PROSE COLUMN ===================== -->
+      <div class="hand__prose reveal" data-reveal-delay="1">
+        <p class="hand__p">
+          <strong class="hand__leadin">The base is the ORCA Hand</strong> (ETH Zurich): five-finger, anthropomorphic, and tendon-driven from the forearm, which keeps the fingers light enough to move fast. It has per-finger splay for spread-and-pinch gestures, and it's built around the same serial-bus servos already on the bench. Its grasping-focused "Lite" variant was ruled out — it gives up the independent per-finger splay this project depends on. Where their finger mechanisms suit a speed-over-strength brief better, parts are borrowed from Pollen Robotics' Amazing Hand and Ruka-v2.
+        </p>
+        <p class="hand__p">
+          <strong class="hand__leadin">Each finger gets a tendon-driven curl plus base splay</strong> — roughly two to three degrees of freedom — so it can both flick and spread. The fingertips make capacitive contact with the screen, with touch-down and lift gated electronically so every tap registers cleanly: a reliability layer under real lift-and-press motion, not a substitute for it. The hand actually moves like a hand.
+        </p>
+        <p class="hand__p">
+          <strong class="hand__leadin">The first build is a two-finger scaffold</strong> — index and middle — to prove the curl-and-splay module and the control loop before scaling to all five.
+        </p>
+
+        <ul class="hand__callouts" aria-label="Hand design specifications">
+          <li><span class="callout callout--accent">~2&ndash;3 DOF per finger</span></li>
+          <li><span class="callout">tendon-driven</span></li>
+          <li><span class="callout">zero load-bearing</span></li>
+          <li><span class="callout">forked from open-source hands</span></li>
+        </ul>
+
+        <div class="hand__sources">
+          <span class="hand__sources-key mono">forks:</span>
+          <span class="chip"><span class="chip__dot"></span>ORCA Hand</span>
+          <span class="chip"><span class="chip__dot"></span>Amazing Hand</span>
+          <span class="chip"><span class="chip__dot"></span>Ruka-v2</span>
+        </div>
+      </div>
+
+      <!-- ===================== VISUAL COLUMN ===================== -->
+      <div class="hand__visual reveal" data-reveal-delay="2">
+        <figure class="panel panel--plain hand__figure">
+          <span class="corner-tag">FIG.A / HAND — <span class="accent">WIREFRAME</span></span>
+          <!-- SLOT:HAND-ANNOTATED -->
+          <figcaption class="hand__figcaption mono">tendon-driven curl + base splay — design schematic</figcaption>
+        </figure>
+
+        <figure class="clip hand__clip" data-clip>
+          <span class="corner-tag">VID / <span class="accent">2-FINGER MODULE</span></span>
+          <video class="clip__video" muted loop playsinline autoplay preload="metadata" aria-label="Looping clip of the two-finger robotic hand module moving">
+            <source src="assets/hand/module.mp4" type="video/mp4">
+          </video>
+          <div class="clip__placeholder">
+            <span class="corner-tag">VID / <span class="accent">2-FINGER MODULE</span></span>
+            <span class="clip__pending">render pending</span>
+          </div>
+          <figcaption class="clip__caption">two-finger module — render pending</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>

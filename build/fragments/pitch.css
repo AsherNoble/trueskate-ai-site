@@ -1,0 +1,33 @@
+/* ============================================================
+   #pitch — // 01 — PITCH
+   Accessible-top section: section head, lead, mono stat chips.
+   All selectors scoped under #pitch. Tokens + primitives only.
+   ============================================================ */
+
+#pitch .lead {
+  max-width: 64ch;
+}
+
+#pitch .pitch__embodiment {
+  margin-top: var(--s-4);
+  max-width: 64ch;
+  color: var(--fg);
+}
+#pitch .pitch__embodiment strong { color: var(--fg); font-weight: 600; }
+
+#pitch .pitch__stats {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  margin-top: var(--s-6);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+}
+
+@media (max-width: 720px) {
+  #pitch .pitch__stats {
+    margin-top: var(--s-5);
+    gap: var(--s-2);
+  }
+}

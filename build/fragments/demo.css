@@ -1,0 +1,87 @@
+/* ============================================================
+   TrueSkate-AI — demo.css
+   Section 02 — pure-trick showcase: a compact horizontal
+   scroll strip of looping clips. Scoped under #demo.
+   ============================================================ */
+
+#demo .demo__note {
+  margin-top: var(--s-3);
+}
+
+/* ---------- Horizontal scroll strip ---------- */
+/* Desktop: ~3 landscape clips visible, with the next peeking to signal
+   scroll. Each clip keeps the 16/9 landscape aspect from .clip. */
+#demo .demo__strip {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% - 3 * var(--s-4)) / 3.35);
+  gap: var(--s-4);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-strong) transparent;
+  /* room for the focus ring + a hint of breathing space */
+  padding-bottom: var(--s-3);
+  margin-inline: calc(-1 * var(--s-1));
+  padding-inline: var(--s-1);
+}
+
+/* Thin schematic scrollbar to match the blueprint feel */
+#demo .demo__strip::-webkit-scrollbar {
+  height: 6px;
+}
+#demo .demo__strip::-webkit-scrollbar-track {
+  background: transparent;
+}
+#demo .demo__strip::-webkit-scrollbar-thumb {
+  background: var(--line-strong);
+  border-radius: 999px;
+}
+#demo .demo__strip::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-line);
+}
+
+#demo .demo__clip {
+  scroll-snap-align: start;
+  width: 100%;
+  /* .clip already supplies aspect-ratio: 9/16, border, radius, bg */
+}
+
+/* Subtle hover lift — accent hairline only, no color on body text */
+#demo .demo__clip {
+  transition: border-color 0.2s var(--ease), transform 0.2s var(--ease);
+}
+#demo .demo__clip:hover {
+  border-color: var(--accent-line);
+}
+
+/* ---------- Tablet: ~2-and-a-bit visible ---------- */
+@media (max-width: 1024px) {
+  #demo .demo__strip {
+    grid-auto-columns: calc((100% - 2 * var(--s-4)) / 2.4);
+  }
+}
+
+/* ---------- Mobile: one-and-a-bit clips, snap carousel ---------- */
+@media (max-width: 720px) {
+  #demo .demo__strip {
+    grid-auto-columns: 82%;
+    gap: var(--s-3);
+    scroll-snap-type: x mandatory;
+  }
+}
+
+@media (max-width: 420px) {
+  #demo .demo__strip {
+    grid-auto-columns: 90%;
+  }
+}
+
+/* ---------- Reduced motion: no hover transform, calmer scroll ---------- */
+@media (prefers-reduced-motion: reduce) {
+  #demo .demo__strip {
+    scroll-snap-type: none;
+  }
+}

@@ -1,0 +1,181 @@
+<!-- DIAGRAM:COMPACT -->
+<svg id="diagram-compact" class="reveal" viewBox="0 0 920 360" role="img" aria-labelledby="diagram-compact-title" preserveAspectRatio="xMidYMid meet" focusable="false">
+  <title id="diagram-compact-title">TrueSkate-AI control loop: iPhone, gesture, vision/OCR, reward, CMA-ES, back to iPhone.</title>
+
+  <!-- ===== frame ticks / CAD chrome (matches the full print) ===== -->
+  <g class="diagram-frame">
+    <path class="diagram-tick" d="M16,16 h14 M16,16 v14" />
+    <path class="diagram-tick" d="M904,16 h-14 M904,16 v14" />
+    <path class="diagram-tick" d="M16,344 h14 M16,344 v-14" />
+    <path class="diagram-tick" d="M904,344 h-14 M904,344 v-14" />
+  </g>
+
+  <!-- ===== connector edges (forward chain) ===== -->
+  <g class="diagram-edges" fill="none">
+    <!-- iPhone -> Gesture -->
+    <polyline class="diagram-edge" points="178,108 226,108" marker-end="url(#dgc-arrow)" />
+    <!-- Gesture -> Vision -->
+    <polyline class="diagram-edge" points="404,108 452,108" marker-end="url(#dgc-arrow)" />
+    <!-- Vision -> Reward -->
+    <polyline class="diagram-edge" points="630,108 678,108" marker-end="url(#dgc-arrow)" />
+    <!-- Reward -> Optimizer (drop down) -->
+    <polyline class="diagram-edge" points="788,142 788,196 788,206" marker-end="url(#dgc-arrow)" />
+    <!-- Optimizer -> iPhone (the closing return path; starts at the Optimizer
+         box center so the pulse rides the wire for the whole return leg) -->
+    <polyline class="diagram-edge diagram-edge--return" points="788,250 116,250 116,142" marker-end="url(#dgc-arrow)" />
+  </g>
+
+  <!-- ===== connector labels riding the lines ===== -->
+  <g class="diagram-conn">
+    <text x="202" y="98" text-anchor="middle">gesture</text>
+    <text x="428" y="98" text-anchor="middle">frames</text>
+    <text x="654" y="98" text-anchor="middle">trick name</text>
+    <text x="804" y="178" text-anchor="start">reward</text>
+    <text x="397" y="240" text-anchor="middle" class="diagram-conn--return">new gesture params</text>
+  </g>
+
+  <!-- ===== nodes ===== -->
+  <!-- 1. iPhone -->
+  <g class="diagram-node" data-node="n-device">
+    <rect class="diagram-box" x="40" y="70" width="138" height="76" rx="6" />
+    <text class="diagram-node-title" x="109" y="104" text-anchor="middle">iPhone</text>
+    <text class="diagram-node-sub" x="109" y="124" text-anchor="middle">True Skate</text>
+  </g>
+  <!-- 2. Gesture -->
+  <g class="diagram-node" data-node="n-gesture">
+    <rect class="diagram-box" x="266" y="70" width="138" height="76" rx="6" />
+    <text class="diagram-node-title" x="335" y="104" text-anchor="middle">Gesture</text>
+    <text class="diagram-node-sub" x="335" y="124" text-anchor="middle">Appium / WDA &#8594; hand</text>
+  </g>
+  <!-- 3. Vision + OCR -->
+  <g class="diagram-node" data-node="n-vision">
+    <rect class="diagram-box" x="492" y="70" width="138" height="76" rx="6" />
+    <text class="diagram-node-title" x="561" y="104" text-anchor="middle">Vision + OCR</text>
+    <text class="diagram-node-sub" x="561" y="124" text-anchor="middle">Apple Vision</text>
+  </g>
+  <!-- 4. Reward -->
+  <g class="diagram-node" data-node="n-reward">
+    <rect class="diagram-box" x="718" y="70" width="138" height="76" rx="6" />
+    <text class="diagram-node-title" x="787" y="104" text-anchor="middle">Reward</text>
+    <text class="diagram-node-sub" x="787" y="124" text-anchor="middle">target-relative</text>
+  </g>
+  <!-- 5. Optimizer -->
+  <g class="diagram-node" data-node="n-optim">
+    <rect class="diagram-box" x="718" y="212" width="138" height="76" rx="6" />
+    <text class="diagram-node-title" x="787" y="246" text-anchor="middle">Optimizer</text>
+    <text class="diagram-node-sub" x="787" y="266" text-anchor="middle">CMA-ES</text>
+  </g>
+
+  <!-- ===== blue signal pulse (CSS offset-path traces the loop) ===== -->
+  <circle class="diagram-pulse" r="4.5" cx="0" cy="0" />
+
+  <!-- arrowhead marker -->
+  <defs>
+    <marker id="dgc-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path class="diagram-arrowhead" d="M1,1 L9,5 L1,9" fill="none" />
+    </marker>
+  </defs>
+</svg>
+<!-- /DIAGRAM:COMPACT -->
+
+<!-- DIAGRAM:FULL -->
+<svg id="diagram-full" class="reveal" viewBox="0 0 1000 480" role="img" aria-labelledby="diagram-full-title" preserveAspectRatio="xMidYMid meet" focusable="false">
+  <title id="diagram-full-title">TrueSkate-AI control loop: iPhone, gesture, vision/OCR, reward, CMA-ES, back to iPhone.</title>
+
+  <!-- ===== frame ticks / CAD chrome ===== -->
+  <g class="diagram-frame">
+    <text class="diagram-frame-tag" x="24" y="34" text-anchor="start">FIG.06 / CONTROL LOOP</text>
+    <text class="diagram-frame-tag diagram-frame-tag--accent" x="976" y="34" text-anchor="end">CLOSED LOOP &#215; 3 DEVICES</text>
+    <!-- corner registration ticks -->
+    <path class="diagram-tick" d="M16,16 h16 M16,16 v16" />
+    <path class="diagram-tick" d="M984,16 h-16 M984,16 v16" />
+    <path class="diagram-tick" d="M16,464 h16 M16,464 v-16" />
+    <path class="diagram-tick" d="M984,464 h-16 M984,464 v-16" />
+  </g>
+
+  <!-- ===== connector edges (forward chain) ===== -->
+  <g class="diagram-edges" fill="none">
+    <!-- iPhone -> Gesture -->
+    <polyline class="diagram-edge" points="200,150 244,150" marker-end="url(#dgf-arrow)" />
+    <!-- Gesture -> Vision -->
+    <polyline class="diagram-edge" points="436,150 480,150" marker-end="url(#dgf-arrow)" />
+    <!-- Vision -> Reward -->
+    <polyline class="diagram-edge" points="672,150 716,150" marker-end="url(#dgf-arrow)" />
+    <!-- Reward -> Optimizer (drop down) -->
+    <polyline class="diagram-edge" points="858,186 858,258 858,272" marker-end="url(#dgf-arrow)" />
+    <!-- Optimizer -> iPhone (closing return path; starts at the Optimizer
+         box center so the pulse rides the wire for the whole return leg) -->
+    <polyline class="diagram-edge diagram-edge--return" points="858,316 130,316 130,186" marker-end="url(#dgf-arrow)" />
+  </g>
+
+  <!-- ===== connector labels riding the lines ===== -->
+  <g class="diagram-conn">
+    <text x="222" y="138" text-anchor="middle">gesture</text>
+    <text x="458" y="138" text-anchor="middle">frames</text>
+    <text x="694" y="138" text-anchor="middle">trick name</text>
+    <text x="874" y="232" text-anchor="start">reward</text>
+    <text x="423" y="306" text-anchor="middle" class="diagram-conn--return">new gesture params</text>
+  </g>
+
+  <!-- ===== nodes ===== -->
+  <!-- 1. iPhone -->
+  <g class="diagram-node" data-node="n-device">
+    <rect class="diagram-box" x="50" y="108" width="150" height="84" rx="6" />
+    <text class="diagram-node-idx" x="62" y="126" text-anchor="start">01</text>
+    <text class="diagram-node-title" x="125" y="148" text-anchor="middle">iPhone</text>
+    <text class="diagram-node-sub" x="125" y="170" text-anchor="middle">True Skate</text>
+  </g>
+  <!-- 2. Gesture -->
+  <g class="diagram-node" data-node="n-gesture">
+    <rect class="diagram-box" x="286" y="108" width="150" height="84" rx="6" />
+    <text class="diagram-node-idx" x="298" y="126" text-anchor="start">02</text>
+    <text class="diagram-node-title" x="361" y="148" text-anchor="middle">Gesture</text>
+    <text class="diagram-node-sub" x="361" y="170" text-anchor="middle">Appium / WDA &#8594; hand</text>
+  </g>
+  <!-- 3. Vision + OCR -->
+  <g class="diagram-node" data-node="n-vision">
+    <rect class="diagram-box" x="522" y="108" width="150" height="84" rx="6" />
+    <text class="diagram-node-idx" x="534" y="126" text-anchor="start">03</text>
+    <text class="diagram-node-title" x="597" y="148" text-anchor="middle">Vision + OCR</text>
+    <text class="diagram-node-sub" x="597" y="170" text-anchor="middle">Apple Vision</text>
+  </g>
+  <!-- 4. Reward -->
+  <g class="diagram-node" data-node="n-reward">
+    <rect class="diagram-box" x="758" y="108" width="150" height="84" rx="6" />
+    <text class="diagram-node-idx" x="770" y="126" text-anchor="start">04</text>
+    <text class="diagram-node-title" x="833" y="148" text-anchor="middle">Reward</text>
+    <text class="diagram-node-sub" x="833" y="170" text-anchor="middle">shaped, target-relative</text>
+  </g>
+  <!-- 5. Optimizer -->
+  <g class="diagram-node" data-node="n-optim">
+    <rect class="diagram-box" x="758" y="274" width="150" height="84" rx="6" />
+    <text class="diagram-node-idx" x="770" y="292" text-anchor="start">05</text>
+    <text class="diagram-node-title" x="833" y="314" text-anchor="middle">Optimizer</text>
+    <text class="diagram-node-sub" x="833" y="336" text-anchor="middle">CMA-ES</text>
+  </g>
+
+  <!-- ===== CAD-style callout notes + leader ticks (flavour) ===== -->
+  <g class="diagram-notes">
+    <!-- leader from iPhone -->
+    <path class="diagram-leader" d="M125,192 L125,418 L300,418" />
+    <circle class="diagram-leader-dot" cx="125" cy="192" r="2.6" />
+    <text class="diagram-note" x="308" y="414" text-anchor="start">MJPEG stream &#8226; multi&#8211;touch swipe</text>
+    <text class="diagram-note diagram-note--dim" x="308" y="430" text-anchor="start">36 flatground tricks &#8212; physical hardware, no simulator</text>
+
+    <!-- leader from Vision -->
+    <path class="diagram-leader" d="M597,108 L597,72 L690,72" />
+    <circle class="diagram-leader-dot" cx="597" cy="108" r="2.6" />
+    <text class="diagram-note" x="698" y="76" text-anchor="start">on&#8211;screen trick name &#8594; reward signal</text>
+  </g>
+
+  <!-- ===== blue signal pulse ===== -->
+  <circle class="diagram-pulse" r="5" cx="0" cy="0" />
+
+  <!-- arrowhead marker -->
+  <defs>
+    <marker id="dgf-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path class="diagram-arrowhead" d="M1,1 L9,5 L1,9" fill="none" />
+    </marker>
+  </defs>
+</svg>
+<!-- /DIAGRAM:FULL -->

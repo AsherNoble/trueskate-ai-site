@@ -1,0 +1,1306 @@
+/* ===== diagram ===== */
+/* ============================================================
+   diagram.css — central blueprint pipeline diagram
+   Scoped under #diagram-compact / #diagram-full + .diagram-* classes.
+   Tokens only. CSS-only animation (offset-path + keyframes).
+   ============================================================ */
+
+/* ---------- shared sizing ---------- */
+#diagram-compact,
+#diagram-full {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+#diagram-compact { max-width: 760px; margin-inline: auto; }
+#diagram-full    { max-width: 1000px; margin-inline: auto; }
+
+/* ---------- node boxes ---------- */
+#diagram-compact .diagram-box,
+#diagram-full .diagram-box {
+  fill: var(--panel);
+  stroke: var(--line-strong);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  transition: stroke 0.3s var(--ease);
+}
+
+/* ---------- node text ---------- */
+#diagram-compact .diagram-node-title,
+#diagram-full .diagram-node-title {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  fill: var(--fg);
+}
+#diagram-compact .diagram-node-sub,
+#diagram-full .diagram-node-sub {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.03em;
+  fill: var(--fg-dim);
+}
+#diagram-full .diagram-node-idx {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  fill: var(--fg-dim);
+  opacity: 0.7;
+}
+
+/* ---------- connector edges ---------- */
+#diagram-compact .diagram-edge,
+#diagram-full .diagram-edge {
+  stroke: var(--line-strong);
+  stroke-width: 1.25;
+  vector-effect: non-scaling-stroke;
+}
+#diagram-compact .diagram-edge--return,
+#diagram-full .diagram-edge--return {
+  stroke-dasharray: 4 4;
+}
+#diagram-compact .diagram-arrowhead,
+#diagram-full .diagram-arrowhead {
+  stroke: var(--line-strong);
+  stroke-width: 1.25;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ---------- connector labels ---------- */
+#diagram-compact .diagram-conn text,
+#diagram-full .diagram-conn text {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  fill: var(--fg-dim);
+}
+#diagram-compact .diagram-conn--return,
+#diagram-full .diagram-conn--return {
+  fill: var(--accent) !important;
+  letter-spacing: 0.04em;
+}
+
+/* ---------- CAD chrome (full only) ---------- */
+#diagram-full .diagram-frame-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  fill: var(--fg-dim);
+}
+#diagram-full .diagram-frame-tag--accent { fill: var(--accent); }
+#diagram-compact .diagram-tick,
+#diagram-full .diagram-tick {
+  stroke: var(--line);
+  stroke-width: 1;
+  fill: none;
+  vector-effect: non-scaling-stroke;
+}
+#diagram-full .diagram-leader {
+  stroke: var(--line-strong);
+  stroke-width: 1;
+  fill: none;
+  vector-effect: non-scaling-stroke;
+}
+#diagram-full .diagram-leader-dot {
+  fill: var(--accent);
+}
+#diagram-full .diagram-note {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  fill: var(--fg);
+}
+#diagram-full .diagram-note--dim { fill: var(--fg-dim); }
+
+/* ---------- blue signal pulse ---------- */
+#diagram-compact .diagram-pulse,
+#diagram-full .diagram-pulse {
+  fill: var(--accent);
+  filter: drop-shadow(0 0 4px var(--accent))
+          drop-shadow(0 0 9px var(--accent-glow));
+  /* offset-path anchors the circle's own origin to the path */
+  offset-rotate: 0deg;
+  offset-distance: 0%;
+  will-change: offset-distance;
+}
+
+/* COMPACT pulse route — traces the connector polylines exactly:
+   right edge of iPhone (178,108) -> through nodes -> Reward bottom (788,142)
+   -> down to Optimizer (788,212) -> Optimizer left (718,250) -> return
+   left to (116,250) -> up (116,108) -> back into iPhone left edge (40,108). */
+#diagram-compact .diagram-pulse {
+  offset-path: path("M178,108 L335,108 L561,108 L788,108 L788,250 L116,250 L116,108 L178,108");
+  animation: dgc-pulse 8s linear infinite;
+}
+
+/* FULL pulse route — same geometry at full scale:
+   iPhone right (200,150) -> nodes -> Reward (858,150) -> down (858,316)
+   -> return left (130,316) -> up (130,150) -> back into iPhone. */
+#diagram-full .diagram-pulse {
+  offset-path: path("M200,150 L361,150 L597,150 L858,150 L858,316 L130,316 L130,150 L200,150");
+  animation: dgf-pulse 8.4s linear infinite;
+}
+
+@keyframes dgc-pulse { from { offset-distance: 0%; } to { offset-distance: 100%; } }
+@keyframes dgf-pulse { from { offset-distance: 0%; } to { offset-distance: 100%; } }
+
+/* ============================================================
+   NODE-GLOW STAGGER
+   The pulse enters each node as it passes. The loop perimeter is
+   travelled at constant speed, so node-arrival % is proportional
+   to cumulative path length. Forward row spans ~37% of the loop;
+   the long return leg spans the rest. Glow windows are tuned to
+   match arrival, each ~12% wide, so a node lights then settles.
+   ============================================================ */
+#diagram-compact .diagram-node .diagram-box,
+#diagram-full .diagram-node .diagram-box {
+  animation-duration: 8s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+#diagram-full .diagram-node .diagram-box { animation-duration: 8.4s; }
+
+/* node-arrival order around the loop:
+   iPhone @ start/end, Gesture, Vision, Reward, then down to Optimizer */
+#diagram-compact [data-node="n-device"]  .diagram-box,
+#diagram-full    [data-node="n-device"]  .diagram-box { animation-name: dg-glow-device; }
+#diagram-compact [data-node="n-gesture"] .diagram-box,
+#diagram-full    [data-node="n-gesture"] .diagram-box { animation-name: dg-glow-gesture; }
+#diagram-compact [data-node="n-vision"]  .diagram-box,
+#diagram-full    [data-node="n-vision"]  .diagram-box { animation-name: dg-glow-vision; }
+#diagram-compact [data-node="n-reward"]  .diagram-box,
+#diagram-full    [data-node="n-reward"]  .diagram-box { animation-name: dg-glow-reward; }
+#diagram-compact [data-node="n-optim"]   .diagram-box,
+#diagram-full    [data-node="n-optim"]   .diagram-box { animation-name: dg-glow-optim; }
+
+/* glow look: stroke -> accent, soft accent halo via filter */
+@keyframes dg-glow-device {
+  0%, 100% {
+    stroke: var(--accent);
+    filter: drop-shadow(0 0 6px var(--accent-glow));
+  }
+  10%, 90% {
+    stroke: var(--line-strong);
+    filter: drop-shadow(0 0 0 transparent);
+  }
+}
+@keyframes dg-glow-gesture {
+  0%, 6%, 26%, 100% {
+    stroke: var(--line-strong);
+    filter: drop-shadow(0 0 0 transparent);
+  }
+  14%, 18% {
+    stroke: var(--accent);
+    filter: drop-shadow(0 0 6px var(--accent-glow));
+  }
+}
+@keyframes dg-glow-vision {
+  0%, 16%, 36%, 100% {
+    stroke: var(--line-strong);
+    filter: drop-shadow(0 0 0 transparent);
+  }
+  24%, 28% {
+    stroke: var(--accent);
+    filter: drop-shadow(0 0 6px var(--accent-glow));
+  }
+}
+@keyframes dg-glow-reward {
+  0%, 26%, 46%, 100% {
+    stroke: var(--line-strong);
+    filter: drop-shadow(0 0 0 transparent);
+  }
+  34%, 38% {
+    stroke: var(--accent);
+    filter: drop-shadow(0 0 6px var(--accent-glow));
+  }
+}
+@keyframes dg-glow-optim {
+  0%, 38%, 58%, 100% {
+    stroke: var(--line-strong);
+    filter: drop-shadow(0 0 0 transparent);
+  }
+  46%, 50% {
+    stroke: var(--accent);
+    filter: drop-shadow(0 0 6px var(--accent-glow));
+  }
+}
+
+/* ============================================================
+   REDUCED MOTION — calm static state.
+   No pulse travel, no node-glow. Draw the loop in a quiet
+   accent tint and rest the pulse dot at the iPhone output.
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  #diagram-compact .diagram-pulse,
+  #diagram-full .diagram-pulse {
+    animation: none;
+    offset-distance: 0%;
+    filter: drop-shadow(0 0 4px var(--accent-glow));
+  }
+  #diagram-compact .diagram-node .diagram-box,
+  #diagram-full .diagram-node .diagram-box {
+    animation: none;
+    stroke: var(--line-strong);
+    filter: none;
+  }
+  #diagram-compact .diagram-edge,
+  #diagram-full .diagram-edge,
+  #diagram-compact .diagram-arrowhead,
+  #diagram-full .diagram-arrowhead {
+    stroke: var(--accent-line);
+  }
+}
+
+/* ============================================================
+   RESPONSIVE — single column friendliness.
+   The SVG already scales fluidly via viewBox; on narrow screens
+   give it room and nudge label sizing up slightly for legibility.
+   ============================================================ */
+@media (max-width: 720px) {
+  #diagram-compact,
+  #diagram-full { max-width: 100%; }
+
+  #diagram-compact .diagram-conn text,
+  #diagram-full .diagram-conn text,
+  #diagram-full .diagram-note,
+  #diagram-full .diagram-frame-tag { font-size: 11px; }
+
+  /* extra horizontal CAD notes are noise on tiny screens */
+  #diagram-full .diagram-notes { display: none; }
+}
+
+/* ===== hand ===== */
+/* ============================================================
+   hand.css — CAD wireframe schematic of the tendon-driven
+   robotic hand (in design). Pure stroke-only blueprint linework.
+   Scoped under #wire-hand / #wire-hand-annotated + .hand-* classes.
+   Tokens only. Static — introduces no motion.
+   ============================================================ */
+
+/* ---------- shared sizing ---------- */
+#wire-hand,
+#wire-hand-annotated {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  /* keep hairlines crisp + soft at any scale */
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ---------- structural linework (solid white outlines) ---------- */
+#wire-hand .hand-line,
+#wire-hand-annotated .hand-line {
+  stroke: var(--fg);
+  fill: none;
+  stroke-width: 1.2;
+  vector-effect: non-scaling-stroke;
+}
+/* dimmer internal detail: servo bays, palm seam, splay arcs */
+#wire-hand .hand-line--dim,
+#wire-hand-annotated .hand-line--dim {
+  stroke: var(--line-strong);
+  fill: none;
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+/* ---------- joint pivots (small open circles at the knuckles) ---------- */
+#wire-hand .hand-joint circle,
+#wire-hand-annotated .hand-joint circle {
+  stroke: var(--fg);
+  fill: var(--panel);
+  stroke-width: 1.2;
+  vector-effect: non-scaling-stroke;
+}
+/* fingertip capacitive-pad reference dots — small, accent-marked */
+#wire-hand .hand-joint--tip circle,
+#wire-hand-annotated .hand-joint--tip circle {
+  stroke: var(--accent);
+  fill: var(--accent-soft);
+  stroke-width: 1.1;
+}
+
+/* ---------- tendon routing (thin faint lines beneath the links) ---------- */
+#wire-hand .hand-tendon path,
+#wire-hand-annotated .hand-tendon path {
+  stroke: var(--line-strong);
+  fill: none;
+  stroke-width: 1;
+  opacity: 0.6;
+  vector-effect: non-scaling-stroke;
+}
+/* ONE highlighted tendon run, faint accent */
+#wire-hand .hand-tendon--accent path,
+#wire-hand-annotated .hand-tendon--accent path {
+  stroke: var(--accent-line);
+  opacity: 0.85;
+  stroke-dasharray: 3 4;
+}
+
+/* ---------- base-splay angle ticks at the MCP row ---------- */
+#wire-hand .hand-splay-arc,
+#wire-hand-annotated .hand-splay-arc {
+  stroke: var(--line-strong);
+  stroke-width: 1;
+  opacity: 0.7;
+  vector-effect: non-scaling-stroke;
+}
+
+/* ============================================================
+   ANNOTATED — CAD callouts (leader lines, dots, mono labels).
+   Only present on #wire-hand-annotated.
+   ============================================================ */
+#wire-hand-annotated .hand-leader {
+  stroke: var(--line-strong);
+  stroke-width: 1;
+  fill: none;
+  vector-effect: non-scaling-stroke;
+}
+#wire-hand-annotated .hand-leader-dot {
+  fill: var(--accent);
+  stroke: none;
+}
+#wire-hand-annotated .hand-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.03em;
+  fill: var(--fg);
+}
+#wire-hand-annotated .hand-label--dim {
+  fill: var(--fg-dim);
+}
+
+/* ============================================================
+   RESPONSIVE — the SVG scales fluidly via viewBox. On narrow
+   screens nudge the callout labels up a touch for legibility.
+   ============================================================ */
+@media (max-width: 720px) {
+  #wire-hand-annotated .hand-label { font-size: 12px; }
+}
+
+/* ===== hero ===== */
+/* ============================================================
+   hero — asymmetric blueprint bento
+   row 1:  text | dominant diagram | wireframe hand (actuator)
+   row 2:  4-up clip filmstrip
+   All selectors scoped under #hero.
+   ============================================================ */
+
+#hero {
+  position: relative;
+  overflow: hidden;
+  padding-block: var(--s-8) var(--s-9);
+  min-height: calc(100vh - var(--nav-h));
+  display: flex;
+  align-items: center;
+}
+
+/* ---------- Backdrop ---------- */
+#hero .hero__backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+#hero .floor-glow { opacity: 0.9; }
+
+/* ---------- Inner / bento grid ---------- */
+#hero .hero__inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+#hero .hero__bento {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 3.4fr) minmax(0, 4.6fr) minmax(0, 3fr);
+  grid-template-areas:
+    "text  diagram hand"
+    "clips clips   clips";
+  gap: var(--s-5);
+  align-items: stretch;
+}
+
+/* ---------- Primary text block ---------- */
+#hero .hero__text {
+  grid-area: text;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--s-4);
+  padding-right: var(--s-3);
+}
+#hero .hero__wordmark { font-size: 1.25rem; margin-top: var(--s-1); }
+#hero .hero__title {
+  font-size: clamp(2rem, 1.1rem + 3.2vw, 3.4rem);
+  line-height: 1.03;
+  letter-spacing: -0.03em;
+  max-width: 15ch;
+}
+#hero .hero__lead { max-width: 44ch; color: var(--fg); }
+#hero .hero__cta { display: flex; flex-wrap: wrap; gap: var(--s-3); margin-top: var(--s-2); }
+#hero .hero__status { margin-top: var(--s-1); }
+
+/* ---------- Dominant diagram panel ---------- */
+#hero .hero__diagram {
+  grid-area: diagram;
+  align-self: stretch;
+  display: flex;
+  min-height: 340px;
+  overflow: hidden;
+}
+#hero .hero__diagram-body {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--s-7) var(--s-5) var(--s-5);
+}
+#hero .hero__diagram-body :where(svg) { width: 100%; height: auto; }
+
+/* ---------- Wireframe hand panel (the actuator) ---------- */
+#hero .hero__hand {
+  grid-area: hand;
+  align-self: stretch;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--s-7) var(--s-4) var(--s-4);
+  overflow: hidden;
+  background:
+    radial-gradient(120% 80% at 50% 18%, var(--accent-soft) 0%, transparent 60%),
+    var(--panel);
+}
+#hero .hero__hand-body {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#hero .hero__hand-body svg { width: 100%; height: 100%; }
+#hero .hero__hand-cap {
+  margin-top: var(--s-2);
+  color: var(--fg-dim);
+  text-align: center;
+}
+
+/* ---------- Clip filmstrip ---------- */
+#hero .hero__clips {
+  grid-area: clips;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--s-3);
+}
+#hero .hero__clip { min-height: 0; }
+
+/* ---------- Responsive: stack below desktop ---------- */
+@media (max-width: 1080px) {
+  #hero {
+    min-height: 0;
+    align-items: stretch;
+    padding-block: var(--s-7) var(--s-8);
+  }
+  #hero .hero__bento {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-5);
+  }
+  #hero .hero__text { padding-right: 0; align-self: stretch; }
+  #hero .hero__diagram { min-height: 0; }
+  #hero .hero__hand-body { height: 360px; }
+}
+
+/* ---------- Mobile tweaks ---------- */
+@media (max-width: 720px) {
+  #hero .hero__title { max-width: none; }
+  #hero .hero__lead { font-size: var(--fs-body); max-width: none; }
+  #hero .hero__diagram-body { padding: var(--s-7) var(--s-4) var(--s-4); }
+  #hero .hero__hand-body { height: 320px; }
+  #hero .hero__clips { grid-template-columns: 1fr 1fr; }
+}
+
+/* ===== pitch ===== */
+/* ============================================================
+   #pitch — // 01 — PITCH
+   Accessible-top section: section head, lead, mono stat chips.
+   All selectors scoped under #pitch. Tokens + primitives only.
+   ============================================================ */
+
+#pitch .lead {
+  max-width: 64ch;
+}
+
+#pitch .pitch__embodiment {
+  margin-top: var(--s-4);
+  max-width: 64ch;
+  color: var(--fg);
+}
+#pitch .pitch__embodiment strong { color: var(--fg); font-weight: 600; }
+
+#pitch .pitch__stats {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  margin-top: var(--s-6);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+}
+
+@media (max-width: 720px) {
+  #pitch .pitch__stats {
+    margin-top: var(--s-5);
+    gap: var(--s-2);
+  }
+}
+
+/* ===== handsection ===== */
+/* ============================================================
+   #hand — "The hand"
+   Core hardware thesis. Two-column blueprint: design prose
+   (left) beside the annotated CAD wireframe + module clip
+   (right). Scoped under #hand only. Tokens + shared
+   primitives only — never redefine.
+   ============================================================ */
+
+#hand .hand__grid {
+  display: grid;
+  /* prose slightly narrower than the prominent visual column */
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  gap: var(--s-8);
+  align-items: start;
+}
+
+/* ---------- Left: design prose ---------- */
+#hand .hand__prose {
+  min-width: 0;
+}
+
+#hand .hand__p {
+  color: var(--fg);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+#hand .hand__p + .hand__p { margin-top: var(--s-5); }
+
+#hand .hand__leadin {
+  color: var(--fg);
+  font-weight: 600;
+}
+
+/* mono callout chips row */
+#hand .hand__callouts {
+  list-style: none;
+  margin: var(--s-7) 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+}
+
+/* source forks row */
+#hand .hand__sources {
+  margin-top: var(--s-5);
+  padding-top: var(--s-5);
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3);
+}
+#hand .hand__sources-key {
+  color: var(--fg-dim);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ---------- Right: annotated wireframe + clip ---------- */
+#hand .hand__visual {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-5);
+  /* keep the core figure in view while reading the prose */
+  position: sticky;
+  top: calc(var(--nav-h) + 24px);
+}
+
+#hand .hand__figure {
+  margin: 0;
+  padding: var(--s-7) var(--s-5) var(--s-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+  /* give the injected CAD hand real room to breathe */
+  min-height: 320px;
+}
+
+/* host for the injected annotated hand SVG */
+#hand .hand__figure > svg,
+#hand .hand__figure > img {
+  width: 100%;
+  height: auto;
+}
+
+#hand .hand__figcaption {
+  color: var(--fg-dim);
+  letter-spacing: 0.04em;
+  padding-top: var(--s-3);
+  border-top: 1px solid var(--line);
+}
+
+#hand .hand__clip {
+  /* supporting module clip beneath the hero figure */
+  width: 100%;
+}
+
+/* ---------- Responsive: stack to single column ---------- */
+@media (max-width: 980px) {
+  #hand .hand__grid {
+    grid-template-columns: 1fr;
+    gap: var(--s-7);
+  }
+  #hand .hand__visual {
+    position: static;
+    top: auto;
+    order: 2;
+  }
+  #hand .hand__prose { order: 1; }
+}
+
+@media (max-width: 720px) {
+  #hand .hand__figure {
+    padding: var(--s-7) var(--s-4) var(--s-4);
+    min-height: 0;
+  }
+  #hand .hand__callouts { gap: var(--s-2); }
+}
+
+/* ===== demo ===== */
+/* ============================================================
+   TrueSkate-AI — demo.css
+   Section 02 — pure-trick showcase: a compact horizontal
+   scroll strip of looping clips. Scoped under #demo.
+   ============================================================ */
+
+#demo .demo__note {
+  margin-top: var(--s-3);
+}
+
+/* ---------- Horizontal scroll strip ---------- */
+/* Desktop: ~3 landscape clips visible, with the next peeking to signal
+   scroll. Each clip keeps the 16/9 landscape aspect from .clip. */
+#demo .demo__strip {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% - 3 * var(--s-4)) / 3.35);
+  gap: var(--s-4);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-strong) transparent;
+  /* room for the focus ring + a hint of breathing space */
+  padding-bottom: var(--s-3);
+  margin-inline: calc(-1 * var(--s-1));
+  padding-inline: var(--s-1);
+}
+
+/* Thin schematic scrollbar to match the blueprint feel */
+#demo .demo__strip::-webkit-scrollbar {
+  height: 6px;
+}
+#demo .demo__strip::-webkit-scrollbar-track {
+  background: transparent;
+}
+#demo .demo__strip::-webkit-scrollbar-thumb {
+  background: var(--line-strong);
+  border-radius: 999px;
+}
+#demo .demo__strip::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-line);
+}
+
+#demo .demo__clip {
+  scroll-snap-align: start;
+  width: 100%;
+  /* .clip already supplies aspect-ratio: 9/16, border, radius, bg */
+}
+
+/* Subtle hover lift — accent hairline only, no color on body text */
+#demo .demo__clip {
+  transition: border-color 0.2s var(--ease), transform 0.2s var(--ease);
+}
+#demo .demo__clip:hover {
+  border-color: var(--accent-line);
+}
+
+/* ---------- Tablet: ~2-and-a-bit visible ---------- */
+@media (max-width: 1024px) {
+  #demo .demo__strip {
+    grid-auto-columns: calc((100% - 2 * var(--s-4)) / 2.4);
+  }
+}
+
+/* ---------- Mobile: one-and-a-bit clips, snap carousel ---------- */
+@media (max-width: 720px) {
+  #demo .demo__strip {
+    grid-auto-columns: 82%;
+    gap: var(--s-3);
+    scroll-snap-type: x mandatory;
+  }
+}
+
+@media (max-width: 420px) {
+  #demo .demo__strip {
+    grid-auto-columns: 90%;
+  }
+}
+
+/* ---------- Reduced motion: no hover transform, calmer scroll ---------- */
+@media (prefers-reduced-motion: reduce) {
+  #demo .demo__strip {
+    scroll-snap-type: none;
+  }
+}
+
+/* ===== how ===== */
+/* ============================================================
+   #how — "How it works"
+   Two-column blueprint: staged prose (left) + sticky system
+   diagram (right). Scoped under #how only.
+   ============================================================ */
+
+#how .how__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.92fr);
+  gap: var(--s-8);
+  align-items: start;
+}
+
+/* ---------- Left: staged blocks ---------- */
+#how .how__stages {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+#how .how__stage {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: var(--s-5);
+  padding-block: var(--s-5);
+  border-top: 1px solid var(--line);
+}
+#how .how__stage:first-child { border-top: 0; padding-top: 0; }
+#how .how__stage:last-child { padding-bottom: 0; }
+
+/* Mono index tag — boxed CAD label in the gutter */
+#how .how__index {
+  align-self: start;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.4em;
+  padding: 4px 8px;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border: 1px solid var(--accent-line);
+  border-radius: var(--r-1);
+  letter-spacing: 0.08em;
+  line-height: 1;
+  /* nudge the index to baseline-align with the lead-in text */
+  margin-top: 2px;
+}
+
+/* Thin CAD leader running down the index gutter, connecting stages */
+#how .how__stage::before {
+  content: "";
+  position: absolute;
+  left: 1.2em;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--line-faint);
+  pointer-events: none;
+}
+#how .how__stage:first-child::before { top: var(--s-2); }
+#how .how__stage:last-child::before { bottom: auto; height: var(--s-6); }
+
+#how .how__body { min-width: 0; }
+
+#how .how__text {
+  color: var(--fg);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+#how .how__leadin {
+  color: var(--fg);
+  font-weight: 600;
+}
+
+/* ---------- Right: sticky system diagram ---------- */
+#how .how__aside {
+  position: sticky;
+  top: calc(var(--nav-h) + 24px);
+}
+
+#how .how__figure {
+  margin: 0;
+  padding: var(--s-6) var(--s-5) var(--s-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+}
+
+/* Diagram slot host — keeps a stable frame even before the SVG lands */
+#how .how__figure > svg,
+#how .how__figure > img {
+  width: 100%;
+  height: auto;
+}
+
+#how .how__figcaption {
+  color: var(--fg-dim);
+  letter-spacing: 0.04em;
+  padding-top: var(--s-3);
+  border-top: 1px solid var(--line);
+}
+
+/* ---------- Responsive: stack to single column ---------- */
+@media (max-width: 980px) {
+  #how .how__grid {
+    grid-template-columns: 1fr;
+    gap: var(--s-7);
+  }
+  #how .how__aside {
+    position: static;
+    top: auto;
+    order: 2;
+  }
+}
+
+@media (max-width: 720px) {
+  #how .how__stage {
+    column-gap: var(--s-4);
+    padding-block: var(--s-4);
+  }
+  #how .how__stage::before { left: 1.1em; }
+  #how .how__figure {
+    padding: var(--s-6) var(--s-4) var(--s-4);
+  }
+}
+
+/* ===== stats ===== */
+/* ============================================================
+   #stats — // 04 — UNDER THE HOOD
+   A band of schematic mono figures + 3 engineering-note cards.
+   All selectors scoped under #stats. Tokens + primitives only.
+   ============================================================ */
+
+/* ---------- Figure band ---------- */
+#stats .stats__band {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: var(--r-2);
+  overflow: hidden;
+}
+
+/* Each figure cell — hairline-separated via the band's gap/bg. */
+#stats .stats__fig {
+  position: relative;
+  grid-column: span 4;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  padding: var(--s-6) var(--s-5);
+  background: var(--bg);
+}
+
+/* Hero figure spans the full top row, accent-tinted. */
+#stats .stats__fig--hero {
+  grid-column: span 12;
+  padding-block: var(--s-7);
+  background:
+    radial-gradient(120% 140% at 8% 0%, var(--accent-soft) 0%, transparent 58%),
+    var(--bg);
+}
+
+#stats .stats__fig-tag {
+  position: absolute;
+  top: var(--s-3);
+  right: var(--s-3);
+  color: var(--fg-dim);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+#stats .stats__value {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: clamp(2.2rem, 1.4rem + 3.4vw, 3.4rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--fg);
+  font-variant-numeric: tabular-nums;
+}
+
+#stats .stats__fig--hero .stats__value {
+  font-size: clamp(3.4rem, 2rem + 7vw, 6.2rem);
+  color: var(--accent);
+  text-shadow: 0 0 36px var(--accent-glow);
+}
+
+#stats .stats__label {
+  color: var(--fg-dim);
+  letter-spacing: 0.04em;
+  max-width: 34ch;
+}
+
+#stats .stats__fig--hero .stats__label {
+  font-size: var(--fs-caption);
+  max-width: 44ch;
+}
+
+/* One-line mono figures (no value/label split) — split the bottom row. */
+#stats .stats__fig--line {
+  grid-column: span 6;
+  justify-content: center;
+}
+#stats .stats__line {
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  letter-spacing: 0.03em;
+  color: var(--fg);
+}
+#stats .stats__fig--line .stats__line::before {
+  content: "› ";
+  color: var(--accent);
+}
+
+/* ---------- Engineering-note cards ---------- */
+#stats .stats__notes {
+  margin-top: var(--s-5);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--s-4);
+}
+
+#stats .stats__note {
+  padding: var(--s-7) var(--s-5) var(--s-5);
+}
+
+#stats .stats__note-title {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--fg);
+  margin-bottom: var(--s-2);
+}
+
+#stats .stats__note-text {
+  font-size: var(--fs-caption);
+  line-height: 1.55;
+  color: var(--fg-dim);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 980px) {
+  #stats .stats__notes {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  #stats .stats__band {
+    grid-template-columns: 1fr;
+  }
+  #stats .stats__fig,
+  #stats .stats__fig--hero {
+    grid-column: 1 / -1;
+    padding: var(--s-5);
+  }
+  #stats .stats__fig--hero {
+    padding-block: var(--s-6);
+  }
+  #stats .stats__fig-tag {
+    position: static;
+    margin-bottom: var(--s-2);
+  }
+}
+
+/* ===== roadmap ===== */
+/* ============================================================
+   #roadmap — // 05 — ROADMAP
+   A three-step arc drawn as a stepped CAD track. Desktop: a
+   horizontal track of 3 nodes joined by a hairline connector,
+   step 03 emphasised with --accent. Mobile: vertical stepped
+   list with a vertical connector. Scoped under #roadmap only.
+   Tokens + shared primitives only.
+   ============================================================ */
+
+/* ---------- Track groups ---------- */
+#roadmap .roadmap__group + .roadmap__group { margin-top: var(--s-8); }
+#roadmap .roadmap__group-label {
+  font-size: var(--fs-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+  margin-bottom: var(--s-5);
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+}
+#roadmap .roadmap__group-label::before {
+  content: "";
+  width: 20px;
+  height: 1px;
+  background: var(--accent-line);
+}
+
+#roadmap .roadmap__track {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--s-6);
+  align-items: start;
+}
+
+/* ---------- Step ---------- */
+#roadmap .roadmap__step {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-5);
+  padding-top: var(--s-6);
+}
+
+/* The horizontal connector line — runs through the node row,
+   behind the nodes, like a roadmap track. */
+#roadmap .roadmap__step::before {
+  content: "";
+  position: absolute;
+  top: calc(var(--s-2) + 4px);   /* center on the node */
+  left: 0;
+  right: calc(-1 * var(--s-6));   /* bridge the grid gap to the next step */
+  height: 1px;
+  background: var(--line-strong);
+  pointer-events: none;
+  z-index: 0;
+}
+/* First node has a leading half-segment trimmed; last step has no
+   trailing segment (nothing to connect to). */
+#roadmap .roadmap__step:last-child::before { right: 0; }
+
+/* The accent leg of the track feeds INTO the goal node. */
+#roadmap .roadmap__step--goal::before {
+  background: linear-gradient(90deg, var(--line-strong), var(--accent-line));
+}
+
+/* ---------- Node marker ---------- */
+#roadmap .roadmap__node {
+  position: relative;
+  z-index: 1;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 1px solid var(--line-strong);
+  flex: 0 0 auto;
+}
+#roadmap .roadmap__node--accent {
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-soft), 0 0 16px var(--accent-glow);
+}
+
+/* ---------- Card ---------- */
+#roadmap .roadmap__card {
+  position: relative;
+  padding: var(--s-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+  min-width: 0;
+}
+
+/* The final step carries the most weight: accent border, more
+   internal padding, a tinted backplate, and a corner phase tag. */
+#roadmap .roadmap__card--goal {
+  padding: var(--s-7) var(--s-5) var(--s-6);
+  border-color: var(--accent-line);
+  background:
+    radial-gradient(120% 130% at 100% 0%, var(--accent-soft) 0%, transparent 62%),
+    var(--panel);
+  box-shadow: 0 0 28px rgba(91, 141, 239, 0.10);
+}
+
+#roadmap .roadmap__card-head {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+}
+
+/* Mono phase tag — boxed CAD label */
+#roadmap .roadmap__phase {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.4em;
+  padding: 4px 8px;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  color: var(--fg-dim);
+  background: rgba(232, 234, 237, 0.04);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-1);
+}
+#roadmap .roadmap__phase--accent {
+  color: var(--accent);
+  background: var(--accent-soft);
+  border-color: var(--accent-line);
+}
+
+/* Reuse .callout / .callout--accent for the status tags; only
+   nudge them to sit on the card-head baseline. */
+#roadmap .roadmap__status {
+  align-self: center;
+}
+
+#roadmap .roadmap__title {
+  font-family: var(--font-mono);
+  font-size: 1.02rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  color: var(--fg);
+}
+#roadmap .roadmap__title--goal {
+  font-size: clamp(1.2rem, 0.9rem + 1.1vw, 1.55rem);
+  color: var(--accent);
+}
+
+#roadmap .roadmap__text {
+  font-size: var(--fs-caption);
+  line-height: 1.6;
+  color: var(--fg-dim);
+}
+#roadmap .roadmap__text--goal {
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--fg);
+}
+
+/* ---------- Closing vision note ---------- */
+#roadmap .roadmap__vision {
+  position: relative;
+  margin-top: var(--s-8);
+  padding: var(--s-7) var(--s-6) var(--s-6);
+  border-color: var(--accent-line);
+  background:
+    radial-gradient(130% 120% at 0% 0%, var(--accent-soft) 0%, transparent 58%),
+    var(--panel);
+}
+#roadmap .roadmap__vision-text {
+  font-size: clamp(1.05rem, 0.9rem + 0.8vw, 1.3rem);
+  line-height: 1.55;
+  color: var(--fg);
+  max-width: 64ch;
+}
+#roadmap .roadmap__vision-em { font-style: italic; color: var(--fg); }
+
+/* ============================================================
+   Responsive — collapse the horizontal track to a vertical,
+   stepped list at <= 860px. The connector becomes a vertical
+   rail running down the node gutter.
+   ============================================================ */
+@media (max-width: 860px) {
+  #roadmap .roadmap__track {
+    grid-template-columns: 1fr;
+    gap: var(--s-5);
+  }
+
+  #roadmap .roadmap__step {
+    flex-direction: row;
+    align-items: stretch;
+    gap: var(--s-5);
+    padding-top: 0;
+  }
+
+  /* Vertical connector down the node gutter. */
+  #roadmap .roadmap__step::before {
+    top: var(--s-5);
+    bottom: calc(-1 * var(--s-5));
+    left: 4px;
+    right: auto;
+    width: 1px;
+    height: auto;
+  }
+  #roadmap .roadmap__step:last-child::before { bottom: auto; height: 0; }
+  #roadmap .roadmap__step--goal::before {
+    background: linear-gradient(180deg, var(--line-strong), var(--accent-line));
+  }
+
+  /* Node sits at the top of its gutter, aligned with the card head. */
+  #roadmap .roadmap__node {
+    margin-top: var(--s-5);
+  }
+
+  #roadmap .roadmap__card { flex: 1 1 auto; }
+}
+
+@media (max-width: 720px) {
+  #roadmap .roadmap__card { padding: var(--s-5) var(--s-4); }
+  #roadmap .roadmap__card--goal { padding: var(--s-6) var(--s-4) var(--s-5); }
+  #roadmap .roadmap__card-head { flex-wrap: wrap; }
+}
+
+/* ===== about ===== */
+/* ============================================================
+   #about — // 06 — ABOUT
+   Closing section: short attribution line + external links row.
+   All selectors scoped under #about. Tokens + primitives only.
+   ============================================================ */
+
+#about .lead {
+  max-width: 60ch;
+}
+
+#about .about__links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3);
+  margin-top: var(--s-6);
+}
+
+@media (max-width: 720px) {
+  #about .about__links {
+    margin-top: var(--s-5);
+    gap: var(--s-2);
+  }
+}

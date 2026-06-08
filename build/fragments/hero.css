@@ -1,0 +1,148 @@
+/* ============================================================
+   hero — asymmetric blueprint bento
+   row 1:  text | dominant diagram | wireframe hand (actuator)
+   row 2:  4-up clip filmstrip
+   All selectors scoped under #hero.
+   ============================================================ */
+
+#hero {
+  position: relative;
+  overflow: hidden;
+  padding-block: var(--s-8) var(--s-9);
+  min-height: calc(100vh - var(--nav-h));
+  display: flex;
+  align-items: center;
+}
+
+/* ---------- Backdrop ---------- */
+#hero .hero__backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+#hero .floor-glow { opacity: 0.9; }
+
+/* ---------- Inner / bento grid ---------- */
+#hero .hero__inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+#hero .hero__bento {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 3.4fr) minmax(0, 4.6fr) minmax(0, 3fr);
+  grid-template-areas:
+    "text  diagram hand"
+    "clips clips   clips";
+  gap: var(--s-5);
+  align-items: stretch;
+}
+
+/* ---------- Primary text block ---------- */
+#hero .hero__text {
+  grid-area: text;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--s-4);
+  padding-right: var(--s-3);
+}
+#hero .hero__wordmark { font-size: 1.25rem; margin-top: var(--s-1); }
+#hero .hero__title {
+  font-size: clamp(2rem, 1.1rem + 3.2vw, 3.4rem);
+  line-height: 1.03;
+  letter-spacing: -0.03em;
+  max-width: 15ch;
+}
+#hero .hero__lead { max-width: 44ch; color: var(--fg); }
+#hero .hero__cta { display: flex; flex-wrap: wrap; gap: var(--s-3); margin-top: var(--s-2); }
+#hero .hero__status { margin-top: var(--s-1); }
+
+/* ---------- Dominant diagram panel ---------- */
+#hero .hero__diagram {
+  grid-area: diagram;
+  align-self: stretch;
+  display: flex;
+  min-height: 340px;
+  overflow: hidden;
+}
+#hero .hero__diagram-body {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--s-7) var(--s-5) var(--s-5);
+}
+#hero .hero__diagram-body :where(svg) { width: 100%; height: auto; }
+
+/* ---------- Wireframe hand panel (the actuator) ---------- */
+#hero .hero__hand {
+  grid-area: hand;
+  align-self: stretch;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--s-7) var(--s-4) var(--s-4);
+  overflow: hidden;
+  background:
+    radial-gradient(120% 80% at 50% 18%, var(--accent-soft) 0%, transparent 60%),
+    var(--panel);
+}
+#hero .hero__hand-body {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#hero .hero__hand-body svg { width: 100%; height: 100%; }
+#hero .hero__hand-cap {
+  margin-top: var(--s-2);
+  color: var(--fg-dim);
+  text-align: center;
+}
+
+/* ---------- Clip filmstrip ---------- */
+#hero .hero__clips {
+  grid-area: clips;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--s-3);
+}
+#hero .hero__clip { min-height: 0; }
+
+/* ---------- Responsive: stack below desktop ---------- */
+@media (max-width: 1080px) {
+  #hero {
+    min-height: 0;
+    align-items: stretch;
+    padding-block: var(--s-7) var(--s-8);
+  }
+  #hero .hero__bento {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-5);
+  }
+  #hero .hero__text { padding-right: 0; align-self: stretch; }
+  #hero .hero__diagram { min-height: 0; }
+  #hero .hero__hand-body { height: 360px; }
+}
+
+/* ---------- Mobile tweaks ---------- */
+@media (max-width: 720px) {
+  #hero .hero__title { max-width: none; }
+  #hero .hero__lead { font-size: var(--fs-body); max-width: none; }
+  #hero .hero__diagram-body { padding: var(--s-7) var(--s-4) var(--s-4); }
+  #hero .hero__hand-body { height: 320px; }
+  #hero .hero__clips { grid-template-columns: 1fr 1fr; }
+}

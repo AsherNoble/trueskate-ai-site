@@ -1,0 +1,119 @@
+/* ============================================================
+   #hand — "The hand"
+   Core hardware thesis. Two-column blueprint: design prose
+   (left) beside the annotated CAD wireframe + module clip
+   (right). Scoped under #hand only. Tokens + shared
+   primitives only — never redefine.
+   ============================================================ */
+
+#hand .hand__grid {
+  display: grid;
+  /* prose slightly narrower than the prominent visual column */
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  gap: var(--s-8);
+  align-items: start;
+}
+
+/* ---------- Left: design prose ---------- */
+#hand .hand__prose {
+  min-width: 0;
+}
+
+#hand .hand__p {
+  color: var(--fg);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+#hand .hand__p + .hand__p { margin-top: var(--s-5); }
+
+#hand .hand__leadin {
+  color: var(--fg);
+  font-weight: 600;
+}
+
+/* mono callout chips row */
+#hand .hand__callouts {
+  list-style: none;
+  margin: var(--s-7) 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+}
+
+/* source forks row */
+#hand .hand__sources {
+  margin-top: var(--s-5);
+  padding-top: var(--s-5);
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3);
+}
+#hand .hand__sources-key {
+  color: var(--fg-dim);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ---------- Right: annotated wireframe + clip ---------- */
+#hand .hand__visual {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-5);
+  /* keep the core figure in view while reading the prose */
+  position: sticky;
+  top: calc(var(--nav-h) + 24px);
+}
+
+#hand .hand__figure {
+  margin: 0;
+  padding: var(--s-7) var(--s-5) var(--s-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+  /* give the injected CAD hand real room to breathe */
+  min-height: 320px;
+}
+
+/* host for the injected annotated hand SVG */
+#hand .hand__figure > svg,
+#hand .hand__figure > img {
+  width: 100%;
+  height: auto;
+}
+
+#hand .hand__figcaption {
+  color: var(--fg-dim);
+  letter-spacing: 0.04em;
+  padding-top: var(--s-3);
+  border-top: 1px solid var(--line);
+}
+
+#hand .hand__clip {
+  /* supporting module clip beneath the hero figure */
+  width: 100%;
+}
+
+/* ---------- Responsive: stack to single column ---------- */
+@media (max-width: 980px) {
+  #hand .hand__grid {
+    grid-template-columns: 1fr;
+    gap: var(--s-7);
+  }
+  #hand .hand__visual {
+    position: static;
+    top: auto;
+    order: 2;
+  }
+  #hand .hand__prose { order: 1; }
+}
+
+@media (max-width: 720px) {
+  #hand .hand__figure {
+    padding: var(--s-7) var(--s-4) var(--s-4);
+    min-height: 0;
+  }
+  #hand .hand__callouts { gap: var(--s-2); }
+}

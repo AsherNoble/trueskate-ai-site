@@ -1,0 +1,140 @@
+/* ============================================================
+   #stats — // 04 — UNDER THE HOOD
+   A band of schematic mono figures + 3 engineering-note cards.
+   All selectors scoped under #stats. Tokens + primitives only.
+   ============================================================ */
+
+/* ---------- Figure band ---------- */
+#stats .stats__band {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: var(--r-2);
+  overflow: hidden;
+}
+
+/* Each figure cell — hairline-separated via the band's gap/bg. */
+#stats .stats__fig {
+  position: relative;
+  grid-column: span 4;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  padding: var(--s-6) var(--s-5);
+  background: var(--bg);
+}
+
+/* Hero figure spans the full top row, accent-tinted. */
+#stats .stats__fig--hero {
+  grid-column: span 12;
+  padding-block: var(--s-7);
+  background:
+    radial-gradient(120% 140% at 8% 0%, var(--accent-soft) 0%, transparent 58%),
+    var(--bg);
+}
+
+#stats .stats__fig-tag {
+  position: absolute;
+  top: var(--s-3);
+  right: var(--s-3);
+  color: var(--fg-dim);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+#stats .stats__value {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: clamp(2.2rem, 1.4rem + 3.4vw, 3.4rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--fg);
+  font-variant-numeric: tabular-nums;
+}
+
+#stats .stats__fig--hero .stats__value {
+  font-size: clamp(3.4rem, 2rem + 7vw, 6.2rem);
+  color: var(--accent);
+  text-shadow: 0 0 36px var(--accent-glow);
+}
+
+#stats .stats__label {
+  color: var(--fg-dim);
+  letter-spacing: 0.04em;
+  max-width: 34ch;
+}
+
+#stats .stats__fig--hero .stats__label {
+  font-size: var(--fs-caption);
+  max-width: 44ch;
+}
+
+/* One-line mono figures (no value/label split) — split the bottom row. */
+#stats .stats__fig--line {
+  grid-column: span 6;
+  justify-content: center;
+}
+#stats .stats__line {
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  letter-spacing: 0.03em;
+  color: var(--fg);
+}
+#stats .stats__fig--line .stats__line::before {
+  content: "› ";
+  color: var(--accent);
+}
+
+/* ---------- Engineering-note cards ---------- */
+#stats .stats__notes {
+  margin-top: var(--s-5);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--s-4);
+}
+
+#stats .stats__note {
+  padding: var(--s-7) var(--s-5) var(--s-5);
+}
+
+#stats .stats__note-title {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--fg);
+  margin-bottom: var(--s-2);
+}
+
+#stats .stats__note-text {
+  font-size: var(--fs-caption);
+  line-height: 1.55;
+  color: var(--fg-dim);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 980px) {
+  #stats .stats__notes {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  #stats .stats__band {
+    grid-template-columns: 1fr;
+  }
+  #stats .stats__fig,
+  #stats .stats__fig--hero {
+    grid-column: 1 / -1;
+    padding: var(--s-5);
+  }
+  #stats .stats__fig--hero {
+    padding-block: var(--s-6);
+  }
+  #stats .stats__fig-tag {
+    position: static;
+    margin-bottom: var(--s-2);
+  }
+}

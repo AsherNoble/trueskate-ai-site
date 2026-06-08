@@ -1,0 +1,362 @@
+<!-- HAND:PLAIN -->
+<svg id="wire-hand" role="img"
+     aria-label="CAD wireframe schematic of the tendon-driven robotic hand (in design)"
+     viewBox="0 0 420 520" preserveAspectRatio="xMidYMid meet">
+
+  <!-- ===========================================================
+       TENDON ROUTING (drawn first, beneath the link outlines)
+       Thin lines running from the forearm servo bays, fanning up
+       through the palm and along each finger's joint chain.
+       Forearm tendon origin cluster sits around (210, 470).
+       =========================================================== -->
+  <g class="hand-tendon" fill="none">
+    <!-- pinky tendon -->
+    <path d="M198,468 C170,430 132,378 116,320 C108,288 96,250 86,214" />
+    <!-- ring tendon -->
+    <path d="M204,468 C188,430 168,374 160,318 C155,280 148,238 142,196" />
+    <!-- middle tendon -->
+    <path d="M210,470 C210,430 208,372 208,316 C208,276 208,228 208,182" />
+    <!-- index tendon -->
+    <path d="M216,468 C232,430 252,374 260,318 C266,282 274,242 280,200" />
+    <!-- thumb tendon -->
+    <path d="M200,470 C168,452 138,432 116,408 C100,390 86,372 74,356" />
+  </g>
+
+  <!-- ONE highlighted tendon (accent) — the index-finger run, to
+       read as the "tendon-driven" call. Kept faint + sparse. -->
+  <g class="hand-tendon hand-tendon--accent" fill="none">
+    <path d="M216,468 C232,430 252,374 260,318 C266,282 274,242 280,200" />
+  </g>
+
+  <!-- ===========================================================
+       FOREARM BASE BLOCK — where the actuation lives.
+       Rounded rect with internal division lines = servo bays.
+       =========================================================== -->
+  <g class="hand-line">
+    <rect x="146" y="402" width="128" height="100" rx="10" />
+    <!-- internal servo-bay divisions -->
+    <line class="hand-line--dim" x1="178" y1="408" x2="178" y2="496" />
+    <line class="hand-line--dim" x1="210" y1="408" x2="210" y2="496" />
+    <line class="hand-line--dim" x1="242" y1="408" x2="242" y2="496" />
+    <!-- bus rail across the bays -->
+    <line class="hand-line--dim" x1="152" y1="448" x2="268" y2="448" />
+    <!-- small servo spindles -->
+    <circle class="hand-line--dim" cx="162" cy="428" r="4" />
+    <circle class="hand-line--dim" cx="194" cy="428" r="4" />
+    <circle class="hand-line--dim" cx="226" cy="428" r="4" />
+    <circle class="hand-line--dim" cx="258" cy="428" r="4" />
+  </g>
+
+  <!-- ===========================================================
+       PALM REGION — base plate the digits radiate from. Drawn as
+       a softened quad bridging the forearm block to the MCP row.
+       =========================================================== -->
+  <g class="hand-line">
+    <path d="M150,408
+             C150,372 156,344 176,320
+             L246,322
+             C266,346 272,374 270,408" />
+    <!-- palm seam / centre reference -->
+    <line class="hand-line--dim" x1="210" y1="408" x2="208" y2="324" />
+  </g>
+
+  <!-- ===========================================================
+       MCP KNUCKLE ROW — splay arc across the top of the palm with
+       a small angle tick to suggest base splay capability.
+       =========================================================== -->
+  <g class="hand-line--dim">
+    <path d="M86,214 C128,288 170,300 208,302 C250,300 256,286 280,200"
+          opacity="0" />
+    <!-- splay arc tick between index + middle MCP -->
+    <path class="hand-splay-arc" d="M214,300 A40,40 0 0,1 252,260" />
+    <!-- splay arc tick between middle + ring MCP -->
+    <path class="hand-splay-arc" d="M202,300 A40,40 0 0,0 168,258" />
+  </g>
+
+  <!-- ===========================================================
+       DIGITS — kinematic chains. Each link is a slim rounded
+       capsule; joint pivots are small circles at MCP/PIP/DIP.
+       Fingers fanned/splayed; thumb offset lower-left.
+       =========================================================== -->
+
+  <!-- PINKY (far left, shortest) -->
+  <g class="hand-line">
+    <!-- proximal link -->
+    <path d="M120,322 C112,300 104,278 98,256" />
+    <path d="M132,318 C124,296 116,274 110,252" />
+    <path d="M120,322 A8,8 0 0,1 132,318" />
+    <!-- middle link -->
+    <path d="M98,256 C93,240 89,226 85,212" />
+    <path d="M110,252 C105,236 101,222 97,208" />
+    <!-- distal link -->
+    <path d="M85,212 C82,202 80,194 79,186" />
+    <path d="M97,208 C94,198 92,190 91,182" />
+    <!-- fingertip cap -->
+    <path d="M79,186 A6,6 0 0,1 91,182" />
+  </g>
+  <g class="hand-joint">
+    <circle cx="126" cy="320" r="4.5" /><!-- MCP -->
+    <circle cx="104" cy="254" r="3.6" /><!-- PIP -->
+    <circle cx="91"  cy="210" r="3.2" /><!-- DIP -->
+  </g>
+
+  <!-- RING -->
+  <g class="hand-line">
+    <path d="M158,322 C153,294 148,266 145,238" />
+    <path d="M172,320 C167,292 162,264 159,236" />
+    <path d="M158,322 A8,8 0 0,1 172,320" />
+    <path d="M145,238 C142,220 140,204 138,188" />
+    <path d="M159,236 C156,218 154,202 152,186" />
+    <path d="M138,188 C137,176 136,166 136,156" />
+    <path d="M152,186 C151,174 150,164 150,154" />
+    <path d="M136,156 A7,7 0 0,1 150,154" />
+  </g>
+  <g class="hand-joint">
+    <circle cx="165" cy="320" r="4.8" />
+    <circle cx="152" cy="237" r="3.8" />
+    <circle cx="143" cy="187" r="3.4" />
+  </g>
+
+  <!-- MIDDLE (centre, tallest) -->
+  <g class="hand-line">
+    <path d="M201,324 C200,294 200,264 200,234" />
+    <path d="M217,324 C216,294 216,264 216,234" />
+    <path d="M201,324 A8,8 0 0,1 217,324" />
+    <path d="M200,234 C200,214 200,196 200,178" />
+    <path d="M216,234 C216,214 216,196 216,178" />
+    <path d="M200,178 C200,164 200,152 200,140" />
+    <path d="M216,178 C216,164 216,152 216,140" />
+    <path d="M200,140 A8,8 0 0,1 216,140" />
+  </g>
+  <g class="hand-joint">
+    <circle cx="208" cy="322" r="5" />
+    <circle cx="208" cy="234" r="4" />
+    <circle cx="208" cy="178" r="3.6" />
+  </g>
+
+  <!-- INDEX -->
+  <g class="hand-line">
+    <path d="M244,322 C249,294 254,266 257,238" />
+    <path d="M258,320 C263,292 268,264 271,236" />
+    <path d="M244,322 A8,8 0 0,1 258,320" />
+    <path d="M257,238 C260,220 262,204 264,188" />
+    <path d="M271,236 C274,218 276,202 278,186" />
+    <path d="M264,188 C265,176 266,166 266,156" />
+    <path d="M278,186 C279,174 280,164 280,154" />
+    <path d="M266,156 A7,7 0 0,1 280,154" />
+  </g>
+  <g class="hand-joint">
+    <circle cx="251" cy="320" r="4.8" />
+    <circle cx="264" cy="237" r="3.8" />
+    <circle cx="273" cy="187" r="3.4" />
+  </g>
+
+  <!-- THUMB (offset, lower-left; 2 segments) -->
+  <g class="hand-line">
+    <!-- proximal link, angled out from the thenar base -->
+    <path d="M150,392 C130,378 112,364 96,350" />
+    <path d="M162,378 C144,364 126,350 110,336" />
+    <path d="M150,392 A9,9 0 0,1 162,378" />
+    <!-- distal link -->
+    <path d="M96,350 C86,342 78,336 72,330" />
+    <path d="M110,336 C100,328 92,322 86,316" />
+    <!-- thumb tip cap -->
+    <path d="M72,330 A8,8 0 0,1 86,316" />
+  </g>
+  <g class="hand-joint">
+    <circle cx="156" cy="385" r="5" /><!-- CMC/MCP -->
+    <circle cx="103" cy="343" r="3.8" /><!-- IP -->
+  </g>
+
+  <!-- fingertip pivot dots (capacitive pad reference) -->
+  <g class="hand-joint hand-joint--tip">
+    <circle cx="85"  cy="184" r="2.4" />
+    <circle cx="143" cy="155" r="2.4" />
+    <circle cx="208" cy="140" r="2.4" />
+    <circle cx="273" cy="154" r="2.4" />
+    <circle cx="79"  cy="323" r="2.4" />
+  </g>
+</svg>
+<!-- /HAND:PLAIN -->
+
+<!-- HAND:ANNOTATED -->
+<svg id="wire-hand-annotated" role="img"
+     aria-label="Annotated CAD schematic of the robotic hand: tendon-driven fingers with base splay and capacitive fingertips (in design)"
+     viewBox="0 0 420 520" preserveAspectRatio="xMidYMid meet">
+
+  <!-- === identical hand geometry as HAND:PLAIN === -->
+  <g class="hand-tendon" fill="none">
+    <path d="M198,468 C170,430 132,378 116,320 C108,288 96,250 86,214" />
+    <path d="M204,468 C188,430 168,374 160,318 C155,280 148,238 142,196" />
+    <path d="M210,470 C210,430 208,372 208,316 C208,276 208,228 208,182" />
+    <path d="M216,468 C232,430 252,374 260,318 C266,282 274,242 280,200" />
+    <path d="M200,470 C168,452 138,432 116,408 C100,390 86,372 74,356" />
+  </g>
+  <g class="hand-tendon hand-tendon--accent" fill="none">
+    <path d="M216,468 C232,430 252,374 260,318 C266,282 274,242 280,200" />
+  </g>
+
+  <g class="hand-line">
+    <rect x="146" y="402" width="128" height="100" rx="10" />
+    <line class="hand-line--dim" x1="178" y1="408" x2="178" y2="496" />
+    <line class="hand-line--dim" x1="210" y1="408" x2="210" y2="496" />
+    <line class="hand-line--dim" x1="242" y1="408" x2="242" y2="496" />
+    <line class="hand-line--dim" x1="152" y1="448" x2="268" y2="448" />
+    <circle class="hand-line--dim" cx="162" cy="428" r="4" />
+    <circle class="hand-line--dim" cx="194" cy="428" r="4" />
+    <circle class="hand-line--dim" cx="226" cy="428" r="4" />
+    <circle class="hand-line--dim" cx="258" cy="428" r="4" />
+  </g>
+
+  <g class="hand-line">
+    <path d="M150,408
+             C150,372 156,344 176,320
+             L246,322
+             C266,346 272,374 270,408" />
+    <line class="hand-line--dim" x1="210" y1="408" x2="208" y2="324" />
+  </g>
+
+  <g class="hand-line--dim">
+    <path class="hand-splay-arc" d="M214,300 A40,40 0 0,1 252,260" />
+    <path class="hand-splay-arc" d="M202,300 A40,40 0 0,0 168,258" />
+  </g>
+
+  <!-- PINKY -->
+  <g class="hand-line">
+    <path d="M120,322 C112,300 104,278 98,256" />
+    <path d="M132,318 C124,296 116,274 110,252" />
+    <path d="M120,322 A8,8 0 0,1 132,318" />
+    <path d="M98,256 C93,240 89,226 85,212" />
+    <path d="M110,252 C105,236 101,222 97,208" />
+    <path d="M85,212 C82,202 80,194 79,186" />
+    <path d="M97,208 C94,198 92,190 91,182" />
+    <path d="M79,186 A6,6 0 0,1 91,182" />
+  </g>
+  <g class="hand-joint">
+    <circle cx="126" cy="320" r="4.5" />
+    <circle cx="104" cy="254" r="3.6" />
+    <circle cx="91"  cy="210" r="3.2" />
+  </g>
+
+  <!-- RING -->
+  <g class="hand-line">
+    <path d="M158,322 C153,294 148,266 145,238" />
+    <path d="M172,320 C167,292 162,264 159,236" />
+    <path d="M158,322 A8,8 0 0,1 172,320" />
+    <path d="M145,238 C142,220 140,204 138,188" />
+    <path d="M159,236 C156,218 154,202 152,186" />
+    <path d="M138,188 C137,176 136,166 136,156" />
+    <path d="M152,186 C151,174 150,164 150,154" />
+    <path d="M136,156 A7,7 0 0,1 150,154" />
+  </g>
+  <g class="hand-joint">
+    <circle cx="165" cy="320" r="4.8" />
+    <circle cx="152" cy="237" r="3.8" />
+    <circle cx="143" cy="187" r="3.4" />
+  </g>
+
+  <!-- MIDDLE -->
+  <g class="hand-line">
+    <path d="M201,324 C200,294 200,264 200,234" />
+    <path d="M217,324 C216,294 216,264 216,234" />
+    <path d="M201,324 A8,8 0 0,1 217,324" />
+    <path d="M200,234 C200,214 200,196 200,178" />
+    <path d="M216,234 C216,214 216,196 216,178" />
+    <path d="M200,178 C200,164 200,152 200,140" />
+    <path d="M216,178 C216,164 216,152 216,140" />
+    <path d="M200,140 A8,8 0 0,1 216,140" />
+  </g>
+  <g class="hand-joint">
+    <circle cx="208" cy="322" r="5" />
+    <circle cx="208" cy="234" r="4" />
+    <circle cx="208" cy="178" r="3.6" />
+  </g>
+
+  <!-- INDEX -->
+  <g class="hand-line">
+    <path d="M244,322 C249,294 254,266 257,238" />
+    <path d="M258,320 C263,292 268,264 271,236" />
+    <path d="M244,322 A8,8 0 0,1 258,320" />
+    <path d="M257,238 C260,220 262,204 264,188" />
+    <path d="M271,236 C274,218 276,202 278,186" />
+    <path d="M264,188 C265,176 266,166 266,156" />
+    <path d="M278,186 C279,174 280,164 280,154" />
+    <path d="M266,156 A7,7 0 0,1 280,154" />
+  </g>
+  <g class="hand-joint">
+    <circle cx="251" cy="320" r="4.8" />
+    <circle cx="264" cy="237" r="3.8" />
+    <circle cx="273" cy="187" r="3.4" />
+  </g>
+
+  <!-- THUMB -->
+  <g class="hand-line">
+    <path d="M150,392 C130,378 112,364 96,350" />
+    <path d="M162,378 C144,364 126,350 110,336" />
+    <path d="M150,392 A9,9 0 0,1 162,378" />
+    <path d="M96,350 C86,342 78,336 72,330" />
+    <path d="M110,336 C100,328 92,322 86,316" />
+    <path d="M72,330 A8,8 0 0,1 86,316" />
+  </g>
+  <g class="hand-joint">
+    <circle cx="156" cy="385" r="5" />
+    <circle cx="103" cy="343" r="3.8" />
+  </g>
+
+  <g class="hand-joint hand-joint--tip">
+    <circle cx="85"  cy="184" r="2.4" />
+    <circle cx="143" cy="155" r="2.4" />
+    <circle cx="208" cy="140" r="2.4" />
+    <circle cx="273" cy="154" r="2.4" />
+    <circle cx="79"  cy="323" r="2.4" />
+  </g>
+
+  <!-- ===========================================================
+       CAD CALLOUTS — thin leader lines + accent leader-dots at the
+       targets + mono text labels. Secondary notes are dimmed.
+       =========================================================== -->
+
+  <!-- capacitive fingertip -> middle-finger tip (208,140) -->
+  <g class="hand-callout">
+    <line class="hand-leader" x1="208" y1="140" x2="208" y2="96" />
+    <line class="hand-leader" x1="208" y1="96"  x2="300" y2="96" />
+    <circle class="hand-leader-dot" cx="208" cy="140" r="3" />
+    <text class="hand-label" x="306" y="100">capacitive fingertip</text>
+  </g>
+
+  <!-- tendon-driven curl -> index PIP knuckle (264,237) -->
+  <g class="hand-callout">
+    <line class="hand-leader" x1="264" y1="237" x2="320" y2="237" />
+    <circle class="hand-leader-dot" cx="264" cy="237" r="3" />
+    <text class="hand-label" x="326" y="241">tendon-driven curl</text>
+  </g>
+
+  <!-- base splay -> MCP splay arc (between index+middle, ~233,280) -->
+  <g class="hand-callout">
+    <line class="hand-leader" x1="233" y1="280" x2="318" y2="300" />
+    <circle class="hand-leader-dot" cx="233" cy="280" r="3" />
+    <text class="hand-label" x="324" y="304">base splay</text>
+  </g>
+
+  <!-- ~2-3 DOF / finger -> ring DIP knuckle (143,187) -->
+  <g class="hand-callout">
+    <line class="hand-leader" x1="143" y1="187" x2="60" y2="170" />
+    <circle class="hand-leader-dot" cx="143" cy="187" r="3" />
+    <text class="hand-label hand-label--dim" x="56" y="166" text-anchor="end">~2-3 DOF / finger</text>
+  </g>
+
+  <!-- serial-bus servos -> forearm base block (162,428) -->
+  <g class="hand-callout">
+    <line class="hand-leader" x1="162" y1="448" x2="70" y2="448" />
+    <circle class="hand-leader-dot" cx="162" cy="448" r="3" />
+    <text class="hand-label" x="66" y="452" text-anchor="end">serial-bus servos</text>
+  </g>
+
+  <!-- first build: 2 fingers -> bracket over index + middle -->
+  <g class="hand-callout">
+    <path class="hand-leader" d="M196,118 L196,108 L276,108 L276,118" fill="none" />
+    <line class="hand-leader" x1="236" y1="108" x2="236" y2="86" />
+    <text class="hand-label hand-label--dim" x="236" y="80" text-anchor="middle">first build: 2 fingers</text>
+  </g>
+</svg>
+<!-- /HAND:ANNOTATED -->

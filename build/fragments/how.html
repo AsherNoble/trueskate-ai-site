@@ -1,0 +1,56 @@
+<section class="section" id="how">
+  <div class="container--wide">
+    <div class="section__head reveal">
+      <span class="eyebrow">// 03 — HOW IT WORKS</span>
+      <h2 class="section__title">How it works.</h2>
+      <p class="lead muted">Accessible up top — here's the engineering underneath.</p>
+    </div>
+
+    <div class="how__grid">
+      <ol class="how__stages">
+        <li class="how__stage reveal" data-reveal-delay="1">
+          <span class="how__index mono">01</span>
+          <div class="how__body">
+            <p class="how__text"><strong class="how__leadin">The hands.</strong> A learned touch policy produces the gestures. Today they're injected in software — Appium + WebDriverAgent driving real iPhones — with touch points, timing and curvature normalized across three screen sizes so one policy runs on any device in the fleet. The endgame swaps that software touch for a physical, tendon-driven robotic hand (in build) executing the very same gestures on the glass.</p>
+          </div>
+        </li>
+
+        <li class="how__stage reveal" data-reveal-delay="2">
+          <span class="how__index mono">02</span>
+          <div class="how__body">
+            <p class="how__text"><strong class="how__leadin">The eyes.</strong> The screen is streamed over MJPEG and Apple Vision OCR reads the on-screen trick name in real time. (Apple Vision replaced Tesseract, which hallucinated on short, colored game text.)</p>
+          </div>
+        </li>
+
+        <li class="how__stage reveal" data-reveal-delay="3">
+          <span class="how__index mono">03</span>
+          <div class="how__body">
+            <p class="how__text"><strong class="how__leadin">The reward.</strong> A target-relative signal: the exact target trick scores full reward, a trick in the right mechanical family scores partial, any landed trick scores a little, nothing scores zero. Shaping — not a binary land/fail — is what gives the optimizer enough gradient to climb.</p>
+          </div>
+        </li>
+
+        <li class="how__stage reveal" data-reveal-delay="4">
+          <span class="how__index mono">04</span>
+          <div class="how__body">
+            <p class="how__text"><strong class="how__leadin">The optimizer.</strong> CMA-ES proposes new gesture parameters each generation, keeps what lands, and tightens around the winning region. (An earlier PPO + HER attempt collapsed; the evolution strategy proved far more robust for this real-time, noisy-reward setting.)</p>
+          </div>
+        </li>
+
+        <li class="how__stage reveal" data-reveal-delay="4">
+          <span class="how__index mono">05</span>
+          <div class="how__body">
+            <p class="how__text"><strong class="how__leadin">Scale.</strong> Three phones run evaluations in parallel, in real time, on a headless training server monitored remotely.</p>
+          </div>
+        </li>
+      </ol>
+
+      <aside class="how__aside reveal" data-reveal-delay="2">
+        <figure class="panel panel--plain how__figure">
+          <span class="corner-tag">FIG.06 / <span class="accent">CONTROL LOOP</span></span>
+          <!-- SLOT:DIAGRAM-FULL -->
+          <figcaption class="how__figcaption mono">closed loop — gesture → screen → OCR → reward → CMA-ES</figcaption>
+        </figure>
+      </aside>
+    </div>
+  </div>
+</section>

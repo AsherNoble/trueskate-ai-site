@@ -1,0 +1,109 @@
+/* ============================================================
+   hand.css — CAD wireframe schematic of the tendon-driven
+   robotic hand (in design). Pure stroke-only blueprint linework.
+   Scoped under #wire-hand / #wire-hand-annotated + .hand-* classes.
+   Tokens only. Static — introduces no motion.
+   ============================================================ */
+
+/* ---------- shared sizing ---------- */
+#wire-hand,
+#wire-hand-annotated {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  /* keep hairlines crisp + soft at any scale */
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ---------- structural linework (solid white outlines) ---------- */
+#wire-hand .hand-line,
+#wire-hand-annotated .hand-line {
+  stroke: var(--fg);
+  fill: none;
+  stroke-width: 1.2;
+  vector-effect: non-scaling-stroke;
+}
+/* dimmer internal detail: servo bays, palm seam, splay arcs */
+#wire-hand .hand-line--dim,
+#wire-hand-annotated .hand-line--dim {
+  stroke: var(--line-strong);
+  fill: none;
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+/* ---------- joint pivots (small open circles at the knuckles) ---------- */
+#wire-hand .hand-joint circle,
+#wire-hand-annotated .hand-joint circle {
+  stroke: var(--fg);
+  fill: var(--panel);
+  stroke-width: 1.2;
+  vector-effect: non-scaling-stroke;
+}
+/* fingertip capacitive-pad reference dots — small, accent-marked */
+#wire-hand .hand-joint--tip circle,
+#wire-hand-annotated .hand-joint--tip circle {
+  stroke: var(--accent);
+  fill: var(--accent-soft);
+  stroke-width: 1.1;
+}
+
+/* ---------- tendon routing (thin faint lines beneath the links) ---------- */
+#wire-hand .hand-tendon path,
+#wire-hand-annotated .hand-tendon path {
+  stroke: var(--line-strong);
+  fill: none;
+  stroke-width: 1;
+  opacity: 0.6;
+  vector-effect: non-scaling-stroke;
+}
+/* ONE highlighted tendon run, faint accent */
+#wire-hand .hand-tendon--accent path,
+#wire-hand-annotated .hand-tendon--accent path {
+  stroke: var(--accent-line);
+  opacity: 0.85;
+  stroke-dasharray: 3 4;
+}
+
+/* ---------- base-splay angle ticks at the MCP row ---------- */
+#wire-hand .hand-splay-arc,
+#wire-hand-annotated .hand-splay-arc {
+  stroke: var(--line-strong);
+  stroke-width: 1;
+  opacity: 0.7;
+  vector-effect: non-scaling-stroke;
+}
+
+/* ============================================================
+   ANNOTATED — CAD callouts (leader lines, dots, mono labels).
+   Only present on #wire-hand-annotated.
+   ============================================================ */
+#wire-hand-annotated .hand-leader {
+  stroke: var(--line-strong);
+  stroke-width: 1;
+  fill: none;
+  vector-effect: non-scaling-stroke;
+}
+#wire-hand-annotated .hand-leader-dot {
+  fill: var(--accent);
+  stroke: none;
+}
+#wire-hand-annotated .hand-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.03em;
+  fill: var(--fg);
+}
+#wire-hand-annotated .hand-label--dim {
+  fill: var(--fg-dim);
+}
+
+/* ============================================================
+   RESPONSIVE — the SVG scales fluidly via viewBox. On narrow
+   screens nudge the callout labels up a touch for legibility.
+   ============================================================ */
+@media (max-width: 720px) {
+  #wire-hand-annotated .hand-label { font-size: 12px; }
+}

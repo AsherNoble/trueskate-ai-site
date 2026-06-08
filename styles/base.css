@@ -1,0 +1,480 @@
+/* ============================================================
+   TrueSkate-AI — base.css
+   Design system: "open-source blueprint"
+   A dark engineering drawing — white wireframe linework on black,
+   annotated in monospace, with one clean technical blue.
+   SINGLE SOURCE OF TRUTH for tokens + shared primitives.
+   Section stylesheets may ONLY use these tokens/primitives and
+   add rules scoped under their own #section-id. Never redefine
+   tokens or restyle global primitives.
+   ============================================================ */
+
+/* ---------- Tokens ---------- */
+:root {
+  /* Color */
+  --bg:          #0A0B0D;   /* base near-black              */
+  --panel:       #060708;   /* recessed / panel areas       */
+  --fg:          #E8EAED;   /* body off-white               */
+  --fg-dim:      #9AA0A6;   /* secondary / labels grey      */
+  --line:        rgba(255, 255, 255, 0.10);  /* hairline border        */
+  --line-strong: rgba(255, 255, 255, 0.16);  /* emphasised hairline    */
+  --line-faint:  rgba(255, 255, 255, 0.045); /* blueprint grid lines   */
+  --accent:      #5B8DEF;   /* the one technical blue       */
+  --accent-soft: rgba(91, 141, 239, 0.14);   /* accent fill / wash     */
+  --accent-line: rgba(91, 141, 239, 0.55);   /* accent hairline        */
+  --accent-glow: rgba(91, 141, 239, 0.28);   /* pulse / signal halo     */
+
+  /* Typography */
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: "JetBrains Mono", "IBM Plex Mono", ui-monospace, "SF Mono", "Menlo", monospace;
+
+  --fs-eyebrow: 0.72rem;
+  --fs-label:   0.72rem;
+  --fs-caption: 0.78rem;
+  --fs-body:    1.0rem;
+  --fs-lead:    1.18rem;
+  --lh-body:    1.62;
+
+  /* Spacing scale (4px base) */
+  --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px; --s-5: 24px;
+  --s-6: 32px; --s-7: 48px; --s-8: 64px; --s-9: 96px; --s-10: 128px;
+
+  /* Radius — schematic, minimal */
+  --r-1: 2px; --r-2: 4px; --r-3: 8px;
+
+  /* Layout */
+  --container: 1180px;
+  --container-wide: 1320px;
+  --nav-h: 58px;
+
+  /* Motion */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur:  0.6s;
+}
+
+/* ---------- Reset ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+html:focus-within { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--fg);
+  background-color: var(--bg);
+  /* Faint blueprint grid, drawn globally and very low opacity */
+  background-image:
+    linear-gradient(var(--line-faint) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line-faint) 1px, transparent 1px);
+  background-size: 44px 44px;
+  background-position: center top;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+img, svg, video, canvas { display: block; max-width: 100%; }
+svg { height: auto; }
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+/* Inline credit link inside body copy — stays off-white (body text is never
+   blue) with an accent underline; turns accent only on hover. */
+.credit-link {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--accent-line);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.credit-link:hover { color: var(--accent); text-decoration-color: var(--accent); }
+
+h1, h2, h3, h4 { font-weight: 600; line-height: 1.08; letter-spacing: -0.02em; }
+
+::selection { background: var(--accent-soft); color: #fff; }
+
+/* Keyboard focus — visible, schematic */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: var(--r-1);
+}
+
+/* ---------- Layout helpers ---------- */
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--s-5);
+}
+.container--wide { max-width: var(--container-wide); }
+
+.section {
+  position: relative;
+  padding-block: var(--s-10);
+  border-top: 1px solid var(--line);
+}
+.section--flush { border-top: 0; }
+@media (max-width: 720px) {
+  .section { padding-block: var(--s-8); }
+}
+
+.section__head { margin-bottom: var(--s-7); max-width: 70ch; }
+
+/* Mono section eyebrow, e.g.  // 02 — PITCH  */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--fs-eyebrow);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+}
+.eyebrow::before {
+  content: "";
+  width: 22px;
+  height: 1px;
+  background: var(--accent-line);
+}
+
+.section__title {
+  font-size: clamp(1.7rem, 1.1rem + 2.6vw, 2.7rem);
+  margin-top: var(--s-3);
+}
+.section__title .accent { color: var(--accent); }
+
+.lead {
+  font-size: var(--fs-lead);
+  color: var(--fg);
+}
+.muted { color: var(--fg-dim); }
+
+/* ---------- Mono utility ---------- */
+.mono {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.02em;
+}
+
+/* ---------- Panel (hairline-bordered, corner-tagged) ---------- */
+.panel {
+  position: relative;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--r-2);
+}
+.panel--plain { background: transparent; }
+
+/* small mono label in a panel corner, e.g.  FIG.01 / DEVICE */
+.corner-tag {
+  position: absolute;
+  top: var(--s-3);
+  left: var(--s-3);
+  z-index: 3;
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+  /* near-opaque backdrop + shadow so the label stays legible even when it
+     sits over a bright video frame (corner-tags overlay clips) */
+  background: rgba(6, 7, 8, 0.82);
+  border: 1px solid var(--line);
+  border-radius: var(--r-1);
+  padding: 3px 7px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(2px);
+}
+.corner-tag .accent { color: var(--accent); }
+.corner-tag--tr { left: auto; right: var(--s-3); }
+.corner-tag--br { top: auto; left: auto; bottom: var(--s-3); right: var(--s-3); }
+
+/* ---------- CAD callout label (boxed mono, ref-4 motif) ---------- */
+.callout {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.04em;
+  color: var(--fg);
+  background: rgba(232, 234, 237, 0.04);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-1);
+  padding: 4px 8px;
+  white-space: nowrap;
+  display: inline-block;
+}
+.callout--accent { border-color: var(--accent-line); color: var(--accent); }
+.callout__key { color: var(--fg-dim); }
+
+/* ---------- Leader line (CAD connector) ---------- */
+/* A thin connector; pair with .leader-dot at the target.
+   Orientation/length set inline or in section CSS. */
+.leader-line {
+  position: absolute;
+  background: var(--line-strong);
+  pointer-events: none;
+}
+.leader-line--h { height: 1px; }
+.leader-line--v { width: 1px; }
+.leader-dot {
+  position: absolute;
+  width: 5px; height: 5px;
+  margin: -2px 0 0 -2px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+  pointer-events: none;
+}
+
+/* ---------- Chip (mono stat / status) ---------- */
+.chip {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.03em;
+  color: var(--fg-dim);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 6px 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  white-space: nowrap;
+}
+.chip .accent { color: var(--accent); }
+.chip__dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent-glow);
+}
+
+/* ---------- Buttons / CTAs ---------- */
+.btn {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: 11px 18px;
+  border-radius: var(--r-2);
+  border: 1px solid var(--line-strong);
+  color: var(--fg);
+  background: transparent;
+  cursor: pointer;
+  transition: border-color 0.2s var(--ease), background 0.2s var(--ease), color 0.2s var(--ease);
+}
+.btn:hover { text-decoration: none; border-color: var(--accent-line); background: var(--accent-soft); }
+.btn--primary {
+  color: #fff;
+  border-color: var(--accent-line);
+  background: linear-gradient(180deg, rgba(91,141,239,0.20), rgba(91,141,239,0.10));
+}
+.btn--primary:hover { background: linear-gradient(180deg, rgba(91,141,239,0.30), rgba(91,141,239,0.16)); border-color: var(--accent); }
+
+/* ---------- Clip (video w/ graceful placeholder) ----------
+   Convention used by hero panels + demo gallery. JS in main.js
+   adds .clip--empty when the source can't load, revealing the
+   placeholder so the layout never breaks. */
+.clip {
+  position: relative;
+  overflow: hidden;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--r-2);
+  /* True Skate is played in landscape, so clips are landscape */
+  aspect-ratio: 16 / 9;
+}
+.clip__video {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  background: var(--panel);
+}
+.clip__placeholder {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: var(--s-3);
+  background:
+    repeating-linear-gradient(135deg, transparent 0 11px, rgba(255,255,255,0.018) 11px 12px),
+    var(--panel);
+  color: var(--fg-dim);
+}
+.clip__pending {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+.clip__pending::before { content: "▢ "; color: var(--accent); }
+.clip--empty .clip__video { display: none; }
+.clip:not(.clip--empty) .clip__placeholder { opacity: 0; pointer-events: none; }
+.clip__caption {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 2;
+  padding: var(--s-4) var(--s-3) var(--s-3);
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  color: var(--fg);
+  background: linear-gradient(0deg, rgba(6,7,8,0.86), transparent);
+}
+.clip__caption .accent { color: var(--accent); }
+
+/* ---------- Wireframe / render-floor glow ---------- */
+/* Reusable radial "horizon glow" backdrop (ref-5 render floor). */
+.floor-glow {
+  position: absolute;
+  left: 50%; bottom: -10%;
+  width: 120%; height: 70%;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse 60% 60% at 50% 100%,
+              var(--accent-soft) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+.wire { stroke: var(--fg); fill: none; vector-effect: non-scaling-stroke; }
+.wire--dim { stroke: var(--line-strong); }
+.wire--accent { stroke: var(--accent); }
+
+/* ---------- Scroll reveal ---------- */
+.reveal {
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+  will-change: opacity, transform;
+}
+/* The hidden state applies ONLY once JS is confirmed (html.js is set by an
+   inline head script). A no-JS visitor therefore sees all content — the page
+   never collapses to a blank void if scripts fail or are disabled. */
+html.js .reveal { opacity: 0; transform: translateY(14px); }
+html.js .reveal.is-visible { opacity: 1; transform: none; }
+.reveal[data-reveal-delay="1"] { transition-delay: 0.07s; }
+.reveal[data-reveal-delay="2"] { transition-delay: 0.14s; }
+.reveal[data-reveal-delay="3"] { transition-delay: 0.21s; }
+.reveal[data-reveal-delay="4"] { transition-delay: 0.28s; }
+
+/* ---------- Top navigation ---------- */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+  background: rgba(10, 11, 13, 0.72);
+  backdrop-filter: blur(8px);
+}
+.nav__inner {
+  width: 100%;
+  max-width: var(--container-wide);
+  margin-inline: auto;
+  padding-inline: var(--s-5);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4);
+}
+.nav__links { display: flex; align-items: center; gap: var(--s-5); }
+.nav__links a {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.03em;
+  color: var(--fg-dim);
+  transition: color 0.18s var(--ease);
+}
+.nav__links a:hover, .nav__links a.is-active { color: var(--fg); text-decoration: none; }
+.nav__links a.is-active { color: var(--accent); }
+@media (max-width: 720px) {
+  .nav__links a:not(.nav__links-cta) { display: none; }
+}
+
+/* ---------- Wordmark ---------- */
+.wordmark {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  text-transform: lowercase;
+  color: var(--fg);
+  font-size: 1.06rem;
+  white-space: nowrap;
+}
+.wordmark .accent { color: var(--accent); }
+
+/* ---------- Footer ---------- */
+.footer {
+  border-top: 1px solid var(--line);
+  padding-block: var(--s-7);
+  color: var(--fg-dim);
+}
+.footer__inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-4) var(--s-6);
+  align-items: center;
+  justify-content: space-between;
+}
+.footer__meta {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  color: var(--fg-dim);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-2) var(--s-4);
+}
+.footer__meta a { color: var(--fg-dim); }
+.footer__meta a:hover { color: var(--fg); text-decoration: none; }
+.footer__brand { font-family: var(--font-mono); font-size: var(--fs-caption); }
+.footer__brand .accent { color: var(--accent); }
+.footer__credit {
+  margin-top: var(--s-4);
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  line-height: 1.7;
+  color: var(--fg-dim);
+  max-width: 90ch;
+}
+.footer__credit a {
+  color: var(--fg-dim);
+  text-decoration: underline;
+  text-decoration-color: var(--line-strong);
+  text-underline-offset: 2px;
+}
+.footer__credit a:hover { color: var(--accent); text-decoration-color: var(--accent-line); }
+
+/* main wrapper occupies remaining height so short pages still fill viewport */
+.main { display: block; }
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  html.js .reveal { opacity: 1; transform: none; }
+}
+
+/* ---------- Accessibility utility ---------- */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0);
+  white-space: nowrap; border: 0;
+}
+.skip-link {
+  position: absolute; left: var(--s-3); top: -60px; z-index: 100;
+  background: var(--panel); color: var(--fg);
+  border: 1px solid var(--accent-line); border-radius: var(--r-2);
+  padding: 8px 14px; font-family: var(--font-mono); font-size: 0.8rem;
+  transition: top 0.2s var(--ease);
+}
+.skip-link:focus { top: var(--s-3); text-decoration: none; }

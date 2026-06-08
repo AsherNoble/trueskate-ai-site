@@ -1,0 +1,128 @@
+/* ============================================================
+   #how — "How it works"
+   Two-column blueprint: staged prose (left) + sticky system
+   diagram (right). Scoped under #how only.
+   ============================================================ */
+
+#how .how__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.92fr);
+  gap: var(--s-8);
+  align-items: start;
+}
+
+/* ---------- Left: staged blocks ---------- */
+#how .how__stages {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+#how .how__stage {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: var(--s-5);
+  padding-block: var(--s-5);
+  border-top: 1px solid var(--line);
+}
+#how .how__stage:first-child { border-top: 0; padding-top: 0; }
+#how .how__stage:last-child { padding-bottom: 0; }
+
+/* Mono index tag — boxed CAD label in the gutter */
+#how .how__index {
+  align-self: start;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.4em;
+  padding: 4px 8px;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border: 1px solid var(--accent-line);
+  border-radius: var(--r-1);
+  letter-spacing: 0.08em;
+  line-height: 1;
+  /* nudge the index to baseline-align with the lead-in text */
+  margin-top: 2px;
+}
+
+/* Thin CAD leader running down the index gutter, connecting stages */
+#how .how__stage::before {
+  content: "";
+  position: absolute;
+  left: 1.2em;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--line-faint);
+  pointer-events: none;
+}
+#how .how__stage:first-child::before { top: var(--s-2); }
+#how .how__stage:last-child::before { bottom: auto; height: var(--s-6); }
+
+#how .how__body { min-width: 0; }
+
+#how .how__text {
+  color: var(--fg);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+#how .how__leadin {
+  color: var(--fg);
+  font-weight: 600;
+}
+
+/* ---------- Right: sticky system diagram ---------- */
+#how .how__aside {
+  position: sticky;
+  top: calc(var(--nav-h) + 24px);
+}
+
+#how .how__figure {
+  margin: 0;
+  padding: var(--s-6) var(--s-5) var(--s-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+}
+
+/* Diagram slot host — keeps a stable frame even before the SVG lands */
+#how .how__figure > svg,
+#how .how__figure > img {
+  width: 100%;
+  height: auto;
+}
+
+#how .how__figcaption {
+  color: var(--fg-dim);
+  letter-spacing: 0.04em;
+  padding-top: var(--s-3);
+  border-top: 1px solid var(--line);
+}
+
+/* ---------- Responsive: stack to single column ---------- */
+@media (max-width: 980px) {
+  #how .how__grid {
+    grid-template-columns: 1fr;
+    gap: var(--s-7);
+  }
+  #how .how__aside {
+    position: static;
+    top: auto;
+    order: 2;
+  }
+}
+
+@media (max-width: 720px) {
+  #how .how__stage {
+    column-gap: var(--s-4);
+    padding-block: var(--s-4);
+  }
+  #how .how__stage::before { left: 1.1em; }
+  #how .how__figure {
+    padding: var(--s-6) var(--s-4) var(--s-4);
+  }
+}

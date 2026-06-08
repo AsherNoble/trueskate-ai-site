@@ -1,0 +1,273 @@
+/* ============================================================
+   diagram.css — central blueprint pipeline diagram
+   Scoped under #diagram-compact / #diagram-full + .diagram-* classes.
+   Tokens only. CSS-only animation (offset-path + keyframes).
+   ============================================================ */
+
+/* ---------- shared sizing ---------- */
+#diagram-compact,
+#diagram-full {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+#diagram-compact { max-width: 760px; margin-inline: auto; }
+#diagram-full    { max-width: 1000px; margin-inline: auto; }
+
+/* ---------- node boxes ---------- */
+#diagram-compact .diagram-box,
+#diagram-full .diagram-box {
+  fill: var(--panel);
+  stroke: var(--line-strong);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  transition: stroke 0.3s var(--ease);
+}
+
+/* ---------- node text ---------- */
+#diagram-compact .diagram-node-title,
+#diagram-full .diagram-node-title {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  fill: var(--fg);
+}
+#diagram-compact .diagram-node-sub,
+#diagram-full .diagram-node-sub {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.03em;
+  fill: var(--fg-dim);
+}
+#diagram-full .diagram-node-idx {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  fill: var(--fg-dim);
+  opacity: 0.7;
+}
+
+/* ---------- connector edges ---------- */
+#diagram-compact .diagram-edge,
+#diagram-full .diagram-edge {
+  stroke: var(--line-strong);
+  stroke-width: 1.25;
+  vector-effect: non-scaling-stroke;
+}
+#diagram-compact .diagram-edge--return,
+#diagram-full .diagram-edge--return {
+  stroke-dasharray: 4 4;
+}
+#diagram-compact .diagram-arrowhead,
+#diagram-full .diagram-arrowhead {
+  stroke: var(--line-strong);
+  stroke-width: 1.25;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ---------- connector labels ---------- */
+#diagram-compact .diagram-conn text,
+#diagram-full .diagram-conn text {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  fill: var(--fg-dim);
+}
+#diagram-compact .diagram-conn--return,
+#diagram-full .diagram-conn--return {
+  fill: var(--accent) !important;
+  letter-spacing: 0.04em;
+}
+
+/* ---------- CAD chrome (full only) ---------- */
+#diagram-full .diagram-frame-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  fill: var(--fg-dim);
+}
+#diagram-full .diagram-frame-tag--accent { fill: var(--accent); }
+#diagram-compact .diagram-tick,
+#diagram-full .diagram-tick {
+  stroke: var(--line);
+  stroke-width: 1;
+  fill: none;
+  vector-effect: non-scaling-stroke;
+}
+#diagram-full .diagram-leader {
+  stroke: var(--line-strong);
+  stroke-width: 1;
+  fill: none;
+  vector-effect: non-scaling-stroke;
+}
+#diagram-full .diagram-leader-dot {
+  fill: var(--accent);
+}
+#diagram-full .diagram-note {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  fill: var(--fg);
+}
+#diagram-full .diagram-note--dim { fill: var(--fg-dim); }
+
+/* ---------- blue signal pulse ---------- */
+#diagram-compact .diagram-pulse,
+#diagram-full .diagram-pulse {
+  fill: var(--accent);
+  filter: drop-shadow(0 0 4px var(--accent))
+          drop-shadow(0 0 9px var(--accent-glow));
+  /* offset-path anchors the circle's own origin to the path */
+  offset-rotate: 0deg;
+  offset-distance: 0%;
+  will-change: offset-distance;
+}
+
+/* COMPACT pulse route — traces the connector polylines exactly:
+   right edge of iPhone (178,108) -> through nodes -> Reward bottom (788,142)
+   -> down to Optimizer (788,212) -> Optimizer left (718,250) -> return
+   left to (116,250) -> up (116,108) -> back into iPhone left edge (40,108). */
+#diagram-compact .diagram-pulse {
+  offset-path: path("M178,108 L335,108 L561,108 L788,108 L788,250 L116,250 L116,108 L178,108");
+  animation: dgc-pulse 8s linear infinite;
+}
+
+/* FULL pulse route — same geometry at full scale:
+   iPhone right (200,150) -> nodes -> Reward (858,150) -> down (858,316)
+   -> return left (130,316) -> up (130,150) -> back into iPhone. */
+#diagram-full .diagram-pulse {
+  offset-path: path("M200,150 L361,150 L597,150 L858,150 L858,316 L130,316 L130,150 L200,150");
+  animation: dgf-pulse 8.4s linear infinite;
+}
+
+@keyframes dgc-pulse { from { offset-distance: 0%; } to { offset-distance: 100%; } }
+@keyframes dgf-pulse { from { offset-distance: 0%; } to { offset-distance: 100%; } }
+
+/* ============================================================
+   NODE-GLOW STAGGER
+   The pulse enters each node as it passes. The loop perimeter is
+   travelled at constant speed, so node-arrival % is proportional
+   to cumulative path length. Forward row spans ~37% of the loop;
+   the long return leg spans the rest. Glow windows are tuned to
+   match arrival, each ~12% wide, so a node lights then settles.
+   ============================================================ */
+#diagram-compact .diagram-node .diagram-box,
+#diagram-full .diagram-node .diagram-box {
+  animation-duration: 8s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+#diagram-full .diagram-node .diagram-box { animation-duration: 8.4s; }
+
+/* node-arrival order around the loop:
+   iPhone @ start/end, Gesture, Vision, Reward, then down to Optimizer */
+#diagram-compact [data-node="n-device"]  .diagram-box,
+#diagram-full    [data-node="n-device"]  .diagram-box { animation-name: dg-glow-device; }
+#diagram-compact [data-node="n-gesture"] .diagram-box,
+#diagram-full    [data-node="n-gesture"] .diagram-box { animation-name: dg-glow-gesture; }
+#diagram-compact [data-node="n-vision"]  .diagram-box,
+#diagram-full    [data-node="n-vision"]  .diagram-box { animation-name: dg-glow-vision; }
+#diagram-compact [data-node="n-reward"]  .diagram-box,
+#diagram-full    [data-node="n-reward"]  .diagram-box { animation-name: dg-glow-reward; }
+#diagram-compact [data-node="n-optim"]   .diagram-box,
+#diagram-full    [data-node="n-optim"]   .diagram-box { animation-name: dg-glow-optim; }
+
+/* glow look: stroke -> accent, soft accent halo via filter */
+@keyframes dg-glow-device {
+  0%, 100% {
+    stroke: var(--accent);
+    filter: drop-shadow(0 0 6px var(--accent-glow));
+  }
+  10%, 90% {
+    stroke: var(--line-strong);
+    filter: drop-shadow(0 0 0 transparent);
+  }
+}
+@keyframes dg-glow-gesture {
+  0%, 6%, 26%, 100% {
+    stroke: var(--line-strong);
+    filter: drop-shadow(0 0 0 transparent);
+  }
+  14%, 18% {
+    stroke: var(--accent);
+    filter: drop-shadow(0 0 6px var(--accent-glow));
+  }
+}
+@keyframes dg-glow-vision {
+  0%, 16%, 36%, 100% {
+    stroke: var(--line-strong);
+    filter: drop-shadow(0 0 0 transparent);
+  }
+  24%, 28% {
+    stroke: var(--accent);
+    filter: drop-shadow(0 0 6px var(--accent-glow));
+  }
+}
+@keyframes dg-glow-reward {
+  0%, 26%, 46%, 100% {
+    stroke: var(--line-strong);
+    filter: drop-shadow(0 0 0 transparent);
+  }
+  34%, 38% {
+    stroke: var(--accent);
+    filter: drop-shadow(0 0 6px var(--accent-glow));
+  }
+}
+@keyframes dg-glow-optim {
+  0%, 38%, 58%, 100% {
+    stroke: var(--line-strong);
+    filter: drop-shadow(0 0 0 transparent);
+  }
+  46%, 50% {
+    stroke: var(--accent);
+    filter: drop-shadow(0 0 6px var(--accent-glow));
+  }
+}
+
+/* ============================================================
+   REDUCED MOTION — calm static state.
+   No pulse travel, no node-glow. Draw the loop in a quiet
+   accent tint and rest the pulse dot at the iPhone output.
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  #diagram-compact .diagram-pulse,
+  #diagram-full .diagram-pulse {
+    animation: none;
+    offset-distance: 0%;
+    filter: drop-shadow(0 0 4px var(--accent-glow));
+  }
+  #diagram-compact .diagram-node .diagram-box,
+  #diagram-full .diagram-node .diagram-box {
+    animation: none;
+    stroke: var(--line-strong);
+    filter: none;
+  }
+  #diagram-compact .diagram-edge,
+  #diagram-full .diagram-edge,
+  #diagram-compact .diagram-arrowhead,
+  #diagram-full .diagram-arrowhead {
+    stroke: var(--accent-line);
+  }
+}
+
+/* ============================================================
+   RESPONSIVE — single column friendliness.
+   The SVG already scales fluidly via viewBox; on narrow screens
+   give it room and nudge label sizing up slightly for legibility.
+   ============================================================ */
+@media (max-width: 720px) {
+  #diagram-compact,
+  #diagram-full { max-width: 100%; }
+
+  #diagram-compact .diagram-conn text,
+  #diagram-full .diagram-conn text,
+  #diagram-full .diagram-note,
+  #diagram-full .diagram-frame-tag { font-size: 11px; }
+
+  /* extra horizontal CAD notes are noise on tiny screens */
+  #diagram-full .diagram-notes { display: none; }
+}

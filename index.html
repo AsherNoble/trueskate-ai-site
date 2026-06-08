@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>document.documentElement.classList.add('js')</script>
+  <title>TrueSkate-AI — An AI that's learning to skate</title>
+  <meta name="description" content="A reinforcement-learning agent that lands real tricks in True Skate, running on physical iPhones — no simulator, driven by Appium + WebDriverAgent, read by Apple Vision OCR, optimized with CMA-ES.">
+  <meta name="theme-color" content="#0A0B0D">
+  <meta name="color-scheme" content="dark">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="TrueSkate-AI — An AI that's learning to skate">
+  <meta property="og:description" content="A reinforcement-learning agent that lands real tricks in True Skate on physical iPhones — no simulator, no access to the game's code.">
+  <!-- TODO: og:image — add a 1200x630 share card at assets/og.png and uncomment:
+  <meta property="og:image" content="assets/og.png"> -->
+  <link rel="icon" href="data:image/svg+xml,<svg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'><rect%20width='32'%20height='32'%20rx='6'%20fill='%230A0B0D'/><circle%20cx='16'%20cy='16'%20r='9'%20fill='none'%20stroke='%23E8EAED'%20stroke-width='1.4'/><circle%20cx='25'%20cy='16'%20r='2.6'%20fill='%235B8DEF'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/sections.css">
+</head>
+<body>
+  <a class="skip-link" href="#hero">Skip to content</a>
+  <nav class="nav">
+    <div class="nav__inner">
+      <a class="wordmark" href="#hero" aria-label="trueskate-ai, back to top">trueskate<span class="accent">-ai</span></a>
+      <div class="nav__links">
+        <a href="#hand" data-nav-link>The hand</a>
+        <a href="#demo" data-nav-link>Demo</a>
+        <a href="#how" data-nav-link>How it works</a>
+        <a href="#roadmap" data-nav-link>Roadmap</a>
+        <a class="nav__links-cta" href="https://github.com/AsherNoble/TrueSkate-AI" target="_blank" rel="noopener">GitHub <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </nav>
+  <main class="main" id="main">
+<header class="hero section--flush" id="hero">
+  <!-- Backdrop layer (behind all content) -->
+  <div class="hero__backdrop" aria-hidden="true">
+    <div class="floor-glow"></div>
+  </div>
+
+  <div class="container--wide hero__inner">
+    <div class="hero__bento">
+
+      <!-- Primary text block -->
+      <div class="hero__text reveal" data-reveal-delay="1">
+        <span class="eyebrow mono">PERSONAL RESEARCH PROJECT</span>
+        <span class="wordmark hero__wordmark">trueskate<span class="accent">-ai</span></span>
+        <h1 class="hero__title">An AI that&rsquo;s learning to skate.</h1>
+        <p class="lead hero__lead">A reinforcement-learning agent that lands real tricks in <a class="credit-link" href="http://trueaxis.com/trueskate.html" target="_blank" rel="noopener">True Skate</a> &mdash; and a tendon-driven robotic hand being built to physically play it. No simulator, no shortcuts.</p>
+        <div class="hero__cta">
+          <a class="btn btn--primary" href="https://github.com/AsherNoble/TrueSkate-AI" target="_blank" rel="noopener">View on GitHub</a>
+          <a class="btn" href="#demo">Watch it skate <span aria-hidden="true">&darr;</span></a>
+        </div>
+        <span class="chip hero__status">
+          <span class="chip__dot" aria-hidden="true"></span>
+          <span class="mono">LATEST &middot; reliable back-to-back 360 flips</span>
+        </span>
+      </div>
+
+      <!-- CENTER / DOMINANT panel — the control-loop diagram -->
+      <figure class="panel hero__diagram reveal" data-reveal-delay="2">
+        <span class="corner-tag">FIG.00 / <span class="accent">CONTROL LOOP</span></span>
+        <div class="hero__diagram-body">
+          <svg id="diagram-compact" class="reveal" viewBox="0 0 920 360" role="img" aria-labelledby="diagram-compact-title" preserveAspectRatio="xMidYMid meet" focusable="false">
+  <title id="diagram-compact-title">TrueSkate-AI control loop: iPhone, gesture, vision/OCR, reward, CMA-ES, back to iPhone.</title>
+
+  <!-- ===== frame ticks / CAD chrome (matches the full print) ===== -->
+  <g class="diagram-frame">
+    <path class="diagram-tick" d="M16,16 h14 M16,16 v14" />
+    <path class="diagram-tick" d="M904,16 h-14 M904,16 v14" />
+    <path class="diagram-tick" d="M16,344 h14 M16,344 v-14" />
+    <path class="diagram-tick" d="M904,344 h-14 M904,344 v-14" />
+  </g>
+
+  <!-- ===== connector edges (forward chain) ===== -->
+  <g class="diagram-edges" fill="none">
+    <!-- iPhone -> Gesture -->
+    <polyline class="diagram-edge" points="178,108 226,108" marker-end="url(#dgc-arrow)" />
+    <!-- Gesture -> Vision -->
+    <polyline class="diagram-edge" points="404,108 452,108" marker-end="url(#dgc-arrow)" />
+    <!-- Vision -> Reward -->
+    <polyline class="diagram-edge" points="630,108 678,108" marker-end="url(#dgc-arrow)" />
+    <!-- Reward -> Optimizer (drop down) -->
+    <polyline class="diagram-edge" points="788,142 788,196 788,206" marker-end="url(#dgc-arrow)" />
+    <!-- Optimizer -> iPhone (the closing return path; starts at the Optimizer
+         box center so the pulse rides the wire for the whole return leg) -->
+    <polyline class="diagram-edge diagram-edge--return" points="788,250 116,250 116,142" marker-end="url(#dgc-arrow)" />
+  </g>
+
+  <!-- ===== connector labels riding the lines ===== -->
+  <g class="diagram-conn">
+    <text x="202" y="98" text-anchor="middle">gesture</text>
+    <text x="428" y="98" text-anchor="middle">frames</text>
+    <text x="654" y="98" text-anchor="middle">trick name</text>
+    <text x="804" y="178" text-anchor="start">reward</text>
+    <text x="397" y="240" text-anchor="middle" class="diagram-conn--return">new gesture params</text>
+  </g>
+
+  <!-- ===== nodes ===== -->
+  <!-- 1. iPhone -->
+  <g class="diagram-node" data-node="n-device">
+    <rect class="diagram-box" x="40" y="70" width="138" height="76" rx="6" />
+    <text class="diagram-node-title" x="109" y="104" text-anchor="middle">iPhone</text>
+    <text class="diagram-node-sub" x="109" y="124" text-anchor="middle">True Skate</text>
+  </g>
+  <!-- 2. Gesture -->
+  <g class="diagram-node" data-node="n-gesture">
+    <rect class="diagram-box" x="266" y="70" width="138" height="76" rx="6" />
+    <text class="diagram-node-title" x="335" y="104" text-anchor="middle">Gesture</text>
+    <text class="diagram-node-sub" x="335" y="124" text-anchor="middle">Appium / WDA &#8594; hand</text>
+  </g>
+  <!-- 3. Vision + OCR -->
+  <g class="diagram-node" data-node="n-vision">
+    <rect class="diagram-box" x="492" y="70" width="138" height="76" rx="6" />
+    <text class="diagram-node-title" x="561" y="104" text-anchor="middle">Vision + OCR</text>
+    <text class="diagram-node-sub" x="561" y="124" text-anchor="middle">Apple Vision</text>
+  </g>
+  <!-- 4. Reward -->
+  <g class="diagram-node" data-node="n-reward">
+    <rect class="diagram-box" x="718" y="70" width="138" height="76" rx="6" />
+    <text class="diagram-node-title" x="787" y="104" text-anchor="middle">Reward</text>
+    <text class="diagram-node-sub" x="787" y="124" text-anchor="middle">target-relative</text>
+  </g>
+  <!-- 5. Optimizer -->
+  <g class="diagram-node" data-node="n-optim">
+    <rect class="diagram-box" x="718" y="212" width="138" height="76" rx="6" />
+    <text class="diagram-node-title" x="787" y="246" text-anchor="middle">Optimizer</text>
+    <text class="diagram-node-sub" x="787" y="266" text-anchor="middle">CMA-ES</text>
+  </g>
+
+  <!-- ===== blue signal pulse (CSS offset-path traces the loop) ===== -->
+  <circle class="diagram-pulse" r="4.5" cx="0" cy="0" />
+
+  <!-- arrowhead marker -->
+  <defs>
+    <marker id="dgc-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path class="diagram-arrowhead" d="M1,1 L9,5 L1,9" fill="none" />
+    </marker>
+  </defs>
+</svg>
+        </div>
+      </figure>
+
+      <!-- The actuator — wireframe robotic hand (in build) -->
+      <figure class="panel hero__hand reveal" data-reveal-delay="3">
+        <span class="corner-tag">FIG.05 / <span class="accent">HAND</span></span>
+        <div class="hero__hand-body">
+          <svg id="wire-hand" role="img"
+     aria-label="CAD wireframe schematic of the tendon-driven robotic hand (in design)"
+     viewBox="0 0 420 520" preserveAspectRatio="xMidYMid meet">
+
+  <!-- ===========================================================
+       TENDON ROUTING (drawn first, beneath the link outlines)
+       Thin lines running from the forearm servo bays, fanning up
+       through the palm and along each finger's joint chain.
+       Forearm tendon origin cluster sits around (210, 470).
+       =========================================================== -->
+  <g class="hand-tendon" fill="none">
+    <!-- pinky tendon -->
+    <path d="M198,468 C170,430 132,378 116,320 C108,288 96,250 86,214" />
+    <!-- ring tendon -->
+    <path d="M204,468 C188,430 168,374 160,318 C155,280 148,238 142,196" />
+    <!-- middle tendon -->
+    <path d="M210,470 C210,430 208,372 208,316 C208,276 208,228 208,182" />
+    <!-- index tendon -->
+    <path d="M216,468 C232,430 252,374 260,318 C266,282 274,242 280,200" />
+    <!-- thumb tendon -->
+    <path d="M200,470 C168,452 138,432 116,408 C100,390 86,372 74,356" />
+  </g>
+
+  <!-- ONE highlighted tendon (accent) — the index-finger run, to
+       read as the "tendon-driven" call. Kept faint + sparse. -->
+  <g class="hand-tendon hand-tendon--accent" fill="none">
+    <path d="M216,468 C232,430 252,374 260,318 C266,282 274,242 280,200" />
+  </g>
+
+  <!-- ===========================================================
+       FOREARM BASE BLOCK — where the actuation lives.
+       Rounded rect with internal division lines = servo bays.
+       =========================================================== -->
+  <g class="hand-line">
+    <rect x="146" y="402" width="128" height="100" rx="10" />
+    <!-- internal servo-bay divisions -->
+    <line class="hand-line--dim" x1="178" y1="408" x2="178" y2="496" />
+    <line class="hand-line--dim" x1="210" y1="408" x2="210" y2="496" />
+    <line class="hand-line--dim" x1="242" y1="408" x2="242" y2="496" />
+    <!-- bus rail across the bays -->
+    <line class="hand-line--dim" x1="152" y1="448" x2="268" y2="448" />
+    <!-- small servo spindles -->
+    <circle class="hand-line--dim" cx="162" cy="428" r="4" />
+    <circle class="hand-line--dim" cx="194" cy="428" r="4" />
+    <circle class="hand-line--dim" cx="226" cy="428" r="4" />
+    <circle class="hand-line--dim" cx="258" cy="428" r="4" />
+  </g>
+
+  <!-- ===========================================================
+       PALM REGION — base plate the digits radiate from. Drawn as
+       a softened quad bridging the forearm block to the MCP row.
+       =========================================================== -->
+  <g class="hand-line">
+    <path d="M150,408
+             C150,372 156,344 176,320
+             L246,322
+             C266,346 272,374 270,408" />
+    <!-- palm seam / centre reference -->
+    <line class="hand-line--dim" x1="210" y1="408" x2="208" y2="324" />
+  </g>
+
+  <!-- ===========================================================
+       MCP KNUCKLE ROW — splay arc across the top of the palm with
+       a small angle tick to suggest base splay capability.
+       =========================================================== -->
+  <g class="hand-line--dim">
+    <path d="M86,214 C128,288 170,300 208,302 C250,300 256,286 280,200"
+          opacity="0" />
+    <!-- splay arc tick between index + middle MCP -->
+    <path class="hand-splay-arc" d="M214,300 A40,40 0 0,1 252,260" />
+    <!-- splay arc tick between middle + ring MCP -->
+    <path class="hand-splay-arc" d="M202,300 A40,40 0 0,0 168,258" />
+  </g>
+
+  <!-- ===========================================================
+       DIGITS — kinematic chains. Each link is a slim rounded
+       capsule; joint pivots are small circles at MCP/PIP/DIP.
+       Fingers fanned/splayed; thumb offset lower-left.
+       =========================================================== -->
+
+  <!-- PINKY (far left, shortest) -->
+  <g class="hand-line">
+    <!-- proximal link -->
+    <path d="M120,322 C112,300 104,278 98,256" />
+    <path d="M132,318 C124,296 116,274 110,252" />
+    <path d="M120,322 A8,8 0 0,1 132,318" />
+    <!-- middle link -->
+    <path d="M98,256 C93,240 89,226 85,212" />
+    <path d="M110,252 C105,236 101,222 97,208" />
+    <!-- distal link -->
+    <path d="M85,212 C82,202 80,194 79,186" />
+    <path d="M97,208 C94,198 92,190 91,182" />
+    <!-- fingertip cap -->
+    <path d="M79,186 A6,6 0 0,1 91,182" />
+  </g>
+  <g class="hand-joint">
+    <circle cx="126" cy="320" r="4.5" /><!-- MCP -->
+    <circle cx="104" cy="254" r="3.6" /><!-- PIP -->
+    <circle cx="91"  cy="210" r="3.2" /><!-- DIP -->
+  </g>
+
+  <!-- RING -->
+  <g class="hand-line">
+    <path d="M158,322 C153,294 148,266 145,238" />
+    <path d="M172,320 C167,292 162,264 159,236" />
+    <path d="M158,322 A8,8 0 0,1 172,320" />
+    <path d="M145,238 C142,220 140,204 138,188" />
+    <path d="M159,236 C156,218 154,202 152,186" />
+    <path d="M138,188 C137,176 136,166 136,156" />
+    <path d="M152,186 C151,174 150,164 150,154" />
+    <path d="M136,156 A7,7 0 0,1 150,154" />
+  </g>
+  <g class="hand-joint">
+    <circle cx="165" cy="320" r="4.8" />
+    <circle cx="152" cy="237" r="3.8" />
+    <circle cx="143" cy="187" r="3.4" />
+  </g>
+
+  <!-- MIDDLE (centre, tallest) -->
+  <g class="hand-line">
+    <path d="M201,324 C200,294 200,264 200,234" />
+    <path d="M217,324 C216,294 216,264 216,234" />
+    <path d="M201,324 A8,8 0 0,1 217,324" />
+    <path d="M200,234 C200,214 200,196 200,178" />
+    <path d="M216,234 C216,214 216,196 216,178" />
+    <path d="M200,178 C200,164 200,152 200,140" />
+    <path d="M216,178 C216,164 216,152 216,140" />
+    <path d="M200,140 A8,8 0 0,1 216,140" />
+  </g>
+  <g class="hand-joint">
+    <circle cx="208" cy="322" r="5" />
+    <circle cx="208" cy="234" r="4" />
+    <circle cx="208" cy="178" r="3.6" />
+  </g>
+
+  <!-- INDEX -->
+  <g class="hand-line">
+    <path d="M244,322 C249,294 254,266 257,238" />
+    <path d="M258,320 C263,292 268,264 271,236" />
+    <path d="M244,322 A8,8 0 0,1 258,320" />
+    <path d="M257,238 C260,220 262,204 264,188" />
+    <path d="M271,236 C274,218 276,202 278,186" />
+    <path d="M264,188 C265,176 266,166 266,156" />
+    <path d="M278,186 C279,174 280,164 280,154" />
+    <path d="M266,156 A7,7 0 0,1 280,154" />
+  </g>
+  <g class="hand-joint">
+    <circle cx="251" cy="320" r="4.8" />
+    <circle cx="264" cy="237" r="3.8" />
+    <circle cx="273" cy="187" r="3.4" />
+  </g>
+
+  <!-- THUMB (offset, lower-left; 2 segments) -->
+  <g class="hand-line">
+    <!-- proximal link, angled out from the thenar base -->
+    <path d="M150,392 C130,378 112,364 96,350" />
+    <path d="M162,378 C144,364 126,350 110,336" />
+    <path d="M150,392 A9,9 0 0,1 162,378" />
+    <!-- distal link -->
+    <path d="M96,350 C86,342 78,336 72,330" />
+    <path d="M110,336 C100,328 92,322 86,316" />
+    <!-- thumb tip cap -->
+    <path d="M72,330 A8,8 0 0,1 86,316" />
+  </g>
+  <g class="hand-joint">
+    <circle cx="156" cy="385" r="5" /><!-- CMC/MCP -->
+    <circle cx="103" cy="343" r="3.8" /><!-- IP -->
+  </g>
+
+  <!-- fingertip pivot dots (capacitive pad reference) -->
+  <g class="hand-joint hand-joint--tip">
+    <circle cx="85"  cy="184" r="2.4" />
+    <circle cx="143" cy="155" r="2.4" />
+    <circle cx="208" cy="140" r="2.4" />
+    <circle cx="273" cy="154" r="2.4" />
+    <circle cx="79"  cy="323" r="2.4" />
+  </g>
+</svg>
+        </div>
+        <figcaption class="hero__hand-cap mono">tendon-driven actuator &mdash; in build</figcaption>
+      </figure>
+
+      <!-- Pipeline-stage + trick clips, as a filmstrip beneath -->
+      <div class="hero__clips">
+        <figure class="clip hero__clip reveal" data-reveal-delay="2" data-clip>
+          <span class="corner-tag">FIG.01 / DEVICE</span>
+          <video class="clip__video" muted loop playsinline autoplay preload="metadata" aria-label="A physical iPhone screen showing the True Skate game mid-trick">
+            <source src="assets/demos/device.mp4" type="video/mp4">
+          </video>
+          <div class="clip__placeholder">
+            <span class="corner-tag">FIG.01 / DEVICE</span>
+            <span class="clip__pending">clip pending</span>
+          </div>
+          <figcaption class="clip__caption">phone screen mid-trick</figcaption>
+        </figure>
+
+        <figure class="clip hero__clip reveal" data-reveal-delay="3" data-clip>
+          <span class="corner-tag">FIG.02 / OCR</span>
+          <video class="clip__video" muted loop playsinline autoplay preload="metadata" aria-label="The on-screen trick name being read live by optical character recognition">
+            <source src="assets/demos/ocr.mp4" type="video/mp4">
+          </video>
+          <div class="clip__placeholder">
+            <span class="corner-tag">FIG.02 / OCR</span>
+            <span class="clip__pending">clip pending</span>
+          </div>
+          <figcaption class="clip__caption">trick name, read live</figcaption>
+        </figure>
+
+        <figure class="clip hero__clip reveal" data-reveal-delay="3" data-clip>
+          <span class="corner-tag">FIG.03 / GESTURE</span>
+          <video class="clip__video" muted loop playsinline autoplay preload="metadata" aria-label="A multi-touch swipe path drawn over the phone screen to drive the game">
+            <source src="assets/demos/gesture.mp4" type="video/mp4">
+          </video>
+          <div class="clip__placeholder">
+            <span class="corner-tag">FIG.03 / GESTURE</span>
+            <span class="clip__pending">clip pending</span>
+          </div>
+          <figcaption class="clip__caption">swipe path over the screen</figcaption>
+        </figure>
+
+        <figure class="clip hero__clip reveal" data-reveal-delay="4" data-clip>
+          <span class="corner-tag">FIG.04 / LANDED</span>
+          <video class="clip__video" muted loop playsinline autoplay preload="metadata" aria-label="The agent landing a clean trick in True Skate">
+            <source src="assets/demos/landed.mp4" type="video/mp4">
+          </video>
+          <div class="clip__placeholder">
+            <span class="corner-tag">FIG.04 / LANDED</span>
+            <span class="clip__pending">clip pending</span>
+          </div>
+          <figcaption class="clip__caption">a clean landed trick</figcaption>
+        </figure>
+      </div>
+
+    </div>
+  </div>
+</header>
+
+
+<section class="section" id="pitch">
+  <div class="container">
+    <div class="section__head reveal">
+      <span class="eyebrow">// 01 — PITCH</span>
+      <h2 class="section__title">The hard way, <span class="accent">on purpose.</span></h2>
+    </div>
+
+    <p class="lead reveal" data-reveal-delay="1">Most game-playing AI plugs straight into the game's code. TrueSkate-AI doesn't get that luxury — it plays <a class="credit-link" href="http://trueaxis.com/trueskate.html" target="_blank" rel="noopener">True Skate</a> on a real iPhone, sends the same swipes your thumb would, and reads the screen to find out whether a trick landed. A shaped reward turns those readings into a learning signal, and an evolution strategy slowly discovers the gesture that nails each trick. The goal isn't a high score — it's an agent that runs whole park lines in my own skating style.</p>
+
+    <p class="pitch__embodiment reveal" data-reveal-delay="2">And the goal isn't only software. The agent's actuator is a <strong>tendon-driven robotic hand</strong> being built to physically tap and swipe the glass — moving the way a human hand does, not a script poking at an API.</p>
+
+    <ul class="pitch__stats reveal" data-reveal-delay="3">
+      <li class="chip"><span class="chip__dot" aria-hidden="true"></span>36 flatground tricks</li>
+      <li class="chip"><span class="chip__dot" aria-hidden="true"></span>3 devices in parallel</li>
+      <li class="chip"><span class="chip__dot" aria-hidden="true"></span>real-time only</li>
+    </ul>
+  </div>
+</section>
+
+
+<section class="section" id="hand">
+  <div class="container container--wide">
+    <div class="section__head reveal">
+      <span class="eyebrow">// THE HAND</span>
+      <h2 class="section__title">The <span class="accent">hand</span>.</h2>
+      <p class="lead">Almost every robotic hand is built to grip. TrueSkate-AI's needs the opposite — speed and human-like motion under no load — so it borrows from several open-source designs and recombines them.</p>
+    </div>
+
+    <div class="hand__grid">
+      <!-- ===================== PROSE COLUMN ===================== -->
+      <div class="hand__prose reveal" data-reveal-delay="1">
+        <p class="hand__p">
+          <strong class="hand__leadin">The base is the ORCA Hand</strong> (ETH Zurich): five-finger, anthropomorphic, and tendon-driven from the forearm, which keeps the fingers light enough to move fast. It has per-finger splay for spread-and-pinch gestures, and it's built around the same serial-bus servos already on the bench. Its grasping-focused "Lite" variant was ruled out — it gives up the independent per-finger splay this project depends on. Where their finger mechanisms suit a speed-over-strength brief better, parts are borrowed from Pollen Robotics' Amazing Hand and Ruka-v2.
+        </p>
+        <p class="hand__p">
+          <strong class="hand__leadin">Each finger gets a tendon-driven curl plus base splay</strong> — roughly two to three degrees of freedom — so it can both flick and spread. The fingertips make capacitive contact with the screen, with touch-down and lift gated electronically so every tap registers cleanly: a reliability layer under real lift-and-press motion, not a substitute for it. The hand actually moves like a hand.
+        </p>
+        <p class="hand__p">
+          <strong class="hand__leadin">The first build is a two-finger scaffold</strong> — index and middle — to prove the curl-and-splay module and the control loop before scaling to all five.
+        </p>
+
+        <ul class="hand__callouts" aria-label="Hand design specifications">
+          <li><span class="callout callout--accent">~2&ndash;3 DOF per finger</span></li>
+          <li><span class="callout">tendon-driven</span></li>
+          <li><span class="callout">zero load-bearing</span></li>
+          <li><span class="callout">forked from open-source hands</span></li>
+        </ul>
+
+        <div class="hand__sources">
+          <span class="hand__sources-key mono">forks:</span>
+          <span class="chip"><span class="chip__dot"></span>ORCA Hand</span>
+          <span class="chip"><span class="chip__dot"></span>Amazing Hand</span>
+          <span class="chip"><span class="chip__dot"></span>Ruka-v2</span>
+        </div>
+      </div>
+
+      <!-- ===================== VISUAL COLUMN ===================== -->
+      <div class="hand__visual reveal" data-reveal-delay="2">
+        <figure class="panel panel--plain hand__figure">
+          <span class="corner-tag">FIG.A / HAND — <span class="accent">WIREFRAME</span></span>
+          <svg id="wire-hand-annotated" role="img"
+     aria-label="Annotated CAD schematic of the robotic hand: tendon-driven fingers with base splay and capacitive fingertips (in design)"
+     viewBox="0 0 420 520" preserveAspectRatio="xMidYMid meet">
+
+  <!-- === identical hand geometry as HAND:PLAIN === -->
+  <g class="hand-tendon" fill="none">
+    <path d="M198,468 C170,430 132,378 116,320 C108,288 96,250 86,214" />
+    <path d="M204,468 C188,430 168,374 160,318 C155,280 148,238 142,196" />
+    <path d="M210,470 C210,430 208,372 208,316 C208,276 208,228 208,182" />
+    <path d="M216,468 C232,430 252,374 260,318 C266,282 274,242 280,200" />
+    <path d="M200,470 C168,452 138,432 116,408 C100,390 86,372 74,356" />
+  </g>
+  <g class="hand-tendon hand-tendon--accent" fill="none">
+    <path d="M216,468 C232,430 252,374 260,318 C266,282 274,242 280,200" />
+  </g>
+
+  <g class="hand-line">
+    <rect x="146" y="402" width="128" height="100" rx="10" />
+    <line class="hand-line--dim" x1="178" y1="408" x2="178" y2="496" />
+    <line class="hand-line--dim" x1="210" y1="408" x2="210" y2="496" />
+    <line class="hand-line--dim" x1="242" y1="408" x2="242" y2="496" />
+    <line class="hand-line--dim" x1="152" y1="448" x2="268" y2="448" />
+    <circle class="hand-line--dim" cx="162" cy="428" r="4" />
+    <circle class="hand-line--dim" cx="194" cy="428" r="4" />
+    <circle class="hand-line--dim" cx="226" cy="428" r="4" />
+    <circle class="hand-line--dim" cx="258" cy="428" r="4" />
+  </g>
+
+  <g class="hand-line">
+    <path d="M150,408
+             C150,372 156,344 176,320
+             L246,322
+             C266,346 272,374 270,408" />
+    <line class="hand-line--dim" x1="210" y1="408" x2="208" y2="324" />
+  </g>
+
+  <g class="hand-line--dim">
+    <path class="hand-splay-arc" d="M214,300 A40,40 0 0,1 252,260" />
+    <path class="hand-splay-arc" d="M202,300 A40,40 0 0,0 168,258" />
+  </g>
+
+  <!-- PINKY -->
+  <g class="hand-line">
+    <path d="M120,322 C112,300 104,278 98,256" />
+    <path d="M132,318 C124,296 116,274 110,252" />
+    <path d="M120,322 A8,8 0 0,1 132,318" />
+    <path d="M98,256 C93,240 89,226 85,212" />
+    <path d="M110,252 C105,236 101,222 97,208" />
+    <path d="M85,212 C82,202 80,194 79,186" />
+    <path d="M97,208 C94,198 92,190 91,182" />
+    <path d="M79,186 A6,6 0 0,1 91,182" />
+  </g>
+  <g class="hand-joint">
+    <circle cx="126" cy="320" r="4.5" />
+    <circle cx="104" cy="254" r="3.6" />
+    <circle cx="91"  cy="210" r="3.2" />
+  </g>
+
+  <!-- RING -->
+  <g class="hand-line">
+    <path d="M158,322 C153,294 148,266 145,238" />
+    <path d="M172,320 C167,292 162,264 159,236" />
+    <path d="M158,322 A8,8 0 0,1 172,320" />
+    <path d="M145,238 C142,220 140,204 138,188" />
+    <path d="M159,236 C156,218 154,202 152,186" />
+    <path d="M138,188 C137,176 136,166 136,156" />
+    <path d="M152,186 C151,174 150,164 150,154" />
+    <path d="M136,156 A7,7 0 0,1 150,154" />
+  </g>
+  <g class="hand-joint">
+    <circle cx="165" cy="320" r="4.8" />
+    <circle cx="152" cy="237" r="3.8" />
+    <circle cx="143" cy="187" r="3.4" />
+  </g>
+
+  <!-- MIDDLE -->
+  <g class="hand-line">
+    <path d="M201,324 C200,294 200,264 200,234" />
+    <path d="M217,324 C216,294 216,264 216,234" />
+    <path d="M201,324 A8,8 0 0,1 217,324" />
+    <path d="M200,234 C200,214 200,196 200,178" />
+    <path d="M216,234 C216,214 216,196 216,178" />
+    <path d="M200,178 C200,164 200,152 200,140" />
+    <path d="M216,178 C216,164 216,152 216,140" />
+    <path d="M200,140 A8,8 0 0,1 216,140" />
+  </g>
+  <g class="hand-joint">
+    <circle cx="208" cy="322" r="5" />
+    <circle cx="208" cy="234" r="4" />
+    <circle cx="208" cy="178" r="3.6" />
+  </g>
+
+  <!-- INDEX -->
+  <g class="hand-line">
+    <path d="M244,322 C249,294 254,266 257,238" />
+    <path d="M258,320 C263,292 268,264 271,236" />
+    <path d="M244,322 A8,8 0 0,1 258,320" />
+    <path d="M257,238 C260,220 262,204 264,188" />
+    <path d="M271,236 C274,218 276,202 278,186" />
+    <path d="M264,188 C265,176 266,166 266,156" />
+    <path d="M278,186 C279,174 280,164 280,154" />
+    <path d="M266,156 A7,7 0 0,1 280,154" />
+  </g>
+  <g class="hand-joint">
+    <circle cx="251" cy="320" r="4.8" />
+    <circle cx="264" cy="237" r="3.8" />
+    <circle cx="273" cy="187" r="3.4" />
+  </g>
+
+  <!-- THUMB -->
+  <g class="hand-line">
+    <path d="M150,392 C130,378 112,364 96,350" />
+    <path d="M162,378 C144,364 126,350 110,336" />
+    <path d="M150,392 A9,9 0 0,1 162,378" />
+    <path d="M96,350 C86,342 78,336 72,330" />
+    <path d="M110,336 C100,328 92,322 86,316" />
+    <path d="M72,330 A8,8 0 0,1 86,316" />
+  </g>
+  <g class="hand-joint">
+    <circle cx="156" cy="385" r="5" />
+    <circle cx="103" cy="343" r="3.8" />
+  </g>
+
+  <g class="hand-joint hand-joint--tip">
+    <circle cx="85"  cy="184" r="2.4" />
+    <circle cx="143" cy="155" r="2.4" />
+    <circle cx="208" cy="140" r="2.4" />
+    <circle cx="273" cy="154" r="2.4" />
+    <circle cx="79"  cy="323" r="2.4" />
+  </g>
+
+  <!-- ===========================================================
+       CAD CALLOUTS — thin leader lines + accent leader-dots at the
+       targets + mono text labels. Secondary notes are dimmed.
+       =========================================================== -->
+
+  <!-- capacitive fingertip -> middle-finger tip (208,140) -->
+  <g class="hand-callout">
+    <line class="hand-leader" x1="208" y1="140" x2="208" y2="96" />
+    <line class="hand-leader" x1="208" y1="96"  x2="300" y2="96" />
+    <circle class="hand-leader-dot" cx="208" cy="140" r="3" />
+    <text class="hand-label" x="306" y="100">capacitive fingertip</text>
+  </g>
+
+  <!-- tendon-driven curl -> index PIP knuckle (264,237) -->
+  <g class="hand-callout">
+    <line class="hand-leader" x1="264" y1="237" x2="320" y2="237" />
+    <circle class="hand-leader-dot" cx="264" cy="237" r="3" />
+    <text class="hand-label" x="326" y="241">tendon-driven curl</text>
+  </g>
+
+  <!-- base splay -> MCP splay arc (between index+middle, ~233,280) -->
+  <g class="hand-callout">
+    <line class="hand-leader" x1="233" y1="280" x2="318" y2="300" />
+    <circle class="hand-leader-dot" cx="233" cy="280" r="3" />
+    <text class="hand-label" x="324" y="304">base splay</text>
+  </g>
+
+  <!-- ~2-3 DOF / finger -> ring DIP knuckle (143,187) -->
+  <g class="hand-callout">
+    <line class="hand-leader" x1="143" y1="187" x2="60" y2="170" />
+    <circle class="hand-leader-dot" cx="143" cy="187" r="3" />
+    <text class="hand-label hand-label--dim" x="56" y="166" text-anchor="end">~2-3 DOF / finger</text>
+  </g>
+
+  <!-- serial-bus servos -> forearm base block (162,428) -->
+  <g class="hand-callout">
+    <line class="hand-leader" x1="162" y1="448" x2="70" y2="448" />
+    <circle class="hand-leader-dot" cx="162" cy="448" r="3" />
+    <text class="hand-label" x="66" y="452" text-anchor="end">serial-bus servos</text>
+  </g>
+
+  <!-- first build: 2 fingers -> bracket over index + middle -->
+  <g class="hand-callout">
+    <path class="hand-leader" d="M196,118 L196,108 L276,108 L276,118" fill="none" />
+    <line class="hand-leader" x1="236" y1="108" x2="236" y2="86" />
+    <text class="hand-label hand-label--dim" x="236" y="80" text-anchor="middle">first build: 2 fingers</text>
+  </g>
+</svg>
+          <figcaption class="hand__figcaption mono">tendon-driven curl + base splay — design schematic</figcaption>
+        </figure>
+
+        <figure class="clip hand__clip" data-clip>
+          <span class="corner-tag">VID / <span class="accent">2-FINGER MODULE</span></span>
+          <video class="clip__video" muted loop playsinline autoplay preload="metadata" aria-label="Looping clip of the two-finger robotic hand module moving">
+            <source src="assets/hand/module.mp4" type="video/mp4">
+          </video>
+          <div class="clip__placeholder">
+            <span class="corner-tag">VID / <span class="accent">2-FINGER MODULE</span></span>
+            <span class="clip__pending">render pending</span>
+          </div>
+          <figcaption class="clip__caption">two-finger module — render pending</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section" id="demo">
+  <div class="container container--wide">
+    <div class="section__head reveal">
+      <span class="eyebrow">// 02 — DEMO</span>
+      <h2 class="section__title">Watch it skate.</h2>
+      <p class="muted mono demo__note">unedited agent rollouts.</p>
+    </div>
+
+    <div class="demo__strip reveal" data-reveal-delay="1" role="group" tabindex="0" aria-label="Trick demo clips — focus and use the arrow keys to scroll">
+      <figure class="clip demo__clip" data-clip>
+        <span class="corner-tag">TRK.01</span>
+        <video class="clip__video" muted loop playsinline autoplay preload="metadata" aria-label="The agent performing a 360 flip">
+          <source src="assets/demos/trick-01.mp4" type="video/mp4">
+        </video>
+        <div class="clip__placeholder">
+          <span class="corner-tag">TRK.01</span>
+          <span class="clip__pending">clip pending</span>
+        </div>
+        <figcaption class="clip__caption">360 flip</figcaption>
+      </figure>
+
+      <figure class="clip demo__clip" data-clip>
+        <span class="corner-tag">TRK.02</span>
+        <video class="clip__video" muted loop playsinline autoplay preload="metadata" aria-label="The agent performing a kickflip">
+          <source src="assets/demos/trick-02.mp4" type="video/mp4">
+        </video>
+        <div class="clip__placeholder">
+          <span class="corner-tag">TRK.02</span>
+          <span class="clip__pending">clip pending</span>
+        </div>
+        <figcaption class="clip__caption">kickflip</figcaption>
+      </figure>
+
+      <figure class="clip demo__clip" data-clip>
+        <span class="corner-tag">TRK.03</span>
+        <video class="clip__video" muted loop playsinline autoplay preload="metadata" aria-label="The agent performing a heelflip">
+          <source src="assets/demos/trick-03.mp4" type="video/mp4">
+        </video>
+        <div class="clip__placeholder">
+          <span class="corner-tag">TRK.03</span>
+          <span class="clip__pending">clip pending</span>
+        </div>
+        <figcaption class="clip__caption">heelflip</figcaption>
+      </figure>
+
+      <figure class="clip demo__clip" data-clip>
+        <span class="corner-tag">TRK.04</span>
+        <video class="clip__video" muted loop playsinline autoplay preload="metadata" aria-label="The agent performing a hardflip">
+          <source src="assets/demos/trick-04.mp4" type="video/mp4">
+        </video>
+        <div class="clip__placeholder">
+          <span class="corner-tag">TRK.04</span>
+          <span class="clip__pending">clip pending</span>
+        </div>
+        <figcaption class="clip__caption">hardflip</figcaption>
+      </figure>
+
+      <figure class="clip demo__clip" data-clip>
+        <span class="corner-tag">TRK.05</span>
+        <video class="clip__video" muted loop playsinline autoplay preload="metadata" aria-label="The agent performing a varial flip">
+          <source src="assets/demos/trick-05.mp4" type="video/mp4">
+        </video>
+        <div class="clip__placeholder">
+          <span class="corner-tag">TRK.05</span>
+          <span class="clip__pending">clip pending</span>
+        </div>
+        <figcaption class="clip__caption">varial flip</figcaption>
+      </figure>
+
+      <figure class="clip demo__clip" data-clip>
+        <span class="corner-tag">TRK.06</span>
+        <video class="clip__video" muted loop playsinline autoplay preload="metadata" aria-label="The agent performing a laser flip">
+          <source src="assets/demos/trick-06.mp4" type="video/mp4">
+        </video>
+        <div class="clip__placeholder">
+          <span class="corner-tag">TRK.06</span>
+          <span class="clip__pending">clip pending</span>
+        </div>
+        <figcaption class="clip__caption">laser flip</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+
+<section class="section" id="how">
+  <div class="container--wide">
+    <div class="section__head reveal">
+      <span class="eyebrow">// 03 — HOW IT WORKS</span>
+      <h2 class="section__title">How it works.</h2>
+      <p class="lead muted">Accessible up top — here's the engineering underneath.</p>
+    </div>
+
+    <div class="how__grid">
+      <ol class="how__stages">
+        <li class="how__stage reveal" data-reveal-delay="1">
+          <span class="how__index mono">01</span>
+          <div class="how__body">
+            <p class="how__text"><strong class="how__leadin">The hands.</strong> A learned touch policy produces the gestures. Today they're injected in software — Appium + WebDriverAgent driving real iPhones — with touch points, timing and curvature normalized across three screen sizes so one policy runs on any device in the fleet. The endgame swaps that software touch for a physical, tendon-driven robotic hand (in build) executing the very same gestures on the glass.</p>
+          </div>
+        </li>
+
+        <li class="how__stage reveal" data-reveal-delay="2">
+          <span class="how__index mono">02</span>
+          <div class="how__body">
+            <p class="how__text"><strong class="how__leadin">The eyes.</strong> The screen is streamed over MJPEG and Apple Vision OCR reads the on-screen trick name in real time. (Apple Vision replaced Tesseract, which hallucinated on short, colored game text.)</p>
+          </div>
+        </li>
+
+        <li class="how__stage reveal" data-reveal-delay="3">
+          <span class="how__index mono">03</span>
+          <div class="how__body">
+            <p class="how__text"><strong class="how__leadin">The reward.</strong> A target-relative signal: the exact target trick scores full reward, a trick in the right mechanical family scores partial, any landed trick scores a little, nothing scores zero. Shaping — not a binary land/fail — is what gives the optimizer enough gradient to climb.</p>
+          </div>
+        </li>
+
+        <li class="how__stage reveal" data-reveal-delay="4">
+          <span class="how__index mono">04</span>
+          <div class="how__body">
+            <p class="how__text"><strong class="how__leadin">The optimizer.</strong> CMA-ES proposes new gesture parameters each generation, keeps what lands, and tightens around the winning region. (An earlier PPO + HER attempt collapsed; the evolution strategy proved far more robust for this real-time, noisy-reward setting.)</p>
+          </div>
+        </li>
+
+        <li class="how__stage reveal" data-reveal-delay="4">
+          <span class="how__index mono">05</span>
+          <div class="how__body">
+            <p class="how__text"><strong class="how__leadin">Scale.</strong> Three phones run evaluations in parallel, in real time, on a headless training server monitored remotely.</p>
+          </div>
+        </li>
+      </ol>
+
+      <aside class="how__aside reveal" data-reveal-delay="2">
+        <figure class="panel panel--plain how__figure">
+          <span class="corner-tag">FIG.06 / <span class="accent">CONTROL LOOP</span></span>
+          <svg id="diagram-full" class="reveal" viewBox="0 0 1000 480" role="img" aria-labelledby="diagram-full-title" preserveAspectRatio="xMidYMid meet" focusable="false">
+  <title id="diagram-full-title">TrueSkate-AI control loop: iPhone, gesture, vision/OCR, reward, CMA-ES, back to iPhone.</title>
+
+  <!-- ===== frame ticks / CAD chrome ===== -->
+  <g class="diagram-frame">
+    <text class="diagram-frame-tag" x="24" y="34" text-anchor="start">FIG.06 / CONTROL LOOP</text>
+    <text class="diagram-frame-tag diagram-frame-tag--accent" x="976" y="34" text-anchor="end">CLOSED LOOP &#215; 3 DEVICES</text>
+    <!-- corner registration ticks -->
+    <path class="diagram-tick" d="M16,16 h16 M16,16 v16" />
+    <path class="diagram-tick" d="M984,16 h-16 M984,16 v16" />
+    <path class="diagram-tick" d="M16,464 h16 M16,464 v-16" />
+    <path class="diagram-tick" d="M984,464 h-16 M984,464 v-16" />
+  </g>
+
+  <!-- ===== connector edges (forward chain) ===== -->
+  <g class="diagram-edges" fill="none">
+    <!-- iPhone -> Gesture -->
+    <polyline class="diagram-edge" points="200,150 244,150" marker-end="url(#dgf-arrow)" />
+    <!-- Gesture -> Vision -->
+    <polyline class="diagram-edge" points="436,150 480,150" marker-end="url(#dgf-arrow)" />
+    <!-- Vision -> Reward -->
+    <polyline class="diagram-edge" points="672,150 716,150" marker-end="url(#dgf-arrow)" />
+    <!-- Reward -> Optimizer (drop down) -->
+    <polyline class="diagram-edge" points="858,186 858,258 858,272" marker-end="url(#dgf-arrow)" />
+    <!-- Optimizer -> iPhone (closing return path; starts at the Optimizer
+         box center so the pulse rides the wire for the whole return leg) -->
+    <polyline class="diagram-edge diagram-edge--return" points="858,316 130,316 130,186" marker-end="url(#dgf-arrow)" />
+  </g>
+
+  <!-- ===== connector labels riding the lines ===== -->
+  <g class="diagram-conn">
+    <text x="222" y="138" text-anchor="middle">gesture</text>
+    <text x="458" y="138" text-anchor="middle">frames</text>
+    <text x="694" y="138" text-anchor="middle">trick name</text>
+    <text x="874" y="232" text-anchor="start">reward</text>
+    <text x="423" y="306" text-anchor="middle" class="diagram-conn--return">new gesture params</text>
+  </g>
+
+  <!-- ===== nodes ===== -->
+  <!-- 1. iPhone -->
+  <g class="diagram-node" data-node="n-device">
+    <rect class="diagram-box" x="50" y="108" width="150" height="84" rx="6" />
+    <text class="diagram-node-idx" x="62" y="126" text-anchor="start">01</text>
+    <text class="diagram-node-title" x="125" y="148" text-anchor="middle">iPhone</text>
+    <text class="diagram-node-sub" x="125" y="170" text-anchor="middle">True Skate</text>
+  </g>
+  <!-- 2. Gesture -->
+  <g class="diagram-node" data-node="n-gesture">
+    <rect class="diagram-box" x="286" y="108" width="150" height="84" rx="6" />
+    <text class="diagram-node-idx" x="298" y="126" text-anchor="start">02</text>
+    <text class="diagram-node-title" x="361" y="148" text-anchor="middle">Gesture</text>
+    <text class="diagram-node-sub" x="361" y="170" text-anchor="middle">Appium / WDA &#8594; hand</text>
+  </g>
+  <!-- 3. Vision + OCR -->
+  <g class="diagram-node" data-node="n-vision">
+    <rect class="diagram-box" x="522" y="108" width="150" height="84" rx="6" />
+    <text class="diagram-node-idx" x="534" y="126" text-anchor="start">03</text>
+    <text class="diagram-node-title" x="597" y="148" text-anchor="middle">Vision + OCR</text>
+    <text class="diagram-node-sub" x="597" y="170" text-anchor="middle">Apple Vision</text>
+  </g>
+  <!-- 4. Reward -->
+  <g class="diagram-node" data-node="n-reward">
+    <rect class="diagram-box" x="758" y="108" width="150" height="84" rx="6" />
+    <text class="diagram-node-idx" x="770" y="126" text-anchor="start">04</text>
+    <text class="diagram-node-title" x="833" y="148" text-anchor="middle">Reward</text>
+    <text class="diagram-node-sub" x="833" y="170" text-anchor="middle">shaped, target-relative</text>
+  </g>
+  <!-- 5. Optimizer -->
+  <g class="diagram-node" data-node="n-optim">
+    <rect class="diagram-box" x="758" y="274" width="150" height="84" rx="6" />
+    <text class="diagram-node-idx" x="770" y="292" text-anchor="start">05</text>
+    <text class="diagram-node-title" x="833" y="314" text-anchor="middle">Optimizer</text>
+    <text class="diagram-node-sub" x="833" y="336" text-anchor="middle">CMA-ES</text>
+  </g>
+
+  <!-- ===== CAD-style callout notes + leader ticks (flavour) ===== -->
+  <g class="diagram-notes">
+    <!-- leader from iPhone -->
+    <path class="diagram-leader" d="M125,192 L125,418 L300,418" />
+    <circle class="diagram-leader-dot" cx="125" cy="192" r="2.6" />
+    <text class="diagram-note" x="308" y="414" text-anchor="start">MJPEG stream &#8226; multi&#8211;touch swipe</text>
+    <text class="diagram-note diagram-note--dim" x="308" y="430" text-anchor="start">36 flatground tricks &#8212; physical hardware, no simulator</text>
+
+    <!-- leader from Vision -->
+    <path class="diagram-leader" d="M597,108 L597,72 L690,72" />
+    <circle class="diagram-leader-dot" cx="597" cy="108" r="2.6" />
+    <text class="diagram-note" x="698" y="76" text-anchor="start">on&#8211;screen trick name &#8594; reward signal</text>
+  </g>
+
+  <!-- ===== blue signal pulse ===== -->
+  <circle class="diagram-pulse" r="5" cx="0" cy="0" />
+
+  <!-- arrowhead marker -->
+  <defs>
+    <marker id="dgf-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path class="diagram-arrowhead" d="M1,1 L9,5 L1,9" fill="none" />
+    </marker>
+  </defs>
+</svg>
+          <figcaption class="how__figcaption mono">closed loop — gesture → screen → OCR → reward → CMA-ES</figcaption>
+        </figure>
+      </aside>
+    </div>
+  </div>
+</section>
+
+
+<section class="section" id="stats">
+  <div class="container--wide">
+    <div class="section__head reveal">
+      <span class="eyebrow">// 04 — UNDER THE HOOD</span>
+      <h2 class="section__title">Under the hood.</h2>
+    </div>
+
+    <div class="stats__band reveal" data-reveal-delay="1" role="list">
+      <div class="stats__fig stats__fig--hero" role="listitem">
+        <span class="stats__fig-tag mono">FIG.07 / RUN</span>
+        <span class="stats__value">~1,280</span>
+        <span class="stats__label mono">clean 360-flip landings in one run</span>
+      </div>
+
+      <div class="stats__fig" role="listitem">
+        <span class="stats__value">3</span>
+        <span class="stats__label mono">iPhones in parallel</span>
+      </div>
+
+      <div class="stats__fig" role="listitem">
+        <span class="stats__value">~3.5s</span>
+        <span class="stats__label mono">per evaluation</span>
+      </div>
+
+      <div class="stats__fig" role="listitem">
+        <span class="stats__value">36</span>
+        <span class="stats__label mono">flatground tricks</span>
+      </div>
+
+      <div class="stats__fig stats__fig--line" role="listitem">
+        <span class="stats__line mono">real-time only — no sim speedup</span>
+      </div>
+
+      <div class="stats__fig stats__fig--line" role="listitem">
+        <span class="stats__line mono">CMA-ES + shaped reward</span>
+      </div>
+
+      <div class="stats__fig" role="listitem">
+        <span class="stats__value">2&ndash;3</span>
+        <span class="stats__label mono">DOF per finger &middot; the hand</span>
+      </div>
+
+      <div class="stats__fig stats__fig--line" role="listitem">
+        <span class="stats__line mono">tendon-driven &middot; zero load-bearing</span>
+      </div>
+    </div>
+
+    <div class="stats__notes">
+      <article class="panel panel--plain stats__note reveal" data-reveal-delay="1">
+        <span class="corner-tag">NOTE.01</span>
+        <h3 class="stats__note-title">Coordinate normalization</h3>
+        <p class="stats__note-text">One policy runs across three screen sizes via a canonical reference frame.</p>
+      </article>
+
+      <article class="panel panel--plain stats__note reveal" data-reveal-delay="2">
+        <span class="corner-tag">NOTE.02</span>
+        <h3 class="stats__note-title">Headless &amp; remote</h3>
+        <p class="stats__note-text">Training runs on a headless server, monitored remotely over SSH.</p>
+      </article>
+
+      <article class="panel panel--plain stats__note reveal" data-reveal-delay="3">
+        <span class="corner-tag">NOTE.03</span>
+        <h3 class="stats__note-title">Vision over Tesseract</h3>
+        <p class="stats__note-text">Apple Vision is reliable on short colored game text where OCR alternatives weren't.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+
+<section class="section" id="roadmap">
+  <div class="container--wide">
+    <div class="section__head reveal">
+      <span class="eyebrow">// 05 — ROADMAP</span>
+      <h2 class="section__title">Roadmap.</h2>
+      <p class="lead muted">Two tracks — the agent and the hand — converging on a piece that plays, and is built to be seen.</p>
+    </div>
+
+    <!-- Track A — software / the agent -->
+    <div class="roadmap__group reveal">
+      <p class="roadmap__group-label mono">Track A · the agent <span class="muted">— software</span></p>
+      <ol class="roadmap__track">
+        <li class="roadmap__step">
+          <span class="roadmap__node" aria-hidden="true"></span>
+          <article class="panel panel--plain roadmap__card">
+            <header class="roadmap__card-head">
+              <span class="roadmap__phase mono">A1</span>
+              <span class="callout roadmap__status">[ now ]</span>
+            </header>
+            <h3 class="roadmap__title">Per-trick mastery</h3>
+            <p class="roadmap__text">Reliable, repeatable landings for individual tricks across the 36-trick flatground set.</p>
+          </article>
+        </li>
+
+        <li class="roadmap__step">
+          <span class="roadmap__node" aria-hidden="true"></span>
+          <article class="panel panel--plain roadmap__card">
+            <header class="roadmap__card-head">
+              <span class="roadmap__phase mono">A2</span>
+            </header>
+            <h3 class="roadmap__title">One policy, every trick</h3>
+            <p class="roadmap__text">A single skill-conditioned network that performs any trick on command, distilled from the evolution-strategy rollouts.</p>
+          </article>
+        </li>
+
+        <li class="roadmap__step">
+          <span class="roadmap__node" aria-hidden="true"></span>
+          <article class="panel panel--plain roadmap__card">
+            <header class="roadmap__card-head">
+              <span class="roadmap__phase mono">A3</span>
+            </header>
+            <h3 class="roadmap__title">Style imitation</h3>
+            <p class="roadmap__text">An agent that strings tricks into full park lines that look like how I actually skate.</p>
+          </article>
+        </li>
+      </ol>
+    </div>
+
+    <!-- Track B — hardware / the hand -->
+    <div class="roadmap__group reveal" data-reveal-delay="1">
+      <p class="roadmap__group-label mono">Track B · the hand <span class="muted">— hardware</span></p>
+      <ol class="roadmap__track">
+        <li class="roadmap__step">
+          <span class="roadmap__node" aria-hidden="true"></span>
+          <article class="panel panel--plain roadmap__card">
+            <header class="roadmap__card-head">
+              <span class="roadmap__phase mono">B1</span>
+              <span class="callout roadmap__status">[ now ]</span>
+            </header>
+            <h3 class="roadmap__title">Two-finger module</h3>
+            <p class="roadmap__text">Curl + splay on index and middle — proving the mechanism and the control loop before scaling up.</p>
+          </article>
+        </li>
+
+        <li class="roadmap__step">
+          <span class="roadmap__node" aria-hidden="true"></span>
+          <article class="panel panel--plain roadmap__card">
+            <header class="roadmap__card-head">
+              <span class="roadmap__phase mono">B2</span>
+            </header>
+            <h3 class="roadmap__title">Full five-finger hand</h3>
+            <p class="roadmap__text">Scaling the curl-and-splay module to a complete tendon-driven hand.</p>
+          </article>
+        </li>
+
+        <li class="roadmap__step roadmap__step--goal">
+          <span class="roadmap__node roadmap__node--accent" aria-hidden="true"></span>
+          <article class="panel roadmap__card roadmap__card--goal">
+            <span class="corner-tag corner-tag--tr">DISPLAY / <span class="accent">GOAL</span></span>
+            <header class="roadmap__card-head">
+              <span class="roadmap__phase mono roadmap__phase--accent">B3</span>
+              <span class="callout callout--accent roadmap__status">[ the goal ]</span>
+            </header>
+            <h3 class="roadmap__title roadmap__title--goal">Physical play, on a podium</h3>
+            <p class="roadmap__text roadmap__text--goal">A left hand holding the iPhone and a right hand finger-skating True Skate on a real screen — finished cleanly enough to mount on a podium and leave on long-term display.</p>
+          </article>
+        </li>
+      </ol>
+    </div>
+
+    <!-- Closing vision note -->
+    <aside class="panel roadmap__vision reveal" data-reveal-delay="2">
+      <span class="corner-tag">VISION</span>
+      <p class="roadmap__vision-text">The specification was never speed for its own sake — it's fidelity to how one particular person moves. The agent doesn't just learn to skate; it learns to skate <span class="roadmap__vision-em">the way I do, in a hand that moves like mine</span>.</p>
+      <!-- TODO (Asher to refine): exact wording for the left hand — holds the iPhone, with a single actuated thumb for the spin / hold button. -->
+    </aside>
+  </div>
+</section>
+
+
+<section class="section" id="about">
+  <div class="container">
+    <div class="section__head reveal">
+      <span class="eyebrow">// 06 — ABOUT</span>
+      <h2 class="section__title">About.</h2>
+    </div>
+
+    <p class="lead reveal" data-reveal-delay="1">TrueSkate-AI is a personal research project by <strong>Asher Noble</strong>, student at UTS.</p>
+    <!-- TODO: refine descriptor / add one optional line of personal motivation -->
+
+    <div class="about__links reveal" data-reveal-delay="2">
+      <a class="btn btn--primary" href="https://github.com/AsherNoble/TrueSkate-AI" target="_blank" rel="noopener">GitHub <span aria-hidden="true">↗</span></a>
+      <a class="btn" href="https://www.linkedin.com/in/ashernoble/" target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">↗</span></a>
+      <!-- TODO optional: <a class="btn" href="mailto:..."> Email</a> · X/Twitter link -->
+    </div>
+  </div>
+</section>
+
+  </main>
+  <footer class="footer">
+    <div class="container container--wide">
+      <div class="footer__inner">
+        <p class="footer__brand">trueskate<span class="accent">-ai</span> — an AI that's learning to skate.</p>
+        <div class="footer__meta">
+          <a href="https://github.com/AsherNoble/TrueSkate-AI" target="_blank" rel="noopener">GitHub <span aria-hidden="true">↗</span></a>
+          <span aria-hidden="true">·</span>
+          <span>built with HTML · CSS · a little vanilla JS</span>
+          <span aria-hidden="true">·</span>
+          <span>© 2026</span>
+        </div>
+      </div>
+      <p class="footer__credit">
+        <a href="http://trueaxis.com/trueskate.html" target="_blank" rel="noopener">True Skate</a> is a game by True Axis —
+        get it on the <a href="https://apps.apple.com/app/true-skate/id549105915" target="_blank" rel="noopener">App Store</a>,
+        or follow it on <a href="https://www.instagram.com/trueskateofficial/" target="_blank" rel="noopener">Instagram</a>.
+        TrueSkate-AI is an independent research project and is not affiliated with or endorsed by True Axis.
+      </p>
+    </div>
+  </footer>
+  <script src="scripts/main.js" defer></script>
+</body>
+</html>

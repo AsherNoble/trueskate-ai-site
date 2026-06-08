@@ -1,0 +1,226 @@
+/* ============================================================
+   #roadmap — // 05 — ROADMAP
+   A three-step arc drawn as a stepped CAD track. Desktop: a
+   horizontal track of 3 nodes joined by a hairline connector,
+   step 03 emphasised with --accent. Mobile: vertical stepped
+   list with a vertical connector. Scoped under #roadmap only.
+   Tokens + shared primitives only.
+   ============================================================ */
+
+/* ---------- Track groups ---------- */
+#roadmap .roadmap__group + .roadmap__group { margin-top: var(--s-8); }
+#roadmap .roadmap__group-label {
+  font-size: var(--fs-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+  margin-bottom: var(--s-5);
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+}
+#roadmap .roadmap__group-label::before {
+  content: "";
+  width: 20px;
+  height: 1px;
+  background: var(--accent-line);
+}
+
+#roadmap .roadmap__track {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--s-6);
+  align-items: start;
+}
+
+/* ---------- Step ---------- */
+#roadmap .roadmap__step {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-5);
+  padding-top: var(--s-6);
+}
+
+/* The horizontal connector line — runs through the node row,
+   behind the nodes, like a roadmap track. */
+#roadmap .roadmap__step::before {
+  content: "";
+  position: absolute;
+  top: calc(var(--s-2) + 4px);   /* center on the node */
+  left: 0;
+  right: calc(-1 * var(--s-6));   /* bridge the grid gap to the next step */
+  height: 1px;
+  background: var(--line-strong);
+  pointer-events: none;
+  z-index: 0;
+}
+/* First node has a leading half-segment trimmed; last step has no
+   trailing segment (nothing to connect to). */
+#roadmap .roadmap__step:last-child::before { right: 0; }
+
+/* The accent leg of the track feeds INTO the goal node. */
+#roadmap .roadmap__step--goal::before {
+  background: linear-gradient(90deg, var(--line-strong), var(--accent-line));
+}
+
+/* ---------- Node marker ---------- */
+#roadmap .roadmap__node {
+  position: relative;
+  z-index: 1;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 1px solid var(--line-strong);
+  flex: 0 0 auto;
+}
+#roadmap .roadmap__node--accent {
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-soft), 0 0 16px var(--accent-glow);
+}
+
+/* ---------- Card ---------- */
+#roadmap .roadmap__card {
+  position: relative;
+  padding: var(--s-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+  min-width: 0;
+}
+
+/* The final step carries the most weight: accent border, more
+   internal padding, a tinted backplate, and a corner phase tag. */
+#roadmap .roadmap__card--goal {
+  padding: var(--s-7) var(--s-5) var(--s-6);
+  border-color: var(--accent-line);
+  background:
+    radial-gradient(120% 130% at 100% 0%, var(--accent-soft) 0%, transparent 62%),
+    var(--panel);
+  box-shadow: 0 0 28px rgba(91, 141, 239, 0.10);
+}
+
+#roadmap .roadmap__card-head {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+}
+
+/* Mono phase tag — boxed CAD label */
+#roadmap .roadmap__phase {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.4em;
+  padding: 4px 8px;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  color: var(--fg-dim);
+  background: rgba(232, 234, 237, 0.04);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-1);
+}
+#roadmap .roadmap__phase--accent {
+  color: var(--accent);
+  background: var(--accent-soft);
+  border-color: var(--accent-line);
+}
+
+/* Reuse .callout / .callout--accent for the status tags; only
+   nudge them to sit on the card-head baseline. */
+#roadmap .roadmap__status {
+  align-self: center;
+}
+
+#roadmap .roadmap__title {
+  font-family: var(--font-mono);
+  font-size: 1.02rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  color: var(--fg);
+}
+#roadmap .roadmap__title--goal {
+  font-size: clamp(1.2rem, 0.9rem + 1.1vw, 1.55rem);
+  color: var(--accent);
+}
+
+#roadmap .roadmap__text {
+  font-size: var(--fs-caption);
+  line-height: 1.6;
+  color: var(--fg-dim);
+}
+#roadmap .roadmap__text--goal {
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--fg);
+}
+
+/* ---------- Closing vision note ---------- */
+#roadmap .roadmap__vision {
+  position: relative;
+  margin-top: var(--s-8);
+  padding: var(--s-7) var(--s-6) var(--s-6);
+  border-color: var(--accent-line);
+  background:
+    radial-gradient(130% 120% at 0% 0%, var(--accent-soft) 0%, transparent 58%),
+    var(--panel);
+}
+#roadmap .roadmap__vision-text {
+  font-size: clamp(1.05rem, 0.9rem + 0.8vw, 1.3rem);
+  line-height: 1.55;
+  color: var(--fg);
+  max-width: 64ch;
+}
+#roadmap .roadmap__vision-em { font-style: italic; color: var(--fg); }
+
+/* ============================================================
+   Responsive — collapse the horizontal track to a vertical,
+   stepped list at <= 860px. The connector becomes a vertical
+   rail running down the node gutter.
+   ============================================================ */
+@media (max-width: 860px) {
+  #roadmap .roadmap__track {
+    grid-template-columns: 1fr;
+    gap: var(--s-5);
+  }
+
+  #roadmap .roadmap__step {
+    flex-direction: row;
+    align-items: stretch;
+    gap: var(--s-5);
+    padding-top: 0;
+  }
+
+  /* Vertical connector down the node gutter. */
+  #roadmap .roadmap__step::before {
+    top: var(--s-5);
+    bottom: calc(-1 * var(--s-5));
+    left: 4px;
+    right: auto;
+    width: 1px;
+    height: auto;
+  }
+  #roadmap .roadmap__step:last-child::before { bottom: auto; height: 0; }
+  #roadmap .roadmap__step--goal::before {
+    background: linear-gradient(180deg, var(--line-strong), var(--accent-line));
+  }
+
+  /* Node sits at the top of its gutter, aligned with the card head. */
+  #roadmap .roadmap__node {
+    margin-top: var(--s-5);
+  }
+
+  #roadmap .roadmap__card { flex: 1 1 auto; }
+}
+
+@media (max-width: 720px) {
+  #roadmap .roadmap__card { padding: var(--s-5) var(--s-4); }
+  #roadmap .roadmap__card--goal { padding: var(--s-6) var(--s-4) var(--s-5); }
+  #roadmap .roadmap__card-head { flex-wrap: wrap; }
+}

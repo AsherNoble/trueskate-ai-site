@@ -1,0 +1,24 @@
+/* ============================================================
+   #about — // 06 — ABOUT
+   Closing section: short attribution line + external links row.
+   All selectors scoped under #about. Tokens + primitives only.
+   ============================================================ */
+
+#about .lead {
+  max-width: 60ch;
+}
+
+#about .about__links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3);
+  margin-top: var(--s-6);
+}
+
+@media (max-width: 720px) {
+  #about .about__links {
+    margin-top: var(--s-5);
+    gap: var(--s-2);
+  }
+}

@@ -1,0 +1,96 @@
+<header class="hero section--flush" id="hero">
+  <!-- Backdrop layer (behind all content) -->
+  <div class="hero__backdrop" aria-hidden="true">
+    <div class="floor-glow"></div>
+  </div>
+
+  <div class="container--wide hero__inner">
+    <div class="hero__bento">
+
+      <!-- Primary text block -->
+      <div class="hero__text reveal" data-reveal-delay="1">
+        <span class="eyebrow mono">PERSONAL RESEARCH PROJECT</span>
+        <span class="wordmark hero__wordmark">trueskate<span class="accent">-ai</span></span>
+        <h1 class="hero__title">An AI that&rsquo;s learning to skate.</h1>
+        <p class="lead hero__lead">A reinforcement-learning agent that lands real tricks in <a class="credit-link" href="http://trueaxis.com/trueskate.html" target="_blank" rel="noopener">True Skate</a> &mdash; and a tendon-driven robotic hand being built to physically play it. No simulator, no shortcuts.</p>
+        <div class="hero__cta">
+          <a class="btn btn--primary" href="https://github.com/AsherNoble/TrueSkate-AI" target="_blank" rel="noopener">View on GitHub</a>
+          <a class="btn" href="#demo">Watch it skate <span aria-hidden="true">&darr;</span></a>
+        </div>
+        <span class="chip hero__status">
+          <span class="chip__dot" aria-hidden="true"></span>
+          <span class="mono">LATEST &middot; reliable back-to-back 360 flips</span>
+        </span>
+      </div>
+
+      <!-- CENTER / DOMINANT panel — the control-loop diagram -->
+      <figure class="panel hero__diagram reveal" data-reveal-delay="2">
+        <span class="corner-tag">FIG.00 / <span class="accent">CONTROL LOOP</span></span>
+        <div class="hero__diagram-body">
+          <!-- SLOT:DIAGRAM-COMPACT -->
+        </div>
+      </figure>
+
+      <!-- The actuator — wireframe robotic hand (in build) -->
+      <figure class="panel hero__hand reveal" data-reveal-delay="3">
+        <span class="corner-tag">FIG.05 / <span class="accent">HAND</span></span>
+        <div class="hero__hand-body">
+          <!-- SLOT:HAND-PLAIN -->
+        </div>
+        <figcaption class="hero__hand-cap mono">tendon-driven actuator &mdash; in build</figcaption>
+      </figure>
+
+      <!-- Pipeline-stage + trick clips, as a filmstrip beneath -->
+      <div class="hero__clips">
+        <figure class="clip hero__clip reveal" data-reveal-delay="2" data-clip>
+          <span class="corner-tag">FIG.01 / DEVICE</span>
+          <video class="clip__video" muted loop playsinline autoplay preload="metadata" aria-label="A physical iPhone screen showing the True Skate game mid-trick">
+            <source src="assets/demos/device.mp4" type="video/mp4">
+          </video>
+          <div class="clip__placeholder">
+            <span class="corner-tag">FIG.01 / DEVICE</span>
+            <span class="clip__pending">clip pending</span>
+          </div>
+          <figcaption class="clip__caption">phone screen mid-trick</figcaption>
+        </figure>
+
+        <figure class="clip hero__clip reveal" data-reveal-delay="3" data-clip>
+          <span class="corner-tag">FIG.02 / OCR</span>
+          <video class="clip__video" muted loop playsinline autoplay preload="metadata" aria-label="The on-screen trick name being read live by optical character recognition">
+            <source src="assets/demos/ocr.mp4" type="video/mp4">
+          </video>
+          <div class="clip__placeholder">
+            <span class="corner-tag">FIG.02 / OCR</span>
+            <span class="clip__pending">clip pending</span>
+          </div>
+          <figcaption class="clip__caption">trick name, read live</figcaption>
+        </figure>
+
+        <figure class="clip hero__clip reveal" data-reveal-delay="3" data-clip>
+          <span class="corner-tag">FIG.03 / GESTURE</span>
+          <video class="clip__video" muted loop playsinline autoplay preload="metadata" aria-label="A multi-touch swipe path drawn over the phone screen to drive the game">
+            <source src="assets/demos/gesture.mp4" type="video/mp4">
+          </video>
+          <div class="clip__placeholder">
+            <span class="corner-tag">FIG.03 / GESTURE</span>
+            <span class="clip__pending">clip pending</span>
+          </div>
+          <figcaption class="clip__caption">swipe path over the screen</figcaption>
+        </figure>
+
+        <figure class="clip hero__clip reveal" data-reveal-delay="4" data-clip>
+          <span class="corner-tag">FIG.04 / LANDED</span>
+          <video class="clip__video" muted loop playsinline autoplay preload="metadata" aria-label="The agent landing a clean trick in True Skate">
+            <source src="assets/demos/landed.mp4" type="video/mp4">
+          </video>
+          <div class="clip__placeholder">
+            <span class="corner-tag">FIG.04 / LANDED</span>
+            <span class="clip__pending">clip pending</span>
+          </div>
+          <figcaption class="clip__caption">a clean landed trick</figcaption>
+        </figure>
+      </div>
+
+    </div>
+  </div>
+</header>
