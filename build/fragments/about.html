@@ -5,13 +5,29 @@
       <h2 class="section__title">About.</h2>
     </div>
 
-    <p class="lead reveal" data-reveal-delay="1">TrueSkate-AI is a personal research project by <strong>Asher Noble</strong>, student at UTS.</p>
-    <!-- TODO: refine descriptor / add one optional line of personal motivation -->
+    <div class="about__grid">
+      <div class="about__body">
+        <p class="lead reveal" data-reveal-delay="1">TrueSkate-AI is a personal research project by <strong>Asher Noble</strong>, student at UTS.</p>
+        <!-- TODO: refine descriptor / add one optional line of personal motivation -->
 
-    <div class="about__links reveal" data-reveal-delay="2">
-      <a class="btn btn--primary" href="https://github.com/AsherNoble/TrueSkate-AI" target="_blank" rel="noopener">GitHub <span aria-hidden="true">↗</span></a>
-      <a class="btn" href="https://www.linkedin.com/in/ashernoble/" target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">↗</span></a>
-      <!-- TODO optional: <a class="btn" href="mailto:..."> Email</a> · X/Twitter link -->
+        <div class="about__links reveal" data-reveal-delay="2">
+          <a class="btn btn--primary" href="https://github.com/AsherNoble/TrueSkate-AI" target="_blank" rel="noopener">GitHub <span aria-hidden="true">↗</span></a>
+          <a class="btn" href="https://www.linkedin.com/in/ashernoble/" target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">↗</span></a>
+          <!-- TODO optional: <a class="btn" href="mailto:..."> Email</a> · X/Twitter link -->
+        </div>
+      </div>
+
+      <figure class="clip about__clip reveal" data-reveal-delay="2" data-clip>
+        <span class="corner-tag">FIG.07 / HUMAN</span>
+        <video class="clip__video" muted loop playsinline autoplay preload="metadata" aria-label="Asher playing True Skate by hand on a phone at a desk — the human baseline">
+          <source src="assets/demos/gameplay.mp4" type="video/mp4">
+        </video>
+        <div class="clip__placeholder">
+          <span class="corner-tag">FIG.07 / HUMAN</span>
+          <span class="clip__pending">clip pending</span>
+        </div>
+        <figcaption class="clip__caption">the human baseline &mdash; playing the game the agent is learning</figcaption>
+      </figure>
     </div>
   </div>
 </section>

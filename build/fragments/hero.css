@@ -112,14 +112,49 @@
   text-align: center;
 }
 
-/* ---------- Clip filmstrip ---------- */
+/* ---------- Rig clip + blueprint annotation ---------- */
 #hero .hero__clips {
   grid-area: clips;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: var(--s-3);
+  grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+  gap: var(--s-5);
+  align-items: stretch;
 }
-#hero .hero__clip { min-height: 0; }
+#hero .hero__rigclip { min-height: 0; }
+#hero .hero__rignote {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--s-3);
+  padding: var(--s-5);
+  border: 1px solid var(--line);
+  border-radius: var(--r-2);
+  background: var(--panel);
+}
+#hero .hero__rignote-tag {
+  font-size: var(--fs-label);
+  letter-spacing: 0.12em;
+  color: var(--fg-dim);
+}
+#hero .hero__rigspecs {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  font-size: var(--fs-caption);
+  color: var(--fg);
+}
+#hero .hero__rigspecs li {
+  position: relative;
+  padding-left: 1.4em;
+}
+#hero .hero__rigspecs li::before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+}
 
 /* ---------- Responsive: stack below desktop ---------- */
 @media (max-width: 1080px) {
@@ -144,5 +179,5 @@
   #hero .hero__lead { font-size: var(--fs-body); max-width: none; }
   #hero .hero__diagram-body { padding: var(--s-7) var(--s-4) var(--s-4); }
   #hero .hero__hand-body { height: 320px; }
-  #hero .hero__clips { grid-template-columns: 1fr 1fr; }
+  #hero .hero__clips { grid-template-columns: 1fr; gap: var(--s-3); }
 }

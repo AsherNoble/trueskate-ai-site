@@ -1,3 +1,7 @@
 .DS_Store
 build/*.png
 *.log
+
+# Demo clip originals — the optimized .mp4s in assets/demos/ are committed instead
+assets/demos/*.mov
+/assets/demos/3 phone training setup.mp4

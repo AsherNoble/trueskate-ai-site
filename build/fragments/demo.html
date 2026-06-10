@@ -3,81 +3,30 @@
     <div class="section__head reveal">
       <span class="eyebrow">// 02 — DEMO</span>
       <h2 class="section__title">Watch it skate.</h2>
-      <p class="muted mono demo__note">unedited agent rollouts.</p>
+      <p class="muted mono demo__note">an unedited agent rollout — decision log + the live game, side by side.</p>
     </div>
 
-    <div class="demo__strip reveal" data-reveal-delay="1" role="group" tabindex="0" aria-label="Trick demo clips — focus and use the arrow keys to scroll">
-      <figure class="clip demo__clip" data-clip>
-        <span class="corner-tag">TRK.01</span>
-        <video class="clip__video" muted loop playsinline autoplay preload="metadata" aria-label="The agent performing a 360 flip">
-          <source src="assets/demos/trick-01.mp4" type="video/mp4">
+    <div class="demo__feature reveal" data-reveal-delay="1">
+      <figure class="clip demo__clip-main" data-clip>
+        <span class="corner-tag">REC / ROLLOUT</span>
+        <video class="clip__video" muted loop playsinline autoplay preload="metadata" aria-label="An unedited agent rollout: the decision-log terminal on the left and the live True Skate game on the right">
+          <source src="assets/demos/agent-run.mp4" type="video/mp4">
         </video>
         <div class="clip__placeholder">
-          <span class="corner-tag">TRK.01</span>
+          <span class="corner-tag">REC / ROLLOUT</span>
           <span class="clip__pending">clip pending</span>
         </div>
-        <figcaption class="clip__caption">360 flip</figcaption>
+        <figcaption class="clip__caption">live rollout &mdash; agent telemetry + True Skate</figcaption>
       </figure>
 
-      <figure class="clip demo__clip" data-clip>
-        <span class="corner-tag">TRK.02</span>
-        <video class="clip__video" muted loop playsinline autoplay preload="metadata" aria-label="The agent performing a kickflip">
-          <source src="assets/demos/trick-02.mp4" type="video/mp4">
-        </video>
-        <div class="clip__placeholder">
-          <span class="corner-tag">TRK.02</span>
-          <span class="clip__pending">clip pending</span>
-        </div>
-        <figcaption class="clip__caption">kickflip</figcaption>
-      </figure>
-
-      <figure class="clip demo__clip" data-clip>
-        <span class="corner-tag">TRK.03</span>
-        <video class="clip__video" muted loop playsinline autoplay preload="metadata" aria-label="The agent performing a heelflip">
-          <source src="assets/demos/trick-03.mp4" type="video/mp4">
-        </video>
-        <div class="clip__placeholder">
-          <span class="corner-tag">TRK.03</span>
-          <span class="clip__pending">clip pending</span>
-        </div>
-        <figcaption class="clip__caption">heelflip</figcaption>
-      </figure>
-
-      <figure class="clip demo__clip" data-clip>
-        <span class="corner-tag">TRK.04</span>
-        <video class="clip__video" muted loop playsinline autoplay preload="metadata" aria-label="The agent performing a hardflip">
-          <source src="assets/demos/trick-04.mp4" type="video/mp4">
-        </video>
-        <div class="clip__placeholder">
-          <span class="corner-tag">TRK.04</span>
-          <span class="clip__pending">clip pending</span>
-        </div>
-        <figcaption class="clip__caption">hardflip</figcaption>
-      </figure>
-
-      <figure class="clip demo__clip" data-clip>
-        <span class="corner-tag">TRK.05</span>
-        <video class="clip__video" muted loop playsinline autoplay preload="metadata" aria-label="The agent performing a varial flip">
-          <source src="assets/demos/trick-05.mp4" type="video/mp4">
-        </video>
-        <div class="clip__placeholder">
-          <span class="corner-tag">TRK.05</span>
-          <span class="clip__pending">clip pending</span>
-        </div>
-        <figcaption class="clip__caption">varial flip</figcaption>
-      </figure>
-
-      <figure class="clip demo__clip" data-clip>
-        <span class="corner-tag">TRK.06</span>
-        <video class="clip__video" muted loop playsinline autoplay preload="metadata" aria-label="The agent performing a laser flip">
-          <source src="assets/demos/trick-06.mp4" type="video/mp4">
-        </video>
-        <div class="clip__placeholder">
-          <span class="corner-tag">TRK.06</span>
-          <span class="clip__pending">clip pending</span>
-        </div>
-        <figcaption class="clip__caption">laser flip</figcaption>
-      </figure>
+      <div class="demo__readout">
+        <p class="mono demo__readout-tag">// WHAT YOU&rsquo;RE SEEING</p>
+        <ul class="demo__readout-list">
+          <li><span class="mono accent">left</span> — the agent&rsquo;s decision log: the detected trick, its reward, and the CMA-ES optimization step.</li>
+          <li><span class="mono accent">right</span> — the live game on a physical iPhone, driven by multi-touch swipes.</li>
+          <li>no simulator and no access to the game&rsquo;s code — it learns purely from what it can see on screen.</li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>

@@ -1,8 +1,20 @@
 /* ============================================================
    #about — // 06 — ABOUT
-   Closing section: short attribution line + external links row.
+   Closing section: attribution + links beside a portrait clip of
+   the human baseline (creator playing the game by hand).
    All selectors scoped under #about. Tokens + primitives only.
    ============================================================ */
+
+#about .about__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--s-7);
+  align-items: center;
+}
+
+#about .about__body {
+  min-width: 0;
+}
 
 #about .lead {
   max-width: 60ch;
@@ -16,7 +28,24 @@
   margin-top: var(--s-6);
 }
 
+/* Portrait phone-recorded clip — override the default 16/9 box. */
+#about .about__clip {
+  aspect-ratio: 9 / 16;
+  width: 240px;
+  max-width: 100%;
+  justify-self: end;
+}
+
+/* ---------- Mobile: stack clip under the text ---------- */
 @media (max-width: 720px) {
+  #about .about__grid {
+    grid-template-columns: 1fr;
+    gap: var(--s-6);
+  }
+  #about .about__clip {
+    width: 200px;
+    justify-self: start;
+  }
   #about .about__links {
     margin-top: var(--s-5);
     gap: var(--s-2);

@@ -41,7 +41,7 @@
     <div class="floor-glow"></div>
   </div>
 
-  <div class="container--wide hero__inner">
+  <div class="container container--wide hero__inner">
     <div class="hero__bento">
 
       <!-- Primary text block -->
@@ -330,55 +330,29 @@
         <figcaption class="hero__hand-cap mono">tendon-driven actuator &mdash; in build</figcaption>
       </figure>
 
-      <!-- Pipeline-stage + trick clips, as a filmstrip beneath -->
+      <!-- Real footage: the physical training rig, with a blueprint annotation -->
       <div class="hero__clips">
-        <figure class="clip hero__clip reveal" data-reveal-delay="2" data-clip>
-          <span class="corner-tag">FIG.01 / DEVICE</span>
-          <video class="clip__video" muted loop playsinline autoplay preload="metadata" aria-label="A physical iPhone screen showing the True Skate game mid-trick">
-            <source src="assets/demos/device.mp4" type="video/mp4">
+        <figure class="clip hero__rigclip reveal" data-reveal-delay="2" data-clip>
+          <span class="corner-tag">FIG.01 / RIG</span>
+          <video class="clip__video" muted loop playsinline autoplay preload="metadata" aria-label="Several physical iPhones on a desk running True Skate in parallel as the training rig">
+            <source src="assets/demos/training-setup.mp4" type="video/mp4">
           </video>
           <div class="clip__placeholder">
-            <span class="corner-tag">FIG.01 / DEVICE</span>
+            <span class="corner-tag">FIG.01 / RIG</span>
             <span class="clip__pending">clip pending</span>
           </div>
-          <figcaption class="clip__caption">phone screen mid-trick</figcaption>
+          <figcaption class="clip__caption">physical training rig &mdash; iPhones running True Skate in parallel</figcaption>
         </figure>
 
-        <figure class="clip hero__clip reveal" data-reveal-delay="3" data-clip>
-          <span class="corner-tag">FIG.02 / OCR</span>
-          <video class="clip__video" muted loop playsinline autoplay preload="metadata" aria-label="The on-screen trick name being read live by optical character recognition">
-            <source src="assets/demos/ocr.mp4" type="video/mp4">
-          </video>
-          <div class="clip__placeholder">
-            <span class="corner-tag">FIG.02 / OCR</span>
-            <span class="clip__pending">clip pending</span>
-          </div>
-          <figcaption class="clip__caption">trick name, read live</figcaption>
-        </figure>
-
-        <figure class="clip hero__clip reveal" data-reveal-delay="3" data-clip>
-          <span class="corner-tag">FIG.03 / GESTURE</span>
-          <video class="clip__video" muted loop playsinline autoplay preload="metadata" aria-label="A multi-touch swipe path drawn over the phone screen to drive the game">
-            <source src="assets/demos/gesture.mp4" type="video/mp4">
-          </video>
-          <div class="clip__placeholder">
-            <span class="corner-tag">FIG.03 / GESTURE</span>
-            <span class="clip__pending">clip pending</span>
-          </div>
-          <figcaption class="clip__caption">swipe path over the screen</figcaption>
-        </figure>
-
-        <figure class="clip hero__clip reveal" data-reveal-delay="4" data-clip>
-          <span class="corner-tag">FIG.04 / LANDED</span>
-          <video class="clip__video" muted loop playsinline autoplay preload="metadata" aria-label="The agent landing a clean trick in True Skate">
-            <source src="assets/demos/landed.mp4" type="video/mp4">
-          </video>
-          <div class="clip__placeholder">
-            <span class="corner-tag">FIG.04 / LANDED</span>
-            <span class="clip__pending">clip pending</span>
-          </div>
-          <figcaption class="clip__caption">a clean landed trick</figcaption>
-        </figure>
+        <aside class="hero__rignote reveal" data-reveal-delay="3" aria-label="Training rig notes">
+          <p class="mono hero__rignote-tag">// FIG.01 &mdash; TRAINING RIG</p>
+          <ul class="hero__rigspecs mono">
+            <li>physical iPhones &middot; <span class="accent">no simulator</span></li>
+            <li>driven by Appium + WebDriverAgent</li>
+            <li>read live by Apple Vision OCR</li>
+            <li>optimized with CMA-ES</li>
+          </ul>
+        </aside>
       </div>
 
     </div>
@@ -650,81 +624,30 @@
     <div class="section__head reveal">
       <span class="eyebrow">// 02 — DEMO</span>
       <h2 class="section__title">Watch it skate.</h2>
-      <p class="muted mono demo__note">unedited agent rollouts.</p>
+      <p class="muted mono demo__note">an unedited agent rollout — decision log + the live game, side by side.</p>
     </div>
 
-    <div class="demo__strip reveal" data-reveal-delay="1" role="group" tabindex="0" aria-label="Trick demo clips — focus and use the arrow keys to scroll">
-      <figure class="clip demo__clip" data-clip>
-        <span class="corner-tag">TRK.01</span>
-        <video class="clip__video" muted loop playsinline autoplay preload="metadata" aria-label="The agent performing a 360 flip">
-          <source src="assets/demos/trick-01.mp4" type="video/mp4">
+    <div class="demo__feature reveal" data-reveal-delay="1">
+      <figure class="clip demo__clip-main" data-clip>
+        <span class="corner-tag">REC / ROLLOUT</span>
+        <video class="clip__video" muted loop playsinline autoplay preload="metadata" aria-label="An unedited agent rollout: the decision-log terminal on the left and the live True Skate game on the right">
+          <source src="assets/demos/agent-run.mp4" type="video/mp4">
         </video>
         <div class="clip__placeholder">
-          <span class="corner-tag">TRK.01</span>
+          <span class="corner-tag">REC / ROLLOUT</span>
           <span class="clip__pending">clip pending</span>
         </div>
-        <figcaption class="clip__caption">360 flip</figcaption>
+        <figcaption class="clip__caption">live rollout &mdash; agent telemetry + True Skate</figcaption>
       </figure>
 
-      <figure class="clip demo__clip" data-clip>
-        <span class="corner-tag">TRK.02</span>
-        <video class="clip__video" muted loop playsinline autoplay preload="metadata" aria-label="The agent performing a kickflip">
-          <source src="assets/demos/trick-02.mp4" type="video/mp4">
-        </video>
-        <div class="clip__placeholder">
-          <span class="corner-tag">TRK.02</span>
-          <span class="clip__pending">clip pending</span>
-        </div>
-        <figcaption class="clip__caption">kickflip</figcaption>
-      </figure>
-
-      <figure class="clip demo__clip" data-clip>
-        <span class="corner-tag">TRK.03</span>
-        <video class="clip__video" muted loop playsinline autoplay preload="metadata" aria-label="The agent performing a heelflip">
-          <source src="assets/demos/trick-03.mp4" type="video/mp4">
-        </video>
-        <div class="clip__placeholder">
-          <span class="corner-tag">TRK.03</span>
-          <span class="clip__pending">clip pending</span>
-        </div>
-        <figcaption class="clip__caption">heelflip</figcaption>
-      </figure>
-
-      <figure class="clip demo__clip" data-clip>
-        <span class="corner-tag">TRK.04</span>
-        <video class="clip__video" muted loop playsinline autoplay preload="metadata" aria-label="The agent performing a hardflip">
-          <source src="assets/demos/trick-04.mp4" type="video/mp4">
-        </video>
-        <div class="clip__placeholder">
-          <span class="corner-tag">TRK.04</span>
-          <span class="clip__pending">clip pending</span>
-        </div>
-        <figcaption class="clip__caption">hardflip</figcaption>
-      </figure>
-
-      <figure class="clip demo__clip" data-clip>
-        <span class="corner-tag">TRK.05</span>
-        <video class="clip__video" muted loop playsinline autoplay preload="metadata" aria-label="The agent performing a varial flip">
-          <source src="assets/demos/trick-05.mp4" type="video/mp4">
-        </video>
-        <div class="clip__placeholder">
-          <span class="corner-tag">TRK.05</span>
-          <span class="clip__pending">clip pending</span>
-        </div>
-        <figcaption class="clip__caption">varial flip</figcaption>
-      </figure>
-
-      <figure class="clip demo__clip" data-clip>
-        <span class="corner-tag">TRK.06</span>
-        <video class="clip__video" muted loop playsinline autoplay preload="metadata" aria-label="The agent performing a laser flip">
-          <source src="assets/demos/trick-06.mp4" type="video/mp4">
-        </video>
-        <div class="clip__placeholder">
-          <span class="corner-tag">TRK.06</span>
-          <span class="clip__pending">clip pending</span>
-        </div>
-        <figcaption class="clip__caption">laser flip</figcaption>
-      </figure>
+      <div class="demo__readout">
+        <p class="mono demo__readout-tag">// WHAT YOU&rsquo;RE SEEING</p>
+        <ul class="demo__readout-list">
+          <li><span class="mono accent">left</span> — the agent&rsquo;s decision log: the detected trick, its reward, and the CMA-ES optimization step.</li>
+          <li><span class="mono accent">right</span> — the live game on a physical iPhone, driven by multi-touch swipes.</li>
+          <li>no simulator and no access to the game&rsquo;s code — it learns purely from what it can see on screen.</li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>
@@ -1063,13 +986,29 @@
       <h2 class="section__title">About.</h2>
     </div>
 
-    <p class="lead reveal" data-reveal-delay="1">TrueSkate-AI is a personal research project by <strong>Asher Noble</strong>, student at UTS.</p>
-    <!-- TODO: refine descriptor / add one optional line of personal motivation -->
+    <div class="about__grid">
+      <div class="about__body">
+        <p class="lead reveal" data-reveal-delay="1">TrueSkate-AI is a personal research project by <strong>Asher Noble</strong>, student at UTS.</p>
+        <!-- TODO: refine descriptor / add one optional line of personal motivation -->
 
-    <div class="about__links reveal" data-reveal-delay="2">
-      <a class="btn btn--primary" href="https://github.com/AsherNoble/TrueSkate-AI" target="_blank" rel="noopener">GitHub <span aria-hidden="true">↗</span></a>
-      <a class="btn" href="https://www.linkedin.com/in/ashernoble/" target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">↗</span></a>
-      <!-- TODO optional: <a class="btn" href="mailto:..."> Email</a> · X/Twitter link -->
+        <div class="about__links reveal" data-reveal-delay="2">
+          <a class="btn btn--primary" href="https://github.com/AsherNoble/TrueSkate-AI" target="_blank" rel="noopener">GitHub <span aria-hidden="true">↗</span></a>
+          <a class="btn" href="https://www.linkedin.com/in/ashernoble/" target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">↗</span></a>
+          <!-- TODO optional: <a class="btn" href="mailto:..."> Email</a> · X/Twitter link -->
+        </div>
+      </div>
+
+      <figure class="clip about__clip reveal" data-reveal-delay="2" data-clip>
+        <span class="corner-tag">FIG.07 / HUMAN</span>
+        <video class="clip__video" muted loop playsinline autoplay preload="metadata" aria-label="Asher playing True Skate by hand on a phone at a desk — the human baseline">
+          <source src="assets/demos/gameplay.mp4" type="video/mp4">
+        </video>
+        <div class="clip__placeholder">
+          <span class="corner-tag">FIG.07 / HUMAN</span>
+          <span class="clip__pending">clip pending</span>
+        </div>
+        <figcaption class="clip__caption">the human baseline &mdash; playing the game the agent is learning</figcaption>
+      </figure>
     </div>
   </div>
 </section>

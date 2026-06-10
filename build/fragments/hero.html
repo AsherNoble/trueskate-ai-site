@@ -4,7 +4,7 @@
     <div class="floor-glow"></div>
   </div>
 
-  <div class="container--wide hero__inner">
+  <div class="container container--wide hero__inner">
     <div class="hero__bento">
 
       <!-- Primary text block -->
@@ -40,55 +40,29 @@
         <figcaption class="hero__hand-cap mono">tendon-driven actuator &mdash; in build</figcaption>
       </figure>
 
-      <!-- Pipeline-stage + trick clips, as a filmstrip beneath -->
+      <!-- Real footage: the physical training rig, with a blueprint annotation -->
       <div class="hero__clips">
-        <figure class="clip hero__clip reveal" data-reveal-delay="2" data-clip>
-          <span class="corner-tag">FIG.01 / DEVICE</span>
-          <video class="clip__video" muted loop playsinline autoplay preload="metadata" aria-label="A physical iPhone screen showing the True Skate game mid-trick">
-            <source src="assets/demos/device.mp4" type="video/mp4">
+        <figure class="clip hero__rigclip reveal" data-reveal-delay="2" data-clip>
+          <span class="corner-tag">FIG.01 / RIG</span>
+          <video class="clip__video" muted loop playsinline autoplay preload="metadata" aria-label="Several physical iPhones on a desk running True Skate in parallel as the training rig">
+            <source src="assets/demos/training-setup.mp4" type="video/mp4">
           </video>
           <div class="clip__placeholder">
-            <span class="corner-tag">FIG.01 / DEVICE</span>
+            <span class="corner-tag">FIG.01 / RIG</span>
             <span class="clip__pending">clip pending</span>
           </div>
-          <figcaption class="clip__caption">phone screen mid-trick</figcaption>
+          <figcaption class="clip__caption">physical training rig &mdash; iPhones running True Skate in parallel</figcaption>
         </figure>
 
-        <figure class="clip hero__clip reveal" data-reveal-delay="3" data-clip>
-          <span class="corner-tag">FIG.02 / OCR</span>
-          <video class="clip__video" muted loop playsinline autoplay preload="metadata" aria-label="The on-screen trick name being read live by optical character recognition">
-            <source src="assets/demos/ocr.mp4" type="video/mp4">
-          </video>
-          <div class="clip__placeholder">
-            <span class="corner-tag">FIG.02 / OCR</span>
-            <span class="clip__pending">clip pending</span>
-          </div>
-          <figcaption class="clip__caption">trick name, read live</figcaption>
-        </figure>
-
-        <figure class="clip hero__clip reveal" data-reveal-delay="3" data-clip>
-          <span class="corner-tag">FIG.03 / GESTURE</span>
-          <video class="clip__video" muted loop playsinline autoplay preload="metadata" aria-label="A multi-touch swipe path drawn over the phone screen to drive the game">
-            <source src="assets/demos/gesture.mp4" type="video/mp4">
-          </video>
-          <div class="clip__placeholder">
-            <span class="corner-tag">FIG.03 / GESTURE</span>
-            <span class="clip__pending">clip pending</span>
-          </div>
-          <figcaption class="clip__caption">swipe path over the screen</figcaption>
-        </figure>
-
-        <figure class="clip hero__clip reveal" data-reveal-delay="4" data-clip>
-          <span class="corner-tag">FIG.04 / LANDED</span>
-          <video class="clip__video" muted loop playsinline autoplay preload="metadata" aria-label="The agent landing a clean trick in True Skate">
-            <source src="assets/demos/landed.mp4" type="video/mp4">
-          </video>
-          <div class="clip__placeholder">
-            <span class="corner-tag">FIG.04 / LANDED</span>
-            <span class="clip__pending">clip pending</span>
-          </div>
-          <figcaption class="clip__caption">a clean landed trick</figcaption>
-        </figure>
+        <aside class="hero__rignote reveal" data-reveal-delay="3" aria-label="Training rig notes">
+          <p class="mono hero__rignote-tag">// FIG.01 &mdash; TRAINING RIG</p>
+          <ul class="hero__rigspecs mono">
+            <li>physical iPhones &middot; <span class="accent">no simulator</span></li>
+            <li>driven by Appium + WebDriverAgent</li>
+            <li>read live by Apple Vision OCR</li>
+            <li>optimized with CMA-ES</li>
+          </ul>
+        </aside>
       </div>
 
     </div>
