@@ -35,12 +35,17 @@
   gap: var(--s-3);
 }
 
-/* ---------- Candid field shot ---------- */
+/* ---------- Candid field shots (prep -> the demo) ---------- */
+#pitch .pitch__field {
+  margin-top: var(--s-7);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s-4);
+}
 #pitch .pitch__shot {
   position: relative;
-  margin-top: var(--s-7);
-  max-width: 600px;
-  aspect-ratio: 4 / 3;
+  margin: 0;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: var(--r-2);
@@ -59,5 +64,9 @@
     margin-top: var(--s-5);
     gap: var(--s-2);
   }
-  #pitch .pitch__shot { margin-top: var(--s-6); }
+  #pitch .pitch__field {
+    grid-template-columns: 1fr;
+    gap: var(--s-3);
+    margin-top: var(--s-6);
+  }
 }
