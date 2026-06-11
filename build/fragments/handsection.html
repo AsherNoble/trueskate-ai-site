@@ -10,13 +10,10 @@
       <!-- ===================== PROSE COLUMN ===================== -->
       <div class="hand__prose reveal" data-reveal-delay="1">
         <p class="hand__p">
-          <strong class="hand__leadin">The base is the ORCA Hand</strong> (ETH Zurich): five-finger, anthropomorphic, and tendon-driven from the forearm, which keeps the fingers light enough to move fast. It has per-finger splay for spread-and-pinch gestures, and it's built around the same serial-bus servos already on the bench. Its grasping-focused "Lite" variant was ruled out — it gives up the independent per-finger splay this project depends on. Where their finger mechanisms suit a speed-over-strength brief better, parts are borrowed from Pollen Robotics' Amazing Hand and Ruka-v2.
+          <strong class="hand__leadin">I'm adapting, not copying.</strong> I'm experimenting with existing open-source hands — <strong>ORCA</strong>, <strong>HRI</strong>, and <strong>Ruka-v2</strong> — and folding the best-suited features of each into my own. None of them is "the base"; each just contributes what fits a speed-over-strength, zero-load brief.
         </p>
         <p class="hand__p">
-          <strong class="hand__leadin">Each finger gets a tendon-driven curl plus base splay</strong> — roughly two to three degrees of freedom — so it can both flick and spread. The fingertips make capacitive contact with the screen, with touch-down and lift gated electronically so every tap registers cleanly: a reliability layer under real lift-and-press motion, not a substitute for it. The hand actually moves like a hand.
-        </p>
-        <p class="hand__p">
-          <strong class="hand__leadin">The first build is a two-finger scaffold</strong> — index and middle — to prove the curl-and-splay module and the control loop before scaling to all five.
+          Each finger gets a tendon-driven curl plus base splay — roughly two to three degrees of freedom — so it can flick and spread, with capacitive fingertips gated electronically so every tap registers. The first build is a two-finger scaffold (index + middle) to prove the module and the control loop before scaling to all five.
         </p>
 
         <ul class="hand__callouts" aria-label="Hand design specifications">
@@ -27,9 +24,9 @@
         </ul>
 
         <div class="hand__sources">
-          <span class="hand__sources-key mono">forks:</span>
+          <span class="hand__sources-key mono">references:</span>
           <span class="chip"><span class="chip__dot"></span>ORCA Hand</span>
-          <span class="chip"><span class="chip__dot"></span>Amazing Hand</span>
+          <span class="chip"><span class="chip__dot"></span>HRI</span>
           <span class="chip"><span class="chip__dot"></span>Ruka-v2</span>
         </div>
       </div>
@@ -37,9 +34,18 @@
       <!-- ===================== VISUAL COLUMN ===================== -->
       <div class="hand__visual reveal" data-reveal-delay="2">
         <figure class="panel panel--plain hand__figure">
-          <span class="corner-tag">FIG.A / HAND — <span class="accent">WIREFRAME</span></span>
-          <!-- SLOT:HAND-ANNOTATED -->
-          <figcaption class="hand__figcaption mono">tendon-driven curl + base splay — design schematic</figcaption>
+          <span class="corner-tag">FIG.A / <span class="accent">CONCEPT</span></span>
+          <img class="hand-concept" src="assets/hand/concept-drawing.jpg" alt="Concept drawing: the robotic right hand gripping a phone, two fingers reaching onto the screen to skate in True Skate" />
+          <figcaption class="hand__figcaption mono">the concept — the hand playing True Skate, by hand</figcaption>
+        </figure>
+
+        <figure class="panel panel--plain hand__figure">
+          <span class="corner-tag">FIG.B / HANDS — <span class="accent">DESIGN</span></span>
+          <div class="hand__pair">
+            <img class="hand-pair__img" src="assets/hand/left-hand-concept.jpg" alt="Concept sketch of the left (holding) hand: a motorised thumb for the spin/hold button and a wireless-charging puck in the palm (in design)" />
+            <!-- SLOT:HAND-ANNOTATED -->
+          </div>
+          <figcaption class="hand__figcaption mono">left (holding) + right (skating) hands — original design sketches</figcaption>
         </figure>
 
         <figure class="clip hand__clip" data-clip>

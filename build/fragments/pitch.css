@@ -15,6 +15,16 @@
 }
 #pitch .pitch__embodiment strong { color: var(--fg); font-weight: 600; }
 
+/* The conjecture — a first-person thesis, marked with an accent rule */
+#pitch .pitch__conjecture {
+  margin-top: var(--s-5);
+  max-width: 62ch;
+  padding-left: var(--s-4);
+  border-left: 2px solid var(--accent-line);
+  color: var(--fg);
+}
+#pitch .pitch__conjecture strong { color: var(--fg); font-weight: 600; }
+
 #pitch .pitch__stats {
   list-style: none;
   padding: 0;
@@ -25,9 +35,29 @@
   gap: var(--s-3);
 }
 
+/* ---------- Candid field shot ---------- */
+#pitch .pitch__shot {
+  position: relative;
+  margin-top: var(--s-7);
+  max-width: 600px;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--r-2);
+  background: var(--panel);
+}
+#pitch .pitch__shot img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 @media (max-width: 720px) {
   #pitch .pitch__stats {
     margin-top: var(--s-5);
     gap: var(--s-2);
   }
+  #pitch .pitch__shot { margin-top: var(--s-6); }
 }

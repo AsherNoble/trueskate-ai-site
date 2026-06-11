@@ -28,10 +28,10 @@
   margin-top: var(--s-6);
 }
 
-/* Portrait phone-recorded clip — override the default 16/9 box. */
+/* Portrait gameplay clip — cropped tight to the phone; override the 16/9 box. */
 #about .about__clip {
-  aspect-ratio: 9 / 16;
-  width: 240px;
+  aspect-ratio: 760 / 1102;
+  width: 340px;
   max-width: 100%;
   justify-self: end;
 }
@@ -43,7 +43,7 @@
     gap: var(--s-6);
   }
   #about .about__clip {
-    width: 200px;
+    width: 280px;
     justify-self: start;
   }
   #about .about__links {

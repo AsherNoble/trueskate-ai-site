@@ -275,113 +275,48 @@
 
 /* ===== hand ===== */
 /* ============================================================
-   hand.css — CAD wireframe schematic of the tendon-driven
-   robotic hand (in design). Pure stroke-only blueprint linework.
-   Scoped under #wire-hand / #wire-hand-annotated + .hand-* classes.
-   Tokens only. Static — introduces no motion.
+   hand.css — the robotic right hand (the skating hand) shown as
+   the original pencil concept sketch, presented plainly (no colour
+   treatment) framed in the panel.
    ============================================================ */
 
-/* ---------- shared sizing ---------- */
-#wire-hand,
-#wire-hand-annotated {
+.hand-sketch {
   display: block;
+  margin-inline: auto;
+  border-radius: var(--r-2);
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* ---------- Hero panel: portrait sketch fills the fixed-height body ---------- */
+#hero .hero__hand-body .hand-sketch {
+  height: 100%;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+/* ---------- Hand section FIG.A: concept drawing (hand + phone) ---------- */
+#hand .hand__figure .hand-concept {
   width: 100%;
   height: auto;
-  overflow: visible;
-  /* keep hairlines crisp + soft at any scale */
-  stroke-linecap: round;
-  stroke-linejoin: round;
+  border-radius: var(--r-2);
 }
 
-/* ---------- structural linework (solid white outlines) ---------- */
-#wire-hand .hand-line,
-#wire-hand-annotated .hand-line {
-  stroke: var(--fg);
-  fill: none;
-  stroke-width: 1.2;
-  vector-effect: non-scaling-stroke;
+/* ---------- Hand section FIG.B: right + left design sketches, side by side ---------- */
+#hand .hand__pair {
+  display: flex;
+  gap: var(--s-4);
+  align-items: flex-end;
+  justify-content: center;
+  flex-wrap: wrap;
 }
-/* dimmer internal detail: servo bays, palm seam, splay arcs */
-#wire-hand .hand-line--dim,
-#wire-hand-annotated .hand-line--dim {
-  stroke: var(--line-strong);
-  fill: none;
-  stroke-width: 1;
-  vector-effect: non-scaling-stroke;
-}
-
-/* ---------- joint pivots (small open circles at the knuckles) ---------- */
-#wire-hand .hand-joint circle,
-#wire-hand-annotated .hand-joint circle {
-  stroke: var(--fg);
-  fill: var(--panel);
-  stroke-width: 1.2;
-  vector-effect: non-scaling-stroke;
-}
-/* fingertip capacitive-pad reference dots — small, accent-marked */
-#wire-hand .hand-joint--tip circle,
-#wire-hand-annotated .hand-joint--tip circle {
-  stroke: var(--accent);
-  fill: var(--accent-soft);
-  stroke-width: 1.1;
-}
-
-/* ---------- tendon routing (thin faint lines beneath the links) ---------- */
-#wire-hand .hand-tendon path,
-#wire-hand-annotated .hand-tendon path {
-  stroke: var(--line-strong);
-  fill: none;
-  stroke-width: 1;
-  opacity: 0.6;
-  vector-effect: non-scaling-stroke;
-}
-/* ONE highlighted tendon run, faint accent */
-#wire-hand .hand-tendon--accent path,
-#wire-hand-annotated .hand-tendon--accent path {
-  stroke: var(--accent-line);
-  opacity: 0.85;
-  stroke-dasharray: 3 4;
-}
-
-/* ---------- base-splay angle ticks at the MCP row ---------- */
-#wire-hand .hand-splay-arc,
-#wire-hand-annotated .hand-splay-arc {
-  stroke: var(--line-strong);
-  stroke-width: 1;
-  opacity: 0.7;
-  vector-effect: non-scaling-stroke;
-}
-
-/* ============================================================
-   ANNOTATED — CAD callouts (leader lines, dots, mono labels).
-   Only present on #wire-hand-annotated.
-   ============================================================ */
-#wire-hand-annotated .hand-leader {
-  stroke: var(--line-strong);
-  stroke-width: 1;
-  fill: none;
-  vector-effect: non-scaling-stroke;
-}
-#wire-hand-annotated .hand-leader-dot {
-  fill: var(--accent);
-  stroke: none;
-}
-#wire-hand-annotated .hand-label {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.03em;
-  fill: var(--fg);
-}
-#wire-hand-annotated .hand-label--dim {
-  fill: var(--fg-dim);
-}
-
-/* ============================================================
-   RESPONSIVE — the SVG scales fluidly via viewBox. On narrow
-   screens nudge the callout labels up a touch for legibility.
-   ============================================================ */
-@media (max-width: 720px) {
-  #wire-hand-annotated .hand-label { font-size: 12px; }
+#hand .hand__pair .hand-pair__img {
+  max-height: 320px;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  border-radius: var(--r-2);
 }
 
 /* ===== hero ===== */
@@ -587,6 +522,16 @@
 }
 #pitch .pitch__embodiment strong { color: var(--fg); font-weight: 600; }
 
+/* The conjecture — a first-person thesis, marked with an accent rule */
+#pitch .pitch__conjecture {
+  margin-top: var(--s-5);
+  max-width: 62ch;
+  padding-left: var(--s-4);
+  border-left: 2px solid var(--accent-line);
+  color: var(--fg);
+}
+#pitch .pitch__conjecture strong { color: var(--fg); font-weight: 600; }
+
 #pitch .pitch__stats {
   list-style: none;
   padding: 0;
@@ -597,11 +542,31 @@
   gap: var(--s-3);
 }
 
+/* ---------- Candid field shot ---------- */
+#pitch .pitch__shot {
+  position: relative;
+  margin-top: var(--s-7);
+  max-width: 600px;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--r-2);
+  background: var(--panel);
+}
+#pitch .pitch__shot img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 @media (max-width: 720px) {
   #pitch .pitch__stats {
     margin-top: var(--s-5);
     gap: var(--s-2);
   }
+  #pitch .pitch__shot { margin-top: var(--s-6); }
 }
 
 /* ===== handsection ===== */
@@ -1328,10 +1293,10 @@
   margin-top: var(--s-6);
 }
 
-/* Portrait phone-recorded clip — override the default 16/9 box. */
+/* Portrait gameplay clip — cropped tight to the phone; override the 16/9 box. */
 #about .about__clip {
-  aspect-ratio: 9 / 16;
-  width: 240px;
+  aspect-ratio: 760 / 1102;
+  width: 340px;
   max-width: 100%;
   justify-self: end;
 }
@@ -1343,7 +1308,7 @@
     gap: var(--s-6);
   }
   #about .about__clip {
-    width: 200px;
+    width: 280px;
     justify-self: start;
   }
   #about .about__links {
