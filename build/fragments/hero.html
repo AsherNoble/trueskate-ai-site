@@ -23,22 +23,33 @@
         </span>
       </div>
 
-      <!-- CENTER / DOMINANT panel — the control-loop diagram -->
+      <!-- CENTER / DOMINANT panel — the behavioral-cloning pipeline diagram -->
       <figure class="panel hero__diagram reveal" data-reveal-delay="2">
-        <span class="corner-tag">FIG.00 / <span class="accent">CONTROL LOOP</span></span>
+        <span class="corner-tag">FIG.00 / <span class="accent">BC PIPELINE</span></span>
         <div class="hero__diagram-body">
           <!-- SLOT:DIAGRAM-COMPACT -->
         </div>
       </figure>
 
-      <!-- The actuator — wireframe robotic hand (in build) -->
-      <figure class="panel hero__hand reveal" data-reveal-delay="3">
-        <span class="corner-tag">FIG.05 / <span class="accent">HAND</span></span>
-        <div class="hero__hand-body">
-          <!-- SLOT:HAND-PLAIN -->
-        </div>
-        <figcaption class="hero__hand-cap mono">tendon-driven actuator &mdash; in build</figcaption>
-      </figure>
+      <!-- The pitch — Protostars application video (portrait, links to YouTube) -->
+      <a class="hero__video reveal" data-reveal-delay="3"
+         href="https://youtu.be/JXMw8371HQI" target="_blank" rel="noopener"
+         aria-label="Watch the full TrueSkate-AI Protostars pitch on YouTube">
+        <figure class="clip hero__videoclip" data-clip>
+          <span class="corner-tag">PITCH / <span class="accent">PROTOSTARS</span></span>
+          <video class="clip__video" muted loop playsinline autoplay preload="metadata"
+                 poster="assets/demos/protostars-teaser.jpg"
+                 aria-label="TrueSkate-AI Protostars pitch — teaser loop">
+            <source src="assets/demos/protostars-teaser.mp4" type="video/mp4">
+          </video>
+          <div class="clip__placeholder">
+            <span class="corner-tag">PITCH / <span class="accent">PROTOSTARS</span></span>
+            <span class="clip__pending">clip pending</span>
+          </div>
+          <span class="hero__videobadge mono"><span class="accent" aria-hidden="true">&#9654;</span> Watch the full pitch</span>
+          <figcaption class="clip__caption">my Protostars application &mdash; 59s on YouTube</figcaption>
+        </figure>
+      </a>
 
       <!-- Real footage: the physical training rig, with a blueprint annotation -->
       <div class="hero__clips">
@@ -59,8 +70,8 @@
           <ul class="hero__rigspecs mono">
             <li>physical iPhones &middot; <span class="accent">no simulator</span></li>
             <li>driven by Appium + WebDriverAgent</li>
-            <li>read live by Apple Vision OCR</li>
-            <li>optimized with CMA-ES</li>
+            <li>touches read by a learned trace extractor</li>
+            <li>gestures <span class="accent">cloned from expert play</span></li>
           </ul>
         </aside>
       </div>

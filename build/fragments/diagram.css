@@ -77,8 +77,8 @@
   text-transform: uppercase;
   fill: var(--fg-dim);
 }
-#diagram-compact .diagram-conn--return,
-#diagram-full .diagram-conn--return {
+#diagram-compact .diagram-conn--out,
+#diagram-full .diagram-conn--out {
   fill: var(--accent) !important;
   letter-spacing: 0.04em;
 }
@@ -127,33 +127,48 @@
   will-change: offset-distance;
 }
 
-/* COMPACT pulse route — traces the connector polylines exactly:
-   right edge of iPhone (178,108) -> through nodes -> Reward bottom (788,142)
-   -> down to Optimizer (788,212) -> Optimizer left (718,250) -> return
-   left to (116,250) -> up (116,108) -> back into iPhone left edge (40,108). */
+/* COMPACT pulse route — rides the forward pipeline, then makes an
+   (invisible) return up the left edge so the loop restarts cleanly:
+   Expert out (196,108) -> across top to Strokes (614,108) -> down through
+   Model 2 (614,252) -> bottom leg into iPhone (196,252) -> faded return up
+   (196,108). The dot is faded out over the return so it never teleports. */
 #diagram-compact .diagram-pulse {
-  offset-path: path("M178,108 L335,108 L561,108 L788,108 L788,250 L116,250 L116,108 L178,108");
+  offset-path: path("M280,108 L698,108 L698,252 L280,252 L280,108");
   animation: dgc-pulse 8s linear infinite;
 }
 
 /* FULL pulse route — same geometry at full scale:
-   iPhone right (200,150) -> nodes -> Reward (858,150) -> down (858,316)
-   -> return left (130,316) -> up (130,150) -> back into iPhone. */
+   Expert out (220,150) -> Strokes (685,150) -> down (685,338) -> bottom leg
+   into iPhone (220,338) -> faded return up (220,150). */
 #diagram-full .diagram-pulse {
-  offset-path: path("M200,150 L361,150 L597,150 L858,150 L858,316 L130,316 L130,150 L200,150");
+  offset-path: path("M220,150 L685,150 L685,338 L220,338 L220,150");
   animation: dgf-pulse 8.4s linear infinite;
 }
 
-@keyframes dgc-pulse { from { offset-distance: 0%; } to { offset-distance: 100%; } }
-@keyframes dgf-pulse { from { offset-distance: 0%; } to { offset-distance: 100%; } }
+/* offset-distance advances at constant speed across the whole cycle; opacity
+   fades the dot out for the return leg (~85%->100%) and back in at the start. */
+@keyframes dgc-pulse {
+  0%   { offset-distance: 0%;   opacity: 0; }
+  4%   { opacity: 1; }
+  82%  { opacity: 1; }
+  85%  { opacity: 0; }
+  100% { offset-distance: 100%; opacity: 0; }
+}
+@keyframes dgf-pulse {
+  0%   { offset-distance: 0%;   opacity: 0; }
+  4%   { opacity: 1; }
+  82%  { opacity: 1; }
+  85%  { opacity: 0; }
+  100% { offset-distance: 100%; opacity: 0; }
+}
 
 /* ============================================================
    NODE-GLOW STAGGER
-   The pulse enters each node as it passes. The loop perimeter is
-   travelled at constant speed, so node-arrival % is proportional
-   to cumulative path length. Forward row spans ~37% of the loop;
-   the long return leg spans the rest. Glow windows are tuned to
-   match arrival, each ~12% wide, so a node lights then settles.
+   The pulse enters each node as it passes. The pipeline is travelled
+   at constant speed, so node-arrival % is proportional to cumulative
+   path length. Arrivals: Expert ~0/100%, Model 1 ~14%, Strokes ~37%,
+   Model 2 ~48%, iPhone ~86%. Glow windows are tuned to match, each
+   ~12% wide, so a node lights as the signal passes then settles.
    ============================================================ */
 #diagram-compact .diagram-node .diagram-box,
 #diagram-full .diagram-node .diagram-box {
@@ -163,66 +178,66 @@
 }
 #diagram-full .diagram-node .diagram-box { animation-duration: 8.4s; }
 
-/* node-arrival order around the loop:
-   iPhone @ start/end, Gesture, Vision, Reward, then down to Optimizer */
-#diagram-compact [data-node="n-device"]  .diagram-box,
-#diagram-full    [data-node="n-device"]  .diagram-box { animation-name: dg-glow-device; }
-#diagram-compact [data-node="n-gesture"] .diagram-box,
-#diagram-full    [data-node="n-gesture"] .diagram-box { animation-name: dg-glow-gesture; }
-#diagram-compact [data-node="n-vision"]  .diagram-box,
-#diagram-full    [data-node="n-vision"]  .diagram-box { animation-name: dg-glow-vision; }
-#diagram-compact [data-node="n-reward"]  .diagram-box,
-#diagram-full    [data-node="n-reward"]  .diagram-box { animation-name: dg-glow-reward; }
-#diagram-compact [data-node="n-optim"]   .diagram-box,
-#diagram-full    [data-node="n-optim"]   .diagram-box { animation-name: dg-glow-optim; }
+/* node-arrival order along the pipeline:
+   Expert @ start, Model 1, Strokes, down to Model 2, then iPhone @ deploy */
+#diagram-compact [data-node="n-expert"]  .diagram-box,
+#diagram-full    [data-node="n-expert"]  .diagram-box { animation-name: dg-glow-expert; }
+#diagram-compact [data-node="n-model1"]  .diagram-box,
+#diagram-full    [data-node="n-model1"]  .diagram-box { animation-name: dg-glow-model1; }
+#diagram-compact [data-node="n-strokes"] .diagram-box,
+#diagram-full    [data-node="n-strokes"] .diagram-box { animation-name: dg-glow-strokes; }
+#diagram-compact [data-node="n-model2"]  .diagram-box,
+#diagram-full    [data-node="n-model2"]  .diagram-box { animation-name: dg-glow-model2; }
+#diagram-compact [data-node="n-deploy"]  .diagram-box,
+#diagram-full    [data-node="n-deploy"]  .diagram-box { animation-name: dg-glow-deploy; }
 
 /* glow look: stroke -> accent, soft accent halo via filter */
-@keyframes dg-glow-device {
+@keyframes dg-glow-expert {
   0%, 100% {
     stroke: var(--accent);
     filter: drop-shadow(0 0 6px var(--accent-glow));
   }
-  10%, 90% {
+  8%, 92% {
     stroke: var(--line-strong);
     filter: drop-shadow(0 0 0 transparent);
   }
 }
-@keyframes dg-glow-gesture {
-  0%, 6%, 26%, 100% {
+@keyframes dg-glow-model1 {
+  0%, 7%, 21%, 100% {
     stroke: var(--line-strong);
     filter: drop-shadow(0 0 0 transparent);
   }
-  14%, 18% {
+  12%, 17% {
     stroke: var(--accent);
     filter: drop-shadow(0 0 6px var(--accent-glow));
   }
 }
-@keyframes dg-glow-vision {
-  0%, 16%, 36%, 100% {
+@keyframes dg-glow-strokes {
+  0%, 29%, 45%, 100% {
     stroke: var(--line-strong);
     filter: drop-shadow(0 0 0 transparent);
   }
-  24%, 28% {
+  35%, 40% {
     stroke: var(--accent);
     filter: drop-shadow(0 0 6px var(--accent-glow));
   }
 }
-@keyframes dg-glow-reward {
-  0%, 26%, 46%, 100% {
+@keyframes dg-glow-model2 {
+  0%, 40%, 57%, 100% {
     stroke: var(--line-strong);
     filter: drop-shadow(0 0 0 transparent);
   }
-  34%, 38% {
+  46%, 51% {
     stroke: var(--accent);
     filter: drop-shadow(0 0 6px var(--accent-glow));
   }
 }
-@keyframes dg-glow-optim {
-  0%, 38%, 58%, 100% {
+@keyframes dg-glow-deploy {
+  0%, 79%, 93%, 100% {
     stroke: var(--line-strong);
     filter: drop-shadow(0 0 0 transparent);
   }
-  46%, 50% {
+  85%, 90% {
     stroke: var(--accent);
     filter: drop-shadow(0 0 6px var(--accent-glow));
   }
@@ -230,8 +245,8 @@
 
 /* ============================================================
    REDUCED MOTION — calm static state.
-   No pulse travel, no node-glow. Draw the loop in a quiet
-   accent tint and rest the pulse dot at the iPhone output.
+   No pulse travel, no node-glow. Draw the pipeline in a quiet
+   accent tint and rest the pulse dot at the pipeline input.
    ============================================================ */
 @media (prefers-reduced-motion: reduce) {
   #diagram-compact .diagram-pulse,

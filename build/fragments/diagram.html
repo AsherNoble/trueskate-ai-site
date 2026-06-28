@@ -1,6 +1,6 @@
 <!-- DIAGRAM:COMPACT -->
 <svg id="diagram-compact" class="reveal" viewBox="0 0 920 360" role="img" aria-labelledby="diagram-compact-title" preserveAspectRatio="xMidYMid meet" focusable="false">
-  <title id="diagram-compact-title">TrueSkate-AI control loop: iPhone, gesture, vision/OCR, reward, CMA-ES, back to iPhone.</title>
+  <title id="diagram-compact-title">TrueSkate-AI behavioral cloning pipeline: expert gameplay, Model 1 trace extractor, strokes, Model 2 sequence policy, deployed to iPhone.</title>
 
   <!-- ===== frame ticks / CAD chrome (matches the full print) ===== -->
   <g class="diagram-frame">
@@ -10,63 +10,61 @@
     <path class="diagram-tick" d="M904,344 h-14 M904,344 v-14" />
   </g>
 
-  <!-- ===== connector edges (forward chain) ===== -->
+  <!-- ===== connector edges (forward pipeline, serpentine) =====
+       content is shifted +84 in x vs. a 40px left origin so the
+       pipeline sits centred within the 920-wide frame ticks. -->
   <g class="diagram-edges" fill="none">
-    <!-- iPhone -> Gesture -->
-    <polyline class="diagram-edge" points="178,108 226,108" marker-end="url(#dgc-arrow)" />
-    <!-- Gesture -> Vision -->
-    <polyline class="diagram-edge" points="404,108 452,108" marker-end="url(#dgc-arrow)" />
-    <!-- Vision -> Reward -->
-    <polyline class="diagram-edge" points="630,108 678,108" marker-end="url(#dgc-arrow)" />
-    <!-- Reward -> Optimizer (drop down) -->
-    <polyline class="diagram-edge" points="788,142 788,196 788,206" marker-end="url(#dgc-arrow)" />
-    <!-- Optimizer -> iPhone (the closing return path; starts at the Optimizer
-         box center so the pulse rides the wire for the whole return leg) -->
-    <polyline class="diagram-edge diagram-edge--return" points="788,250 116,250 116,142" marker-end="url(#dgc-arrow)" />
+    <!-- Expert -> Model 1 -->
+    <polyline class="diagram-edge" points="280,108 342,108" marker-end="url(#dgc-arrow)" />
+    <!-- Model 1 -> Strokes -->
+    <polyline class="diagram-edge" points="538,108 620,108" marker-end="url(#dgc-arrow)" />
+    <!-- Strokes -> Model 2 (drop down) -->
+    <polyline class="diagram-edge" points="698,146 698,206 698,214" marker-end="url(#dgc-arrow)" />
+    <!-- Model 2 -> iPhone (deploy; bottom leg, right-to-left) -->
+    <polyline class="diagram-edge" points="600,252 280,252" marker-end="url(#dgc-arrow)" />
   </g>
 
   <!-- ===== connector labels riding the lines ===== -->
   <g class="diagram-conn">
-    <text x="202" y="98" text-anchor="middle">gesture</text>
-    <text x="428" y="98" text-anchor="middle">frames</text>
-    <text x="654" y="98" text-anchor="middle">trick name</text>
-    <text x="804" y="178" text-anchor="start">reward</text>
-    <text x="397" y="240" text-anchor="middle" class="diagram-conn--return">new gesture params</text>
+    <text x="311" y="98" text-anchor="middle">frames</text>
+    <text x="579" y="98" text-anchor="middle">touch xy</text>
+    <text x="708" y="186" text-anchor="start">+ frames</text>
+    <text x="440" y="242" text-anchor="middle" class="diagram-conn--out">next stroke</text>
   </g>
 
   <!-- ===== nodes ===== -->
-  <!-- 1. iPhone -->
-  <g class="diagram-node" data-node="n-device">
-    <rect class="diagram-box" x="40" y="70" width="138" height="76" rx="6" />
-    <text class="diagram-node-title" x="109" y="104" text-anchor="middle">iPhone</text>
-    <text class="diagram-node-sub" x="109" y="124" text-anchor="middle">True Skate</text>
+  <!-- 1. Expert gameplay -->
+  <g class="diagram-node" data-node="n-expert">
+    <rect class="diagram-box" x="124" y="70" width="156" height="76" rx="6" />
+    <text class="diagram-node-title" x="202" y="104" text-anchor="middle">Expert play</text>
+    <text class="diagram-node-sub" x="202" y="124" text-anchor="middle">gameplay clips</text>
   </g>
-  <!-- 2. Gesture -->
-  <g class="diagram-node" data-node="n-gesture">
-    <rect class="diagram-box" x="266" y="70" width="138" height="76" rx="6" />
-    <text class="diagram-node-title" x="335" y="104" text-anchor="middle">Gesture</text>
-    <text class="diagram-node-sub" x="335" y="124" text-anchor="middle">Appium / WDA &#8594; hand</text>
+  <!-- 2. Model 1 -->
+  <g class="diagram-node" data-node="n-model1">
+    <rect class="diagram-box" x="342" y="70" width="196" height="76" rx="6" />
+    <text class="diagram-node-title" x="440" y="104" text-anchor="middle">Model 1</text>
+    <text class="diagram-node-sub" x="440" y="124" text-anchor="middle">trace extractor</text>
   </g>
-  <!-- 3. Vision + OCR -->
-  <g class="diagram-node" data-node="n-vision">
-    <rect class="diagram-box" x="492" y="70" width="138" height="76" rx="6" />
-    <text class="diagram-node-title" x="561" y="104" text-anchor="middle">Vision + OCR</text>
-    <text class="diagram-node-sub" x="561" y="124" text-anchor="middle">Apple Vision</text>
+  <!-- 3. Strokes -->
+  <g class="diagram-node" data-node="n-strokes">
+    <rect class="diagram-box" x="620" y="70" width="156" height="76" rx="6" />
+    <text class="diagram-node-title" x="698" y="104" text-anchor="middle">Strokes</text>
+    <text class="diagram-node-sub" x="698" y="124" text-anchor="middle">curved-drag fits</text>
   </g>
-  <!-- 4. Reward -->
-  <g class="diagram-node" data-node="n-reward">
-    <rect class="diagram-box" x="718" y="70" width="138" height="76" rx="6" />
-    <text class="diagram-node-title" x="787" y="104" text-anchor="middle">Reward</text>
-    <text class="diagram-node-sub" x="787" y="124" text-anchor="middle">target-relative</text>
+  <!-- 4. Model 2 -->
+  <g class="diagram-node" data-node="n-model2">
+    <rect class="diagram-box" x="600" y="214" width="196" height="76" rx="6" />
+    <text class="diagram-node-title" x="698" y="248" text-anchor="middle">Model 2</text>
+    <text class="diagram-node-sub" x="698" y="268" text-anchor="middle">sequence policy</text>
   </g>
-  <!-- 5. Optimizer -->
-  <g class="diagram-node" data-node="n-optim">
-    <rect class="diagram-box" x="718" y="212" width="138" height="76" rx="6" />
-    <text class="diagram-node-title" x="787" y="246" text-anchor="middle">Optimizer</text>
-    <text class="diagram-node-sub" x="787" y="266" text-anchor="middle">CMA-ES</text>
+  <!-- 5. iPhone (deploy) -->
+  <g class="diagram-node" data-node="n-deploy">
+    <rect class="diagram-box" x="124" y="214" width="156" height="76" rx="6" />
+    <text class="diagram-node-title" x="202" y="248" text-anchor="middle">iPhone</text>
+    <text class="diagram-node-sub" x="202" y="268" text-anchor="middle">True Skate</text>
   </g>
 
-  <!-- ===== blue signal pulse (CSS offset-path traces the loop) ===== -->
+  <!-- ===== blue signal pulse (CSS offset-path traces the pipeline) ===== -->
   <circle class="diagram-pulse" r="4.5" cx="0" cy="0" />
 
   <!-- arrowhead marker -->
@@ -80,12 +78,12 @@
 
 <!-- DIAGRAM:FULL -->
 <svg id="diagram-full" class="reveal" viewBox="0 0 1000 480" role="img" aria-labelledby="diagram-full-title" preserveAspectRatio="xMidYMid meet" focusable="false">
-  <title id="diagram-full-title">TrueSkate-AI control loop: iPhone, gesture, vision/OCR, reward, CMA-ES, back to iPhone.</title>
+  <title id="diagram-full-title">TrueSkate-AI behavioral cloning pipeline: expert gameplay, Model 1 trace extractor, strokes, Model 2 sequence policy, deployed to iPhone.</title>
 
   <!-- ===== frame ticks / CAD chrome ===== -->
   <g class="diagram-frame">
-    <text class="diagram-frame-tag" x="24" y="34" text-anchor="start">FIG.06 / CONTROL LOOP</text>
-    <text class="diagram-frame-tag diagram-frame-tag--accent" x="976" y="34" text-anchor="end">CLOSED LOOP &#215; 3 DEVICES</text>
+    <text class="diagram-frame-tag" x="24" y="34" text-anchor="start">FIG.06 / BC PIPELINE</text>
+    <text class="diagram-frame-tag diagram-frame-tag--accent" x="976" y="34" text-anchor="end">TWO&#8211;STAGE &#183; OFFLINE TRAINING</text>
     <!-- corner registration ticks -->
     <path class="diagram-tick" d="M16,16 h16 M16,16 v16" />
     <path class="diagram-tick" d="M984,16 h-16 M984,16 v16" />
@@ -93,79 +91,75 @@
     <path class="diagram-tick" d="M984,464 h-16 M984,464 v-16" />
   </g>
 
-  <!-- ===== connector edges (forward chain) ===== -->
+  <!-- ===== connector edges (forward pipeline, serpentine) ===== -->
   <g class="diagram-edges" fill="none">
-    <!-- iPhone -> Gesture -->
-    <polyline class="diagram-edge" points="200,150 244,150" marker-end="url(#dgf-arrow)" />
-    <!-- Gesture -> Vision -->
-    <polyline class="diagram-edge" points="436,150 480,150" marker-end="url(#dgf-arrow)" />
-    <!-- Vision -> Reward -->
-    <polyline class="diagram-edge" points="672,150 716,150" marker-end="url(#dgf-arrow)" />
-    <!-- Reward -> Optimizer (drop down) -->
-    <polyline class="diagram-edge" points="858,186 858,258 858,272" marker-end="url(#dgf-arrow)" />
-    <!-- Optimizer -> iPhone (closing return path; starts at the Optimizer
-         box center so the pulse rides the wire for the whole return leg) -->
-    <polyline class="diagram-edge diagram-edge--return" points="858,316 130,316 130,186" marker-end="url(#dgf-arrow)" />
+    <!-- Expert -> Model 1 -->
+    <polyline class="diagram-edge" points="220,150 300,150" marker-end="url(#dgf-arrow)" />
+    <!-- Model 1 -> Strokes -->
+    <polyline class="diagram-edge" points="520,150 600,150" marker-end="url(#dgf-arrow)" />
+    <!-- Strokes -> Model 2 (drop down) -->
+    <polyline class="diagram-edge" points="685,192 685,282 685,296" marker-end="url(#dgf-arrow)" />
+    <!-- Model 2 -> iPhone (deploy; bottom leg, right-to-left) -->
+    <polyline class="diagram-edge" points="575,338 220,338" marker-end="url(#dgf-arrow)" />
   </g>
 
   <!-- ===== connector labels riding the lines ===== -->
   <g class="diagram-conn">
-    <text x="222" y="138" text-anchor="middle">gesture</text>
-    <text x="458" y="138" text-anchor="middle">frames</text>
-    <text x="694" y="138" text-anchor="middle">trick name</text>
-    <text x="874" y="232" text-anchor="start">reward</text>
-    <text x="423" y="306" text-anchor="middle" class="diagram-conn--return">new gesture params</text>
+    <text x="260" y="138" text-anchor="middle">frames</text>
+    <text x="560" y="138" text-anchor="middle">touch xy</text>
+    <text x="695" y="250" text-anchor="start">+ frames</text>
+    <text x="400" y="326" text-anchor="middle" class="diagram-conn--out">next stroke</text>
   </g>
 
   <!-- ===== nodes ===== -->
-  <!-- 1. iPhone -->
-  <g class="diagram-node" data-node="n-device">
-    <rect class="diagram-box" x="50" y="108" width="150" height="84" rx="6" />
+  <!-- 1. Expert gameplay -->
+  <g class="diagram-node" data-node="n-expert">
+    <rect class="diagram-box" x="50" y="108" width="170" height="84" rx="6" />
     <text class="diagram-node-idx" x="62" y="126" text-anchor="start">01</text>
-    <text class="diagram-node-title" x="125" y="148" text-anchor="middle">iPhone</text>
-    <text class="diagram-node-sub" x="125" y="170" text-anchor="middle">True Skate</text>
+    <text class="diagram-node-title" x="135" y="148" text-anchor="middle">Expert play</text>
+    <text class="diagram-node-sub" x="135" y="170" text-anchor="middle">gameplay clips</text>
   </g>
-  <!-- 2. Gesture -->
-  <g class="diagram-node" data-node="n-gesture">
-    <rect class="diagram-box" x="286" y="108" width="150" height="84" rx="6" />
-    <text class="diagram-node-idx" x="298" y="126" text-anchor="start">02</text>
-    <text class="diagram-node-title" x="361" y="148" text-anchor="middle">Gesture</text>
-    <text class="diagram-node-sub" x="361" y="170" text-anchor="middle">Appium / WDA &#8594; hand</text>
+  <!-- 2. Model 1 -->
+  <g class="diagram-node" data-node="n-model1">
+    <rect class="diagram-box" x="300" y="108" width="220" height="84" rx="6" />
+    <text class="diagram-node-idx" x="312" y="126" text-anchor="start">02</text>
+    <text class="diagram-node-title" x="410" y="148" text-anchor="middle">Model 1 &#183; Trace Extractor</text>
+    <text class="diagram-node-sub" x="410" y="170" text-anchor="middle">frame &#8594; touch heatmap</text>
   </g>
-  <!-- 3. Vision + OCR -->
-  <g class="diagram-node" data-node="n-vision">
-    <rect class="diagram-box" x="522" y="108" width="150" height="84" rx="6" />
-    <text class="diagram-node-idx" x="534" y="126" text-anchor="start">03</text>
-    <text class="diagram-node-title" x="597" y="148" text-anchor="middle">Vision + OCR</text>
-    <text class="diagram-node-sub" x="597" y="170" text-anchor="middle">Apple Vision</text>
+  <!-- 3. Strokes -->
+  <g class="diagram-node" data-node="n-strokes">
+    <rect class="diagram-box" x="600" y="108" width="170" height="84" rx="6" />
+    <text class="diagram-node-idx" x="612" y="126" text-anchor="start">03</text>
+    <text class="diagram-node-title" x="685" y="148" text-anchor="middle">Strokes</text>
+    <text class="diagram-node-sub" x="685" y="170" text-anchor="middle">curved-drag fits</text>
   </g>
-  <!-- 4. Reward -->
-  <g class="diagram-node" data-node="n-reward">
-    <rect class="diagram-box" x="758" y="108" width="150" height="84" rx="6" />
-    <text class="diagram-node-idx" x="770" y="126" text-anchor="start">04</text>
-    <text class="diagram-node-title" x="833" y="148" text-anchor="middle">Reward</text>
-    <text class="diagram-node-sub" x="833" y="170" text-anchor="middle">shaped, target-relative</text>
+  <!-- 4. Model 2 -->
+  <g class="diagram-node" data-node="n-model2">
+    <rect class="diagram-box" x="575" y="296" width="220" height="84" rx="6" />
+    <text class="diagram-node-idx" x="587" y="314" text-anchor="start">04</text>
+    <text class="diagram-node-title" x="685" y="336" text-anchor="middle">Model 2 &#183; Sequence Policy</text>
+    <text class="diagram-node-sub" x="685" y="358" text-anchor="middle">frames + past strokes &#8594; next</text>
   </g>
-  <!-- 5. Optimizer -->
-  <g class="diagram-node" data-node="n-optim">
-    <rect class="diagram-box" x="758" y="274" width="150" height="84" rx="6" />
-    <text class="diagram-node-idx" x="770" y="292" text-anchor="start">05</text>
-    <text class="diagram-node-title" x="833" y="314" text-anchor="middle">Optimizer</text>
-    <text class="diagram-node-sub" x="833" y="336" text-anchor="middle">CMA-ES</text>
+  <!-- 5. iPhone (deploy) -->
+  <g class="diagram-node" data-node="n-deploy">
+    <rect class="diagram-box" x="50" y="296" width="170" height="84" rx="6" />
+    <text class="diagram-node-idx" x="62" y="314" text-anchor="start">05</text>
+    <text class="diagram-node-title" x="135" y="336" text-anchor="middle">iPhone</text>
+    <text class="diagram-node-sub" x="135" y="358" text-anchor="middle">True Skate</text>
   </g>
 
   <!-- ===== CAD-style callout notes + leader ticks (flavour) ===== -->
   <g class="diagram-notes">
-    <!-- leader from iPhone -->
-    <path class="diagram-leader" d="M125,192 L125,418 L300,418" />
-    <circle class="diagram-leader-dot" cx="125" cy="192" r="2.6" />
-    <text class="diagram-note" x="308" y="414" text-anchor="start">MJPEG stream &#8226; multi&#8211;touch swipe</text>
-    <text class="diagram-note diagram-note--dim" x="308" y="430" text-anchor="start">36 flatground tricks &#8212; physical hardware, no simulator</text>
+    <!-- leader from Model 1 (up) -->
+    <path class="diagram-leader" d="M410,108 L410,72 L500,72" />
+    <circle class="diagram-leader-dot" cx="410" cy="108" r="2.6" />
+    <text class="diagram-note" x="508" y="76" text-anchor="start">U&#8211;Net, self&#8211;labeled on the agent&#8217;s own gestures</text>
 
-    <!-- leader from Vision -->
-    <path class="diagram-leader" d="M597,108 L597,72 L690,72" />
-    <circle class="diagram-leader-dot" cx="597" cy="108" r="2.6" />
-    <text class="diagram-note" x="698" y="76" text-anchor="start">on&#8211;screen trick name &#8594; reward signal</text>
+    <!-- leader from iPhone deploy (down) -->
+    <path class="diagram-leader" d="M135,380 L135,432 L300,432" />
+    <circle class="diagram-leader-dot" cx="135" cy="380" r="2.6" />
+    <text class="diagram-note" x="308" y="428" text-anchor="start">decoded strokes &#8594; Appium curved&#8211;drag</text>
+    <text class="diagram-note diagram-note--dim" x="308" y="444" text-anchor="start">physical iPhone &#8212; no simulator</text>
   </g>
 
   <!-- ===== blue signal pulse ===== -->

@@ -1,6 +1,6 @@
 /* ============================================================
    hero — asymmetric blueprint bento
-   row 1:  text | dominant diagram | wireframe hand (actuator)
+   row 1:  text | dominant diagram | portrait pitch video
    row 2:  4-up clip filmstrip
    All selectors scoped under #hero.
    ============================================================ */
@@ -82,34 +82,56 @@
 }
 #hero .hero__diagram-body :where(svg) { width: 100%; height: auto; }
 
-/* ---------- Wireframe hand panel (the actuator) ---------- */
-#hero .hero__hand {
+/* ---------- Pitch video panel (portrait, links to YouTube) ---------- */
+#hero .hero__video {
   grid-area: hand;
   align-self: stretch;
-  position: relative;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: var(--s-7) var(--s-4) var(--s-4);
-  overflow: hidden;
-  background:
-    radial-gradient(120% 80% at 50% 18%, var(--accent-soft) 0%, transparent 60%),
-    var(--panel);
+  text-decoration: none;
+  cursor: pointer;
 }
-#hero .hero__hand-body {
-  flex: 1;
-  width: 100%;
-  min-height: 0;
-  height: 320px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* Portrait phone-shaped crop; height fills the stretched row, width derives
+   from the 9:16 ratio (mirrors the About clip's portrait override). */
+#hero .hero__videoclip {
+  aspect-ratio: 9 / 16;
+  height: 100%;
+  width: auto;
+  max-width: 100%;
+  margin-inline: auto;
+  transition: border-color 0.2s var(--ease), transform 0.2s var(--ease);
 }
-#hero .hero__hand-body svg { width: 100%; height: 100%; }
-#hero .hero__hand-cap {
-  margin-top: var(--s-2);
-  color: var(--fg-dim);
-  text-align: center;
+#hero .hero__video:hover .hero__videoclip,
+#hero .hero__video:focus-visible .hero__videoclip {
+  border-color: var(--accent-line);
+  transform: translateY(-2px);
+}
+/* Centred "watch the full pitch" affordance over the looping teaser */
+#hero .hero__videobadge {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  padding: 7px 12px;
+  font-size: var(--fs-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg);
+  background: rgba(6, 7, 8, 0.72);
+  border: 1px solid var(--line);
+  border-radius: var(--r-1);
+  backdrop-filter: blur(2px);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.45);
+  transition: border-color 0.2s var(--ease), background 0.2s var(--ease);
+  white-space: nowrap;
+}
+#hero .hero__video:hover .hero__videobadge,
+#hero .hero__video:focus-visible .hero__videobadge {
+  border-color: var(--accent-line);
+  background: var(--accent-soft);
 }
 
 /* ---------- Rig clip + blueprint annotation ---------- */
@@ -170,7 +192,8 @@
   }
   #hero .hero__text { padding-right: 0; align-self: stretch; }
   #hero .hero__diagram { min-height: 0; }
-  #hero .hero__hand-body { height: 360px; }
+  /* No stretched row to fill once stacked — size the portrait clip by width. */
+  #hero .hero__videoclip { height: auto; width: 320px; }
 }
 
 /* ---------- Mobile tweaks ---------- */
@@ -178,6 +201,6 @@
   #hero .hero__title { max-width: none; }
   #hero .hero__lead { font-size: var(--fs-body); max-width: none; }
   #hero .hero__diagram-body { padding: var(--s-7) var(--s-4) var(--s-4); }
-  #hero .hero__hand-body { height: 320px; }
+  #hero .hero__videoclip { width: 260px; }
   #hero .hero__clips { grid-template-columns: 1fr; gap: var(--s-3); }
 }

@@ -5,6 +5,7 @@ build/*.png
 # Demo clip originals — the optimized .mp4s in assets/demos/ are committed instead
 assets/demos/*.mov
 /assets/demos/3 phone training setup.mp4
+/assets/demos/Protostars Application.mp4
 
 # Source photo — web-optimized derivatives (assets/hand/*.jpg) are committed instead
 assets/Concept Drawing.jpeg
