@@ -182,7 +182,6 @@
             <li>physical iPhones &middot; <span class="accent">no simulator</span></li>
             <li>driven by Appium + WebDriverAgent</li>
             <li>touches read by a learned trace extractor</li>
-            <li>gestures <span class="accent">cloned from expert play</span></li>
           </ul>
         </aside>
       </div>
@@ -239,7 +238,7 @@
       <!-- ===================== PROSE COLUMN ===================== -->
       <div class="hand__prose reveal" data-reveal-delay="1">
         <p class="hand__p">
-          <strong class="hand__leadin">I'm adapting, not copying.</strong> I'm experimenting with existing open-source hands — <strong>ORCA</strong>, <strong>HRI</strong>, and <strong>Ruka-v2</strong> — and folding the best-suited features of each into my own. None of them is "the base"; each just contributes what fits a speed-over-strength, zero-load brief.
+          I'm experimenting with existing open-source hands — <strong>ORCA</strong>, <strong>HRI</strong>, and <strong>Ruka-v2</strong> — and folding the best-suited features of each into my own.
         </p>
         <p class="hand__p">
           Each finger gets a tendon-driven curl plus base splay — roughly two to three degrees of freedom — so it can flick and spread, with capacitive fingertips gated electronically so every tap registers. The first build is a two-finger scaffold (index + middle) to prove the module and the control loop before scaling to all five.
@@ -300,7 +299,7 @@
     <div class="section__head reveal">
       <span class="eyebrow">// 02 — DEMO</span>
       <h2 class="section__title">Watch it skate.</h2>
-      <p class="muted mono demo__note">an unedited agent rollout — decision log + the live game, side by side.</p>
+      <p class="muted mono demo__note">left: decision log &middot; right: CMA-ES gameplay.</p>
     </div>
 
     <div class="demo__feature reveal" data-reveal-delay="1">
@@ -381,10 +380,10 @@
           <svg id="diagram-full" class="reveal" viewBox="0 0 1000 480" role="img" aria-labelledby="diagram-full-title" preserveAspectRatio="xMidYMid meet" focusable="false">
   <title id="diagram-full-title">TrueSkate-AI behavioral cloning pipeline: expert gameplay, Model 1 trace extractor, strokes, Model 2 sequence policy, deployed to iPhone.</title>
 
-  <!-- ===== frame ticks / CAD chrome ===== -->
+  <!-- ===== frame ticks / CAD chrome -----
+       the panel corner-tag + figcaption already label this diagram,
+       so no in-SVG title tags (they only duplicated the heading). -->
   <g class="diagram-frame">
-    <text class="diagram-frame-tag" x="24" y="34" text-anchor="start">FIG.06 / BC PIPELINE</text>
-    <text class="diagram-frame-tag diagram-frame-tag--accent" x="976" y="34" text-anchor="end">TWO&#8211;STAGE &#183; OFFLINE TRAINING</text>
     <!-- corner registration ticks -->
     <path class="diagram-tick" d="M16,16 h16 M16,16 v16" />
     <path class="diagram-tick" d="M984,16 h-16 M984,16 v16" />
@@ -424,8 +423,8 @@
   <g class="diagram-node" data-node="n-model1">
     <rect class="diagram-box" x="300" y="108" width="220" height="84" rx="6" />
     <text class="diagram-node-idx" x="312" y="126" text-anchor="start">02</text>
-    <text class="diagram-node-title" x="410" y="148" text-anchor="middle">Model 1 &#183; Trace Extractor</text>
-    <text class="diagram-node-sub" x="410" y="170" text-anchor="middle">frame &#8594; touch heatmap</text>
+    <text class="diagram-node-title" x="410" y="148" text-anchor="middle">Model 1</text>
+    <text class="diagram-node-sub" x="410" y="170" text-anchor="middle">trace extractor</text>
   </g>
   <!-- 3. Strokes -->
   <g class="diagram-node" data-node="n-strokes">
@@ -438,8 +437,8 @@
   <g class="diagram-node" data-node="n-model2">
     <rect class="diagram-box" x="575" y="296" width="220" height="84" rx="6" />
     <text class="diagram-node-idx" x="587" y="314" text-anchor="start">04</text>
-    <text class="diagram-node-title" x="685" y="336" text-anchor="middle">Model 2 &#183; Sequence Policy</text>
-    <text class="diagram-node-sub" x="685" y="358" text-anchor="middle">frames + past strokes &#8594; next</text>
+    <text class="diagram-node-title" x="685" y="336" text-anchor="middle">Model 2</text>
+    <text class="diagram-node-sub" x="685" y="358" text-anchor="middle">sequence policy</text>
   </g>
   <!-- 5. iPhone (deploy) -->
   <g class="diagram-node" data-node="n-deploy">
@@ -640,13 +639,6 @@
         </li>
       </ol>
     </div>
-
-    <!-- Closing vision note -->
-    <aside class="panel roadmap__vision reveal" data-reveal-delay="2">
-      <span class="corner-tag">VISION</span>
-      <p class="roadmap__vision-text">The specification was never speed for its own sake — it's fidelity to how one particular person moves. The agent doesn't just learn to skate; it learns to skate <span class="roadmap__vision-em">the way I do, in a hand that moves like mine</span>.</p>
-      <!-- TODO (Asher to refine): exact wording for the left hand — holds the iPhone, with a single actuated thumb for the spin / hold button. -->
-    </aside>
   </div>
 </section>
 
