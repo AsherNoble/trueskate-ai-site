@@ -62,6 +62,8 @@ function connect(url) {
 
 const SHOTS = [
   { name: "desktop", width: 1440, height: 900 },
+  { name: "mid", width: 1100, height: 900 },
+  { name: "narrow", width: 720, height: 1000 },
   { name: "tablet", width: 834, height: 1112 },
   { name: "mobile", width: 390, height: 844 },
 ];

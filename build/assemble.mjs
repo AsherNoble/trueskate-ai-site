@@ -1,11 +1,11 @@
 /* ============================================================
-   TrueSkate-AI — assemble.mjs
-   Owns the document shell (head/fonts/nav/footer), splices the
-   built fragments in order, injects the diagram + wireframe into
-   their slots, and concatenates section CSS into styles/sections.css.
+   trueskate-ai — assemble.mjs
+   Owns the document shell (head/fonts/rail/footer), splices the
+   built section fragments in order, and concatenates fragment
+   CSS into styles/sections.css.
    Run:  node build/assemble.mjs
    ============================================================ */
-import { readFileSync, writeFileSync, existsSync, copyFileSync } from "node:fs";
+import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
@@ -19,46 +19,23 @@ function readReq(p, label) {
   if (v == null) { console.warn("!! MISSING fragment: " + label + " (" + p + ")"); return ""; }
   return v;
 }
-function block(html, start, end, label) {
-  if (!html) return "";
-  const i = html.indexOf(start), j = html.indexOf(end);
-  if (i === -1 || j === -1) { console.warn("!! marker not found for " + label); return ""; }
-  return html.slice(i + start.length, j).trim();
-}
-
-/* ---- components ---- */
-const diagramHtml = readReq(frag("diagram.html"), "diagram");
-const handHtml = readReq(frag("hand.html"), "hand");
-const diagramCompact = block(diagramHtml, "<!-- DIAGRAM:COMPACT -->", "<!-- /DIAGRAM:COMPACT -->", "diagram compact");
-const diagramFull = block(diagramHtml, "<!-- DIAGRAM:FULL -->", "<!-- /DIAGRAM:FULL -->", "diagram full");
-const handPlain = block(handHtml, "<!-- HAND:PLAIN -->", "<!-- /HAND:PLAIN -->", "hand plain");
-const handAnnotated = block(handHtml, "<!-- HAND:ANNOTATED -->", "<!-- /HAND:ANNOTATED -->", "hand annotated");
-const hasDiagramJs = existsSync(frag("diagram.js"));
 
 /* ---- sections (in render order) ---- */
-let hero = readReq(frag("hero.html"), "hero");
-hero = hero.replace("<!-- SLOT:HAND-PLAIN -->", handPlain || "<!-- hand render pending -->");
-hero = hero.replace("<!-- SLOT:DIAGRAM-COMPACT -->", diagramCompact || "<!-- diagram pending -->");
+const sectionFiles = [
+  "01-what.html",
+  "02-demo.html",
+  "03-how.html",
+  "04-hand.html",
+  "05-hood.html",
+  "06-roadmap.html",
+  "07-status.html",
+];
+const sections = sectionFiles
+  .map((name) => readReq(frag(name), name))
+  .join("\n\n");
 
-let handSection = readReq(frag("handsection.html"), "handsection");
-handSection = handSection.replace("<!-- SLOT:HAND-ANNOTATED -->", handAnnotated || "<!-- hand render pending -->");
-
-let how = readReq(frag("how.html"), "how");
-how = how.replace("<!-- SLOT:DIAGRAM-FULL -->", diagramFull || "<!-- diagram pending -->");
-
-const sections = [
-  hero,
-  readReq(frag("pitch.html"), "pitch"),
-  handSection,
-  readReq(frag("demo.html"), "demo"),
-  how,
-  readReq(frag("stats.html"), "stats"),
-  readReq(frag("roadmap.html"), "roadmap"),
-  readReq(frag("about.html"), "about"),
-].join("\n\n");
-
-/* ---- CSS bundle (order matters: components first, then sections) ---- */
-const cssOrder = ["diagram", "hand", "hero", "pitch", "handsection", "demo", "how", "stats", "roadmap", "about"];
+/* ---- CSS bundle ---- */
+const cssOrder = ["doc"];
 const sectionCss = cssOrder
   .map((id) => {
     const css = read(frag(id + ".css"));
@@ -67,9 +44,6 @@ const sectionCss = cssOrder
   .filter(Boolean)
   .join("\n");
 writeFileSync(F("styles/sections.css"), sectionCss, "utf8");
-
-/* ---- copy diagram.js if present ---- */
-if (hasDiagramJs) copyFileSync(frag("diagram.js"), F("scripts/diagram.js"));
 
 /* ---- favicon (inline blueprint mark) ---- */
 const faviconSvg =
@@ -80,73 +54,86 @@ const faviconSvg =
 const favicon = "data:image/svg+xml," + faviconSvg.replace(/#/g, "%23").replace(/ /g, "%20");
 
 /* ---- document shell ---- */
-const nav = `  <nav class="nav">
-    <div class="nav__inner">
-      <a class="wordmark" href="#hero" aria-label="trueskate-ai, back to top">trueskate<span class="accent">-ai</span></a>
-      <div class="nav__links">
-        <a href="#hand" data-nav-link>The hand</a>
-        <a href="#demo" data-nav-link>Demo</a>
-        <a href="#how" data-nav-link>How it works</a>
-        <a href="#roadmap" data-nav-link>Roadmap</a>
-        <a class="nav__links-cta" href="https://github.com/AsherNoble/TrueSkate-AI" target="_blank" rel="noopener">GitHub <span aria-hidden="true">↗</span></a>
-      </div>
-    </div>
-  </nav>`;
+const railLinks = [
+  ["#s1", "1", "What it is"],
+  ["#s2", "2", "Demo"],
+  ["#s3", "3", "How it works"],
+  ["#s4", "4", "The hand"],
+  ["#s5", "5", "Under the hood"],
+  ["#s6", "6", "Roadmap"],
+  ["#s7", "7", "Status"],
+]
+  .map(
+    ([href, idx, label]) =>
+      `        <a class="doc-nav__link" href="${href}" data-nav-link><span class="doc-nav__index">${idx}</span>${label}</a>`
+  )
+  .join("\n");
 
-const footer = `  <footer class="footer">
-    <div class="container container--wide">
-      <div class="footer__inner">
-        <p class="footer__brand">trueskate<span class="accent">-ai</span> — an AI that's learning to skate.</p>
-        <div class="footer__meta">
-          <a href="https://github.com/AsherNoble/TrueSkate-AI" target="_blank" rel="noopener">GitHub <span aria-hidden="true">↗</span></a>
-          <span aria-hidden="true">·</span>
-          <span>built with HTML · CSS · a little vanilla JS</span>
-          <span aria-hidden="true">·</span>
-          <span>© 2026</span>
-        </div>
+const sidebar = `    <aside class="doc-sidebar">
+      <a class="doc-brand" href="#main" aria-label="trueskate-ai, back to top">trueskate<span class="accent">-ai</span></a>
+      <div class="doc-ver">research log · rev 15</div>
+      <nav class="doc-nav" aria-label="Contents">
+${railLinks}
+      </nav>
+      <div class="doc-sidebar__foot">
+        <a href="https://github.com/AsherNoble/TrueSkate-AI" target="_blank" rel="noopener">github ↗</a>
+        <a href="https://www.linkedin.com/in/ashernoble/" target="_blank" rel="noopener">linkedin ↗</a>
+        <span>rev 15 · 2026-07</span>
       </div>
-      <p class="footer__credit">
-        <a href="http://trueaxis.com/trueskate.html" target="_blank" rel="noopener">True Skate</a> is a game by True Axis —
-        get it on the <a href="https://apps.apple.com/app/true-skate/id549105915" target="_blank" rel="noopener">App Store</a>,
-        or follow it on <a href="https://www.instagram.com/trueskateofficial/" target="_blank" rel="noopener">Instagram</a>.
-        TrueSkate-AI is an independent research project and is not affiliated with or endorsed by True Axis.
-      </p>
-    </div>
-  </footer>`;
+    </aside>`;
 
-const scripts =
-  `  <script src="scripts/main.js" defer></script>` +
-  (hasDiagramJs ? `\n  <script src="scripts/diagram.js" defer></script>` : "");
+/* ---- title block: h1, lead, meta rule ---- */
+const titleBlock = `        <h1 class="doc-title">trueskate<span class="accent">-ai</span> &mdash; learning to skate from pixels</h1>
+        <p class="doc-lead">A personal research project on learning fine motor control from vision alone: an agent playing True Skate on unmodified physical iPhones, seeing only screen frames and acting only through touch.</p>
+        <div class="doc-meta">
+          <div class="doc-meta__item"><b>Asher Noble</b></div>
+          <div class="doc-meta__item">log started <b>2026-06</b></div>
+          <div class="doc-meta__item">status <b>in progress</b></div>
+          <div class="doc-meta__item"><b>no publication</b></div>
+        </div>`;
+
+const footer = `      <footer class="doc-footer">
+        <a href="https://github.com/AsherNoble/TrueSkate-AI" target="_blank" rel="noopener">github.com/AsherNoble/TrueSkate-AI</a>
+        <a href="https://www.linkedin.com/in/ashernoble/" target="_blank" rel="noopener">linkedin.com/in/ashernoble</a>
+        <span>last touched 2026-07-31</span>
+      </footer>
+      <p class="doc-caption doc-colophon">true skate is a game by <a href="http://trueaxis.com/trueskate.html" target="_blank" rel="noopener">true axis</a>, available on the <a href="https://apps.apple.com/app/true-skate/id549105915" target="_blank" rel="noopener">app store</a> — trueskate-ai is an independent research project and is not affiliated with or endorsed by true axis.</p>`;
+
+const scripts = `  <script src="scripts/main.js" defer></script>`;
 
 const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script>document.documentElement.classList.add('js')</script>
-  <title>TrueSkate-AI — An AI that's learning to skate</title>
-  <meta name="description" content="A reinforcement-learning agent that lands real tricks in True Skate, running on physical iPhones — no simulator, driven by Appium + WebDriverAgent, read by Apple Vision OCR, optimized with CMA-ES.">
+  <title>trueskate-ai — research log</title>
+  <meta name="description" content="A personal research project: an agent learning to play True Skate on physical iPhones from screen pixels alone. Notes, figures and current status.">
   <meta name="theme-color" content="#0A0B0D">
   <meta name="color-scheme" content="dark">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="TrueSkate-AI — An AI that's learning to skate">
-  <meta property="og:description" content="A reinforcement-learning agent that lands real tricks in True Skate on physical iPhones — no simulator, no access to the game's code.">
+  <meta property="og:title" content="trueskate-ai — research log">
+  <meta property="og:description" content="A personal research project: an agent learning to play True Skate on physical iPhones from screen pixels alone. Notes, figures and current status.">
   <!-- TODO: og:image — add a 1200x630 share card at assets/og.png and uncomment:
   <meta property="og:image" content="assets/og.png"> -->
   <link rel="icon" href="${favicon}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles/base.css">
   <link rel="stylesheet" href="styles/sections.css">
 </head>
 <body>
-  <a class="skip-link" href="#hero">Skip to content</a>
-${nav}
-  <main class="main" id="main">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="doc">
+${sidebar}
+    <main class="doc-main" id="main">
+      <div class="doc-wrap">
+${titleBlock}
 ${sections}
-  </main>
 ${footer}
+      </div>
+    </main>
+  </div>
 ${scripts}
 </body>
 </html>
@@ -154,11 +141,4 @@ ${scripts}
 
 writeFileSync(F("index.html"), html, "utf8");
 
-const missing = [];
-if (!diagramCompact) missing.push("diagram:compact");
-if (!diagramFull) missing.push("diagram:full");
-if (!handPlain) missing.push("hand:plain");
-if (!handAnnotated) missing.push("hand:annotated");
 console.log("Assembled index.html (" + html.length + " bytes) + styles/sections.css (" + sectionCss.length + " bytes).");
-console.log("diagram.js included: " + hasDiagramJs);
-if (missing.length) console.log("WARN unresolved slots: " + missing.join(", "));

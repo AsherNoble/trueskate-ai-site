@@ -1,0 +1,53 @@
+<!-- 05 — UNDER THE HOOD -->
+<h2 class="doc-h2" id="s5"><span class="doc-h2__index">05</span><span>UNDER THE HOOD</span></h2>
+<p class="doc-text">The numbers below are from a single CMA-ES run against the 360 flip &mdash; the one flatground trick that&rsquo;s currently landing reliably, out of the 36 in the target set. Everything is real time on physical hardware; nothing here runs faster than a person would see it.</p>
+
+<div class="doc-stats">
+  <dl class="doc-stat">
+    <dt class="doc-stat__label">clean 360-flip landings</dt>
+    <dd class="doc-stat__value">~1,280 <small>/ one run, not an average</small></dd>
+  </dl>
+  <dl class="doc-stat">
+    <dt class="doc-stat__label">iPhones in parallel</dt>
+    <dd class="doc-stat__value">3 <small>/ real hardware, no simulator</small></dd>
+  </dl>
+  <dl class="doc-stat">
+    <dt class="doc-stat__label">time per evaluation</dt>
+    <dd class="doc-stat__value">~3.5s <small>/ real time, no sim speedup</small></dd>
+  </dl>
+  <dl class="doc-stat">
+    <dt class="doc-stat__label">flatground tricks</dt>
+    <dd class="doc-stat__value">36 <small>/ target set; 1 landed reliably</small></dd>
+  </dl>
+  <dl class="doc-stat">
+    <dt class="doc-stat__label">DOF per finger</dt>
+    <dd class="doc-stat__value">~2&ndash;3 <small>/ in design, nothing built</small></dd>
+  </dl>
+</div>
+
+<figure class="doc-figure">
+  <div class="doc-plot">
+    <svg viewBox="0 0 832 288" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Landings per hundred attempts against evaluation count for the CMA-ES 360-flip run, placeholder shape only">
+      <g class="plot-grid"><line x1="72" y1="40" x2="792" y2="40"></line><line x1="72" y1="104" x2="792" y2="104"></line><line x1="72" y1="168" x2="792" y2="168"></line></g>
+      <line class="plot-axis" x1="72" y1="232" x2="792" y2="232"></line>
+      <line class="plot-axis" x1="72" y1="24" x2="72" y2="232"></line>
+      <polyline class="plot-series plot-series--accent" points="72,229 144,218 216,200 288,178 360,154 432,132 504,112 576,96 648,82 720,70 788,60"></polyline>
+      <g font-family="JetBrains Mono, monospace" font-size="13" fill="currentColor">
+        <text x="60" y="237" text-anchor="end">0</text>
+        <text x="60" y="173" text-anchor="end">20</text>
+        <text x="60" y="109" text-anchor="end">40</text>
+        <text x="60" y="45" text-anchor="end">60</text>
+        <text x="72" y="262">0</text>
+        <text x="432" y="262" text-anchor="middle">evaluations</text>
+        <text x="788" y="262" text-anchor="end">2,000</text>
+      </g>
+    </svg>
+  </div>
+  <figcaption class="doc-caption"><b>Fig. 7</b> &mdash; landings per hundred attempts, CMA-ES on the 360 flip. Placeholder plot: indicative shape only, real run data still to be dropped in.</figcaption>
+</figure>
+
+<div class="doc-rows">
+  <div class="doc-row"><span class="doc-row__index">01</span><span class="doc-row__term">normalization</span><span class="doc-row__text">one policy runs across three screen sizes via a canonical reference frame.</span></div>
+  <div class="doc-row"><span class="doc-row__index">02</span><span class="doc-row__term">headless &amp; remote</span><span class="doc-row__text">training runs on a headless server, monitored remotely over SSH.</span></div>
+  <div class="doc-row"><span class="doc-row__index">03</span><span class="doc-row__term">apple vision</span><span class="doc-row__text">reliable on the short coloured trick names the game prints, where the OCR alternatives I tried weren&rsquo;t.</span></div>
+</div>

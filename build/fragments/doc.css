@@ -1,0 +1,121 @@
+/* The document primitives. This IS the system: a fixed table-of-contents
+   rail, a centred reading column, and blocks whose heights are whole
+   multiples of --cell so they land on the drawn grid at any window width.
+
+   THE GRID RULE (non-negotiable):
+   1. Every block's total height is a multiple of --cell. A 1px border is
+      absorbed by its own padding (12 + 11 + 1 = 24), never added on top.
+   2. Every line-height is --cell or --lh-tight inside off-grid chrome.
+   3. Media is sized with a whole-cell height (--media-*), NEVER aspect-ratio.
+      An intrinsic ratio computes fractional pixels and knocks every block
+      below it off the grid, differently at every window width.
+   4. Flex/inline items that could wrap mid-phrase get min-width:max-content,
+      so a wrap adds exactly one cell instead of a ragged fraction. */
+
+/* ---------- shell ---------- */
+.doc{display:flex;min-height:100vh}
+.doc-main{flex:1;min-width:0;display:flex;justify-content:center;
+  padding:var(--doc-pad-top) var(--doc-pad-x) var(--doc-pad-bottom);
+  background-image:linear-gradient(var(--line-grid) 1px,transparent 1px),linear-gradient(90deg,var(--line-grid) 1px,transparent 1px);
+  background-size:var(--cell) var(--cell);background-position:0 0}
+.doc-wrap{width:100%;max-width:var(--measure)}
+
+/* ---------- sidebar (deliberately off-grid: it is chrome, not content) ---- */
+.doc-sidebar{width:var(--sidebar-w);flex:none;background:var(--panel);border-right:1px solid var(--line);padding:calc(var(--cell) + 8px) var(--cell);position:sticky;top:0;height:100vh;overflow:auto}
+.doc-brand{font-size:var(--fs-md);letter-spacing:-0.01em;color:var(--fg)}
+.doc-brand .accent{color:var(--accent)}
+.doc-ver{font-size:var(--fs-xs);line-height:var(--lh-tight);color:var(--fg-dim);margin-top:6px}
+.doc-nav{margin-top:calc(var(--cell) + 8px);display:flex;flex-direction:column;gap:2px}
+.doc-nav__link{font-size:13.5px;line-height:var(--lh-tight);color:var(--fg-dim);padding:var(--s-2) var(--s-4);border-left:1px solid var(--line);display:block}
+.doc-nav__link:hover{color:var(--fg)}
+.doc-nav__link.is-active{color:var(--fg);border-left-color:var(--accent);background:var(--accent-soft)}
+.doc-nav__index{display:inline-block;width:26px;color:rgba(255,255,255,0.30)}
+.doc-nav__link.is-active .doc-nav__index{color:var(--accent)}
+.doc-sidebar__foot{margin-top:calc(var(--cell) + 8px);padding-top:var(--s-5);border-top:1px solid var(--line);display:flex;flex-direction:column;gap:var(--s-2);font-size:var(--fs-sm);line-height:var(--lh-tight)}
+.doc-sidebar__foot span{color:var(--fg-dim)}
+
+/* ---------- title block ---------- */
+.doc-title{font-size:var(--fs-xl);font-weight:500;letter-spacing:-0.015em;line-height:var(--lh)}
+.doc-title .accent{color:var(--accent)}
+.doc-lead{font-size:var(--fs-md);color:var(--fg-dim);margin-top:var(--stack);max-width:var(--measure-lead);text-wrap:pretty}
+
+/* meta rule — author / date / status, hairline above and below */
+.doc-meta{display:flex;flex-wrap:wrap;gap:0 var(--cell);margin-top:var(--stack);padding:11px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);font-size:var(--fs-sm);color:var(--fg-dim)}
+.doc-meta__item{white-space:nowrap;min-width:max-content}
+.doc-meta__item b{color:var(--fg);font-weight:400}
+
+/* ---------- section heading ---------- */
+.doc-h2{font-size:var(--fs-section);font-weight:500;letter-spacing:var(--tracking-section);text-transform:uppercase;color:var(--fg);
+  margin-top:var(--stack-2);padding-bottom:23px;border-bottom:1px solid var(--line-strong);display:flex;gap:var(--s-5);line-height:var(--lh)}
+.doc-h2__index{color:var(--accent)}
+
+/* ---------- prose ---------- */
+.doc-text{font-size:var(--fs-md);color:#C9CDD3;max-width:var(--measure-prose);margin-top:var(--stack);text-wrap:pretty}
+
+/* ---------- definition rows (pipeline stages, status ledger) ---------- */
+.doc-rows{margin-top:var(--stack);border-top:1px solid var(--line)}
+.doc-row{display:grid;grid-template-columns:var(--cell) calc(var(--cell) * 7) 1fr;gap:0 var(--s-5);padding:var(--space-row-pad);border-bottom:1px solid var(--line);font-size:var(--fs-md);align-items:baseline}
+.doc-row__index{color:var(--accent);font-size:var(--fs-sm)}
+.doc-row__index--warn{color:var(--warn)}
+.doc-row__term{font-weight:500;min-width:max-content}
+.doc-row__text{color:var(--fg-dim)}
+
+/* ---------- figures ---------- */
+.doc-figure{margin-top:var(--stack)}
+.doc-caption{font-size:var(--fs-sm);color:var(--fg-dim);margin-top:var(--stack);max-width:80ch}
+.doc-caption b{color:var(--fg);font-weight:400}
+.doc-frame{border:1px solid var(--line)}
+.doc-frame > img,.doc-frame > video{width:100%;height:100%;object-fit:cover;display:block}
+.doc-placeholder{border:1px solid var(--line);background:repeating-linear-gradient(135deg,rgba(255,255,255,0.03) 0 1px,transparent 1px 10px);display:flex;align-items:center;justify-content:center}
+.doc-placeholder__note{font-size:var(--fs-sm);color:var(--fg-dim);background:var(--bg);border:1px solid var(--line);padding:7px var(--s-4)}
+.doc-h-clip{height:var(--media-clip)}
+.doc-h-figure{height:var(--media-figure)}
+.doc-h-plot{height:var(--media-plot)}
+.doc-plot{height:var(--media-plot);border:1px solid var(--line)}
+.doc-plot > svg{width:100%;height:100%}
+.doc-plot text{font-family:var(--font-mono);font-size:13px;fill:var(--fg-dim)}
+.doc-plot .plot-grid{stroke:rgba(255,255,255,0.06)}
+.doc-plot .plot-axis{stroke:var(--line-strong)}
+.doc-plot .plot-series{fill:none;stroke:rgba(255,255,255,0.26);stroke-width:1.3}
+.doc-plot .plot-series--accent{stroke:var(--accent);stroke-width:1.7}
+
+/* ---------- click-to-play clip ---------- */
+.doc-clip{position:relative;border:1px solid var(--line)}
+.doc-clip__poster{width:100%;height:100%;object-fit:cover;display:block}
+.doc-clip__video{width:100%;height:100%;object-fit:cover;display:block}
+.doc-clip__btn{position:absolute;inset:0;border:0;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;font:inherit;color:inherit}
+.doc-clip__label{font-size:var(--fs-sm);color:var(--fg-dim);background:var(--bg);border:1px solid var(--line);padding:7px var(--s-4);transition:color var(--dur-hover) var(--ease),border-color var(--dur-hover) var(--ease)}
+.doc-clip__btn:hover .doc-clip__label,.doc-clip__btn:focus-visible .doc-clip__label{color:var(--fg);border-color:var(--accent-line)}
+.doc-clip.is-playing .doc-clip__poster,.doc-clip.is-playing .doc-clip__btn{display:none}
+
+/* ---------- multi-up figure grid ---------- */
+.doc-figs{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:var(--cell)}
+
+/* ---------- stat boxes ---------- */
+.doc-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--cell);margin-top:var(--stack)}
+.doc-stat{border:1px solid var(--line);padding:var(--space-box-pad);height:var(--stat-h);margin:0;display:flex;flex-direction:column}
+.doc-stat__label{font-size:var(--fs-xs);letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--fg-dim);height:var(--cell)}
+/* nowrap + hidden so a long baseline can never push the box off its 96px:
+   the value line is exactly one cell, whatever the window width */
+.doc-stat__value{margin:auto 0 0;font-size:var(--fs-lg);line-height:var(--lh);height:var(--cell);white-space:nowrap;overflow:hidden}
+.doc-stat__value small{font-size:var(--fs-sm);color:var(--fg-dim)}
+
+/* ---------- footer ---------- */
+.doc-footer{margin-top:var(--stack-2);padding-top:23px;border-top:1px solid var(--line);font-size:var(--fs-sm);color:var(--fg-dim);display:flex;flex-wrap:wrap;gap:0 var(--cell)}
+.doc-footer > *{min-width:max-content}
+
+/* colophon — small hairline-free aside below the footer (legal attribution) */
+.doc-colophon{margin-top:var(--cell);font-size:var(--fs-sm);color:var(--fg-dim);max-width:80ch}
+
+/* ---------- narrow windows: the rail collapses, the grid stays ---------- */
+@media (max-width:860px){
+  .doc{flex-direction:column}
+  .doc-sidebar{width:100%;height:auto;position:static;border-right:0;border-bottom:1px solid var(--line)}
+  .doc-nav{flex-direction:row;flex-wrap:wrap;gap:0 var(--s-5)}
+  .doc-nav__link{border-left:0;padding:var(--s-2) 0}
+  .doc-nav__link.is-active{background:transparent;color:var(--accent)}
+  .doc-main{padding-inline:var(--cell)}
+}
+@media (max-width:640px){
+  .doc-figs{grid-auto-flow:row}
+}
