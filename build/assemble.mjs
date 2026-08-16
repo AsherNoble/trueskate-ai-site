@@ -1,5 +1,5 @@
 /* ============================================================
-   trueskate-ai — assemble.mjs
+   TrueSkate-AI — assemble.mjs
    Owns the document shell (head/fonts/rail/footer), splices the
    built section fragments in order, and concatenates fragment
    CSS into styles/sections.css.
@@ -45,12 +45,10 @@ const sectionCss = cssOrder
   .join("\n");
 writeFileSync(F("styles/sections.css"), sectionCss, "utf8");
 
-/* ---- favicon (inline blueprint mark) ---- */
+/* ---- favicon (skateboard emoji; %F0%9F%9B%B9 is 🛹 utf-8 percent-encoded) ---- */
 const faviconSvg =
   "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'>" +
-  "<rect width='32' height='32' rx='6' fill='%230A0B0D'/>" +
-  "<circle cx='16' cy='16' r='9' fill='none' stroke='%23E8EAED' stroke-width='1.4'/>" +
-  "<circle cx='25' cy='16' r='2.6' fill='%235B8DEF'/></svg>";
+  "<text y='26' font-size='28'>%F0%9F%9B%B9</text></svg>";
 const favicon = "data:image/svg+xml," + faviconSvg.replace(/#/g, "%23").replace(/ /g, "%20");
 
 /* ---- document shell ---- */
@@ -70,7 +68,7 @@ const railLinks = [
   .join("\n");
 
 const sidebar = `    <aside class="doc-sidebar">
-      <a class="doc-brand" href="#main" aria-label="trueskate-ai, back to top">trueskate<span class="accent">-ai</span></a>
+      <a class="doc-brand" href="#main" aria-label="TrueSkate-AI, back to top">TrueSkate<span class="accent">-AI</span></a>
       <div class="doc-ver">research log · rev 15</div>
       <nav class="doc-nav" aria-label="Contents">
 ${railLinks}
@@ -78,12 +76,13 @@ ${railLinks}
       <div class="doc-sidebar__foot">
         <a href="https://github.com/AsherNoble/TrueSkate-AI" target="_blank" rel="noopener">github ↗</a>
         <a href="https://www.linkedin.com/in/ashernoble/" target="_blank" rel="noopener">linkedin ↗</a>
-        <span>rev 15 · 2026-07</span>
+        <a href="https://x.com/asherNoble20109" target="_blank" rel="noopener">X ↗</a>
+        <span>rev 15 · 2026-08</span>
       </div>
     </aside>`;
 
 /* ---- title block: h1, lead, meta rule ---- */
-const titleBlock = `        <h1 class="doc-title">trueskate<span class="accent">-ai</span> &mdash; learning to skate from pixels</h1>
+const titleBlock = `        <h1 class="doc-title">TrueSkate<span class="accent">-AI</span> &mdash; learning to skate from pixels</h1>
         <p class="doc-lead">A personal research project on learning fine motor control from vision alone: an agent playing True Skate on unmodified physical iPhones, seeing only screen frames and acting only through touch.</p>
         <div class="doc-meta">
           <div class="doc-meta__item"><b>Asher Noble</b></div>
@@ -95,9 +94,10 @@ const titleBlock = `        <h1 class="doc-title">trueskate<span class="accent">
 const footer = `      <footer class="doc-footer">
         <a href="https://github.com/AsherNoble/TrueSkate-AI" target="_blank" rel="noopener">github.com/AsherNoble/TrueSkate-AI</a>
         <a href="https://www.linkedin.com/in/ashernoble/" target="_blank" rel="noopener">linkedin.com/in/ashernoble</a>
+        <a href="https://x.com/asherNoble20109" target="_blank" rel="noopener">x.com/asherNoble20109</a>
         <span>last touched 2026-07-31</span>
       </footer>
-      <p class="doc-caption doc-colophon">true skate is a game by <a href="http://trueaxis.com/trueskate.html" target="_blank" rel="noopener">true axis</a>, available on the <a href="https://apps.apple.com/app/true-skate/id549105915" target="_blank" rel="noopener">app store</a> — trueskate-ai is an independent research project and is not affiliated with or endorsed by true axis.</p>`;
+      <p class="doc-caption doc-colophon">true skate is a game by <a href="http://trueaxis.com/trueskate.html" target="_blank" rel="noopener">true axis</a>, available on the <a href="https://apps.apple.com/app/true-skate/id549105915" target="_blank" rel="noopener">app store</a> — TrueSkate-AI is an independent research project and is not affiliated with or endorsed by true axis.</p>`;
 
 const scripts = `  <script src="scripts/main.js" defer></script>`;
 
@@ -106,12 +106,12 @@ const html = `<!DOCTYPE html>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>trueskate-ai — research log</title>
+  <title>TrueSkate-AI</title>
   <meta name="description" content="A personal research project: an agent learning to play True Skate on physical iPhones from screen pixels alone. Notes, figures and current status.">
   <meta name="theme-color" content="#0A0B0D">
   <meta name="color-scheme" content="dark">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="trueskate-ai — research log">
+  <meta property="og:title" content="TrueSkate-AI">
   <meta property="og:description" content="A personal research project: an agent learning to play True Skate on physical iPhones from screen pixels alone. Notes, figures and current status.">
   <!-- TODO: og:image — add a 1200x630 share card at assets/og.png and uncomment:
   <meta property="og:image" content="assets/og.png"> -->

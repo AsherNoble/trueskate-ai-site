@@ -1,10 +1,10 @@
 <!-- 04 — THE HAND -->
 <h2 class="doc-h2" id="s4"><span class="doc-h2__index">04</span><span>THE HAND</span></h2>
-<p class="doc-text">Almost every robotic hand is built to grip. This one needs the opposite &mdash; speed and human-like motion under no load. I&rsquo;m folding the best-suited features of three open-source hands &mdash; ORCA, HRI, Ruka-v2 &mdash; into my own.</p>
-<p class="doc-text">Each finger gets a tendon-driven curl plus base splay, roughly two to three degrees of freedom, with capacitive fingertips gated electronically so every tap registers. The first build is a two-finger scaffold (index + middle) to prove the module and the control loop before scaling to five.</p>
+<p class="doc-text">Almost every robotic hand is built to grip and are thus optimised for high torque. Mine needs relatively little torque but requires very high speed, acceleration and precision. I&rsquo;m building the open-source ORCA hand with gimbal motors instead of servos and the intention of making hardware modifications until it is optimised for virtual finger skating.</p>
+<p class="doc-text">The first build is a two-finger scaffold (index + middle) to prove the module and the control loop before scaling to five.</p>
 
 <div class="doc-rows">
-  <div class="doc-row"><span class="doc-row__index">01</span><span class="doc-row__term">dof</span><span class="doc-row__text">~2&ndash;3 per finger</span></div>
+  <div class="doc-row"><span class="doc-row__index">01</span><span class="doc-row__term">dof</span><span class="doc-row__text">17 (3 per finger, four in the thumb, one in the wrist)</span></div>
   <div class="doc-row"><span class="doc-row__index">02</span><span class="doc-row__term">drive</span><span class="doc-row__text">tendon-driven</span></div>
   <div class="doc-row"><span class="doc-row__index">03</span><span class="doc-row__term">load</span><span class="doc-row__text">zero load-bearing</span></div>
   <div class="doc-row"><span class="doc-row__index">04</span><span class="doc-row__term">references</span><span class="doc-row__text">ORCA Hand &middot; HRI &middot; Ruka-v2</span></div>
@@ -16,10 +16,10 @@
     <div class="doc-frame doc-h-figure"><img src="assets/hand/left-hand-concept.jpg" alt="Concept sketch of the left (holding) hand: a motorised thumb for the spin/hold button and a wireless-charging puck in the palm (in design)"></div>
     <div class="doc-frame doc-h-figure"><img src="assets/hand/right-hand-concept.jpg" alt="Concept sketch of the right (skating) hand, two fingers reaching onto the screen"></div>
   </div>
-  <figcaption class="doc-caption"><b>Fig. 5</b> &mdash; original design sketches, left (holding) and right (skating) hands. They&rsquo;re concept drawings; nothing has been built from them yet.</figcaption>
+  <figcaption class="doc-caption"><b>Fig. 5</b> &mdash; original design sketches, left (holding) and right (skating) hands.</figcaption>
 </figure>
 
-<figure class="doc-figure">
+<!-- <figure class="doc-figure">
   <div class="doc-placeholder doc-h-figure"><span class="doc-placeholder__note">clip pending &mdash; hand/module.mp4</span></div>
-  <figcaption class="doc-caption"><b>Fig. 6</b> &mdash; the two-finger module isn&rsquo;t built yet, so there&rsquo;s nothing to show.</figcaption>
-</figure>
+  <figcaption class="doc-caption"><b>Fig. 6</b> &mdash; two-finger actuated hand </figcaption>
+</figure> -->

@@ -1,13 +1,14 @@
 <!-- 03 — HOW IT WORKS -->
 <h2 class="doc-h2" id="s3"><span class="doc-h2__index">03</span><span>HOW IT WORKS</span></h2>
-<p class="doc-text">Five stages. Everything between capture and touch is replaceable; the only interface between stages is a frame buffer and a stream of touch events. The system started on CMA-ES &mdash; an evolutionary optimizer rewarded by the trick name read off-screen by Apple Vision OCR, which is what landed the 360 flips in section 05 &mdash; and is now built around two-stage behavioral cloning: it learns gestures from expert play instead of searching for them.</p>
+<p class="doc-text">Six stages. The system started on CMA-ES &mdash; an evolutionary optimizer rewarded by the trick name read off-screen by Apple Vision OCR, which is what landed the 360 flips in section 05 &mdash; and is now built around two-stage behavioral cloning: it learns gestures from expert play instead of searching for them via RL.</p>
 
 <div class="doc-rows">
-  <div class="doc-row"><span class="doc-row__index">01</span><span class="doc-row__term">demonstrations</span><span class="doc-row__text">expert True Skate gameplay captured on real iPhones; the only data the policy learns from.</span></div>
-  <div class="doc-row"><span class="doc-row__index">02</span><span class="doc-row__term">trace extractor</span><span class="doc-row__text">a small U-Net reads each frame and finds the finger on the glass, self-labeled from the agent&rsquo;s own known gestures.</span></div>
-  <div class="doc-row"><span class="doc-row__index">03</span><span class="doc-row__term">strokes</span><span class="doc-row__text">per-frame touch points fit into discrete curved drags (waypoints, duration, easing, curvature), normalized across three screen sizes.</span></div>
-  <div class="doc-row"><span class="doc-row__index">04</span><span class="doc-row__term">policy</span><span class="doc-row__text">a transformer takes recent frames plus the last few strokes and predicts the next stroke.</span></div>
-  <div class="doc-row"><span class="doc-row__index">05</span><span class="doc-row__term">actuation</span><span class="doc-row__text">strokes executed on physical iPhones via Appium + WebDriverAgent; a physical hand is in design.</span></div>
+  <div class="doc-row"><span class="doc-row__index">01</span><span class="doc-row__term">demonstrations</span><span class="doc-row__text">my expert True Skate gameplay captured on via screen recording on my iPhone.</span></div>
+  <div class="doc-row"><span class="doc-row__index">02</span><span class="doc-row__term">gesture corpus</span><span class="doc-row__text">a script performs random gestures via Appium + WebDriverAgent and collects the video frames they produce.</span></div>
+  <div class="doc-row"><span class="doc-row__index">03</span><span class="doc-row__term">trace extractor</span><span class="doc-row__text">a small U-Net is trained to predict the gestures that produced a given sequence of video frames for the corpus created in step 02.</span></div>
+  <div class="doc-row"><span class="doc-row__index">04</span><span class="doc-row__term">strokes</span><span class="doc-row__text">per-frame touch points fit into discrete curved drags (waypoints, duration, easing, curvature), normalized across three screen sizes.</span></div>
+  <div class="doc-row"><span class="doc-row__index">05</span><span class="doc-row__term">policy</span><span class="doc-row__text">a transformer (or another architecture) takes recent frames plus recent gestures and predicts the next gesture.</span></div>
+  <div class="doc-row"><span class="doc-row__index">06</span><span class="doc-row__term">inference</span><span class="doc-row__text">gestures are inferred and translated from 2D cartesian trajectories to 3D trajectories executed by the robotic hand on the 2D iPhone screen.</span></div>
 </div>
 
 <figure class="doc-figure">

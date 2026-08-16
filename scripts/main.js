@@ -1,5 +1,5 @@
 /* ============================================================
-   trueskate-ai — main.js
+   TrueSkate-AI — main.js
    Core behaviour: nav scrollspy, click-to-play clips.
    No browser-storage APIs are used anywhere.
    ============================================================ */

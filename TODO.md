@@ -1,4 +1,4 @@
-# TODO — trueskate-ai research log
+# TODO — TrueSkate-AI research log
 
 Personal working checklist. (Public-repo-safe — nothing sensitive here.)
 

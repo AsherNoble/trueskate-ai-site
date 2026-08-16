@@ -1,6 +1,6 @@
 # trueskate-ai — research log
 
-A static, single-page **research document** for trueskate-ai: a personal project on learning fine
+A static, single-page **research document** for TrueSkate-AI: a personal project on learning fine
 motor control from vision alone — an agent playing *True Skate* on unmodified physical iPhones,
 seeing only screen frames and acting only through touch.
 
