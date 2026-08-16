@@ -2,7 +2,7 @@
 <h2 class="doc-h2" id="s3"><span class="doc-h2__index">03</span><span>HOW IT WORKS</span></h2>
 <p class="doc-text">Six stages. The system started on CMA-ES &mdash; an evolutionary optimizer rewarded by the trick name read off-screen by Apple Vision OCR, which is what landed the 360 flips in section 05 &mdash; and is now built around two-stage behavioral cloning: it learns gestures from expert play instead of searching for them via RL.</p>
 
-<div class="doc-rows">
+<div class="doc-rows doc-rows--offset">
   <div class="doc-row"><span class="doc-row__index">01</span><span class="doc-row__term">demonstrations</span><span class="doc-row__text">my expert True Skate gameplay captured on via screen recording on my iPhone.</span></div>
   <div class="doc-row"><span class="doc-row__index">02</span><span class="doc-row__term">gesture corpus</span><span class="doc-row__text">a script performs random gestures via Appium + WebDriverAgent and collects the video frames they produce.</span></div>
   <div class="doc-row"><span class="doc-row__index">03</span><span class="doc-row__term">trace extractor</span><span class="doc-row__text">a small U-Net is trained to predict the gestures that produced a given sequence of video frames for the corpus created in step 02.</span></div>

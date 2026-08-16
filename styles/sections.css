@@ -55,11 +55,15 @@
 
 /* ---------- definition rows (pipeline stages, status ledger) ---------- */
 .doc-rows{margin-top:var(--stack);border-top:1px solid var(--line)}
-.doc-row{display:grid;grid-template-columns:var(--cell) calc(var(--cell) * 7) 1fr;gap:0 var(--s-5);padding:var(--space-row-pad);border-bottom:1px solid var(--line);font-size:var(--fs-md);align-items:baseline}
+.doc-row{display:grid;grid-template-columns:var(--cell) calc(var(--cell) * 7) 1fr;gap:0 var(--s-5);padding:var(--space-row-pad);border-bottom:1px solid var(--line);font-size:var(--fs-md);align-items:start}
 .doc-row__index{color:var(--accent);font-size:var(--fs-sm)}
 .doc-row__index--warn{color:var(--warn)}
-.doc-row__term{font-weight:500;min-width:max-content}
+.doc-row__term{font-weight:500;overflow-wrap:break-word}
 .doc-row__text{color:var(--fg-dim)}
+/* --offset drops the index + term half a cell below the text's first line.
+   Safe on the grid: every row here is 2+ text lines, so 12px + 24px never
+   exceeds the text column and the row height stays a whole multiple. */
+.doc-rows--offset .doc-row__index,.doc-rows--offset .doc-row__term{margin-top:12px}
 
 /* ---------- figures ---------- */
 .doc-figure{margin-top:var(--stack)}
