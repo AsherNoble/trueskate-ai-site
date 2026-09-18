@@ -26,9 +26,6 @@ const sectionFiles = [
   "02-demo.html",
   "03-how.html",
   "04-hand.html",
-  "05-hood.html",
-  "06-roadmap.html",
-  "07-status.html",
 ];
 const sections = sectionFiles
   .map((name) => readReq(frag(name), name))
@@ -57,9 +54,6 @@ const railLinks = [
   ["#s2", "2", "Demo"],
   ["#s3", "3", "How it works"],
   ["#s4", "4", "The hand"],
-  ["#s5", "5", "Under the hood"],
-  ["#s6", "6", "Roadmap"],
-  ["#s7", "7", "Status"],
 ]
   .map(
     ([href, idx, label]) =>
@@ -82,8 +76,8 @@ ${railLinks}
     </aside>`;
 
 /* ---- title block: h1, lead, meta rule ---- */
-const titleBlock = `        <h1 class="doc-title">TrueSkate<span class="accent">-AI</span> &mdash; learning to skate from pixels</h1>
-        <p class="doc-lead">A personal research project on learning fine motor control from vision alone: an agent playing True Skate on unmodified physical iPhones, seeing only screen frames and acting only through touch.</p>
+const titleBlock = `        <h1 class="doc-title">TrueSkate<span class="accent">-AI</span> &mdash; an animated sculpture</h1>
+        <p class="doc-lead">A personal research project on learning fine motor control from vision alone: a robot hand playing True Skate on unmodified iPhones, seeing only screen frames and acting only through touch.</p>
         <div class="doc-meta">
           <div class="doc-meta__item"><b>Asher Noble</b></div>
           <div class="doc-meta__item">log started <b>2026-06</b></div>
@@ -97,7 +91,7 @@ const footer = `      <footer class="doc-footer">
         <a href="https://x.com/asherNoble20109" target="_blank" rel="noopener">x.com/asherNoble20109</a>
         <span>last touched 2026-07-31</span>
       </footer>
-      <p class="doc-caption doc-colophon">true skate is a game by <a href="http://trueaxis.com/trueskate.html" target="_blank" rel="noopener">true axis</a>, available on the <a href="https://apps.apple.com/app/true-skate/id549105915" target="_blank" rel="noopener">app store</a> — TrueSkate-AI is an independent research project and is not affiliated with or endorsed by true axis.</p>`;
+      <p class="doc-caption doc-colophon">True Skate is a game by <a href="http://trueaxis.com/trueskate.html" target="_blank" rel="noopener">True Axis</a>, available on the <a href="https://apps.apple.com/app/true-skate/id549105915" target="_blank" rel="noopener">app store</a> and <a href="https://play.google.com/store/apps/details?id=com.trueaxis.trueskate&amp;hl=en_AU" target="_blank" rel="noopener">play store</a> — TrueSkate-AI is an independent research project and is not affiliated with or endorsed by True Axis.</p>`;
 
 const scripts = `  <script src="scripts/main.js" defer></script>`;
 

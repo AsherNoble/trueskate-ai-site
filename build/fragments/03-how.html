@@ -1,19 +1,21 @@
 <!-- 03 — HOW IT WORKS -->
 <h2 class="doc-h2" id="s3"><span class="doc-h2__index">03</span><span>HOW IT WORKS</span></h2>
-<p class="doc-text">Six stages. The system started on CMA-ES &mdash; an evolutionary optimizer rewarded by the trick name read off-screen by Apple Vision OCR, which is what landed the 360 flips in section 05 &mdash; and is now built around two-stage behavioral cloning: it learns gestures from expert play instead of searching for them via RL.</p>
+<p class="doc-text">The protoype of this project used covariance matrix adaptation evolution strategy (CMA-ES) – a sample-efficient RL approach – with the on-screen trick name as the reward signal. The project is now being built around two-stage behavioral cloning, outlined below:</p>
 
 <div class="doc-rows doc-rows--offset">
-  <div class="doc-row"><span class="doc-row__index">01</span><span class="doc-row__term">demonstrations</span><span class="doc-row__text">my expert True Skate gameplay captured on via screen recording on my iPhone.</span></div>
+  <div class="doc-row"><span class="doc-row__index">01</span><span class="doc-row__term">demonstrations</span><span class="doc-row__text">expert demonstrations of my True Skate gameplay are screen-recorded and saved.</span></div>
   <div class="doc-row"><span class="doc-row__index">02</span><span class="doc-row__term">gesture corpus</span><span class="doc-row__text">a script performs random gestures via Appium + WebDriverAgent and collects the video frames they produce.</span></div>
   <div class="doc-row"><span class="doc-row__index">03</span><span class="doc-row__term">trace extractor</span><span class="doc-row__text">a small U-Net is trained to predict the gestures that produced a given sequence of video frames for the corpus created in step 02.</span></div>
-  <div class="doc-row"><span class="doc-row__index">04</span><span class="doc-row__term">strokes</span><span class="doc-row__text">per-frame touch points fit into discrete curved drags (waypoints, duration, easing, curvature), normalized across three screen sizes.</span></div>
-  <div class="doc-row"><span class="doc-row__index">05</span><span class="doc-row__term">policy</span><span class="doc-row__text">a transformer (or another architecture) takes recent frames plus recent gestures and predicts the next gesture.</span></div>
-  <div class="doc-row"><span class="doc-row__index">06</span><span class="doc-row__term">inference</span><span class="doc-row__text">gestures are inferred and translated from 2D cartesian trajectories to 3D trajectories executed by the robotic hand on the 2D iPhone screen.</span></div>
+  <div class="doc-row"><span class="doc-row__index">04</span><span class="doc-row__term">policy</span><span class="doc-row__text">a transformer (or another architecture) is trained to take recent frames plus recent gestures and predict the next few gestures.</span></div>
+  <div class="doc-row"><span class="doc-row__index">05</span><span class="doc-row__term">inference</span><span class="doc-row__text">gestures are inferred and translated from 2D gestures to 3D trajectories executed by the robotic hand on the iPhone screen.</span></div>
 </div>
 
 <figure class="doc-figure">
-  <div class="doc-frame doc-h-figure"><img src="assets/posters/training-setup.jpg" alt="The training rig monitor showing three True Skate sessions running side by side, mirrored from three physical iPhones"></div>
-  <figcaption class="doc-caption"><b>Fig. 4</b> &mdash; a still from training-setup.mp4: the rig&rsquo;s monitor, mirroring three physical iPhones running True Skate in parallel. Real hardware, no simulator. The phones themselves are out of frame.</figcaption>
+  <div class="doc-frame doc-h-figure doc-h-figure--clip-wide doc-loop" data-loop>
+    <video src="assets/demos/training-setup-loop.mp4" muted loop playsinline autoplay preload="metadata" aria-label="The training rig monitor showing three True Skate sessions running side by side, mirrored from three physical iPhones"></video>
+    <button class="doc-loop__btn" type="button" aria-pressed="false" aria-label="Pause clip"><svg class="doc-loop__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5l12 7-12 7z"/></svg></button>
+  </div>
+  <figcaption class="doc-caption"><b>Fig. 5</b> &mdash; CMA-ES training on three iPhones in parallel.</figcaption>
 </figure>
 
 <p class="doc-text">An earlier CMA-ES baseline and a collapsed PPO + HER attempt taught me what this noisy real-time setting could and couldn&rsquo;t give back.</p>

@@ -44,7 +44,7 @@ index.html              assembled page — GENERATED, do not edit
 styles/base.css         design tokens + reset (source of truth)
 styles/sections.css     GENERATED from build/fragments/*.css
 build/fragments/doc.css the document primitives — this is the system
-build/fragments/0N-*.html   the seven sections
+build/fragments/0N-*.html   the four sections
 build/assemble.mjs      owns the head, the rail, the title block and the footer
 build/screenshot.mjs    full-page renders at 1440/1100/834/720/390
 scripts/main.js         scrollspy + click-to-play, nothing else

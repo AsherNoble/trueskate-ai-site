@@ -30,9 +30,6 @@
         <a class="doc-nav__link" href="#s2" data-nav-link><span class="doc-nav__index">2</span>Demo</a>
         <a class="doc-nav__link" href="#s3" data-nav-link><span class="doc-nav__index">3</span>How it works</a>
         <a class="doc-nav__link" href="#s4" data-nav-link><span class="doc-nav__index">4</span>The hand</a>
-        <a class="doc-nav__link" href="#s5" data-nav-link><span class="doc-nav__index">5</span>Under the hood</a>
-        <a class="doc-nav__link" href="#s6" data-nav-link><span class="doc-nav__index">6</span>Roadmap</a>
-        <a class="doc-nav__link" href="#s7" data-nav-link><span class="doc-nav__index">7</span>Status</a>
       </nav>
       <div class="doc-sidebar__foot">
         <a href="https://github.com/AsherNoble/TrueSkate-AI" target="_blank" rel="noopener">github ↗</a>
@@ -43,20 +40,25 @@
     </aside>
     <main class="doc-main" id="main">
       <div class="doc-wrap">
-        <h1 class="doc-title">TrueSkate<span class="accent">-AI</span> &mdash; learning to skate from pixels</h1>
-        <p class="doc-lead">A personal research project on learning fine motor control from vision alone: an agent playing True Skate on unmodified physical iPhones, seeing only screen frames and acting only through touch.</p>
+        <h1 class="doc-title">TrueSkate<span class="accent">-AI</span> &mdash; an animated sculpture</h1>
+        <p class="doc-lead">A personal research project on learning fine motor control from vision alone: a robot hand playing True Skate on unmodified iPhones, seeing only screen frames and acting only through touch.</p>
         <div class="doc-meta">
           <div class="doc-meta__item"><b>Asher Noble</b></div>
           <div class="doc-meta__item">log started <b>2026-06</b></div>
           <div class="doc-meta__item">status <b>in progress</b></div>
           <div class="doc-meta__item"><b>no publication</b></div>
         </div>
+<figure class="doc-figure">
+  <div class="doc-frame doc-h-photo doc-h-photo--wide"><img src="assets/hand/hand-render.jpg" alt="A 3D model of the finished hand design"></div>
+  <figcaption class="doc-caption"><b>Fig. 1</b> &mdash; 3D mockup of the completed design.</figcaption>
+</figure>
+
 <!-- 01 — WHAT IT IS -->
 <h2 class="doc-h2" id="s1"><span class="doc-h2__index">01</span><span>WHAT IT IS</span></h2>
 <p class="doc-text">I&rsquo;m training a machine learning model to play <a href="http://trueaxis.com/trueskate.html" target="_blank" rel="noopener">True Skate</a> on unmodified physical iPhones. It sees only screen frames and acts only through touch &mdash; no access to the game&rsquo;s code.</p>
 <p class="doc-text">The controls are continuous, the feedback is delayed, and the game reports a trick&rsquo;s name on screen but nothing else.</p>
 <p class="doc-text">My conjecture: I can&rsquo;t assimilate the whole internet in a lifetime, and I can&rsquo;t train a frontier LLM with &lt;$1000 of compute &mdash; but I did master True Skate well within a lifetime, so it may be possible to train a machine learning model to play it on &lt;$1000 of compute.</p>
-<p class="doc-text">The long-term vision is a tendon-driven robotic hand tapping and swiping real glass (read <a href="#s4">section 04</a> for a thorough overview). I am currently experimenting with offline learning with the intention to translate the 2D trajectories inferred by the trained model into 3D trajectories taken by the fingers of the robotic hand.</p>
+<p class="doc-text">The long-term vision is a tendon-driven robotic hand tapping and swiping on an actual phone screen (read <a href="#s4">section 04</a> for a thorough overview). I am currently experimenting with offline learning with the intention to translate the 2D trajectories inferred by the trained model into 3D trajectories taken by the fingers of the robotic hand.</p>
 
 
 <!-- 02 — DEMO -->
@@ -68,12 +70,15 @@
     <img class="doc-clip__poster" src="assets/demos/protostars-teaser.jpg" alt="TrueSkate-AI Protostars pitch video teaser">
     <button class="doc-clip__btn" type="button" aria-label="Play the TrueSkate-AI Protostars pitch video, 59 seconds"><span class="doc-clip__label">play ↗</span></button>
   </div>
-  <figcaption class="doc-caption"><b>Fig. 1</b> &mdash; My Protostars application video.</figcaption>
+  <figcaption class="doc-caption"><b>Fig. 2</b> &mdash; My Protostars application video.</figcaption>
 </figure>
 
 <figure class="doc-figure">
-  <div class="doc-frame doc-h-figure"><img src="assets/posters/agent-run.jpg" alt="An unedited agent rollout: the decision-log terminal on the left and the live True Skate game on the right"></div>
-  <figcaption class="doc-caption"><b>Fig. 2</b> &mdash; Left: the agent&rsquo;s decision log. Right: the live game on a physical iPhone, printing the trick name that the RL evaluator reads.</figcaption>
+  <div class="doc-frame doc-h-figure doc-h-figure--clip doc-loop" data-loop>
+    <video src="assets/demos/agent-run-loop.mp4" muted loop playsinline autoplay preload="metadata" aria-label="An unedited agent rollout: the decision-log terminal on the left and the live True Skate game on the right"></video>
+    <button class="doc-loop__btn" type="button" aria-pressed="false" aria-label="Pause clip"><svg class="doc-loop__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5l12 7-12 7z"/></svg></button>
+  </div>
+  <figcaption class="doc-caption"><b>Fig. 3</b> &mdash; Left: the agent&rsquo;s decision log. Right: the live game on a physical iPhone (screen-mirrored) being controlled by the RL agent.</figcaption>
 </figure>
 
 <figure class="doc-figure">
@@ -81,26 +86,28 @@
     <div class="doc-frame doc-h-figure"><img src="assets/dodgy-pre-demo-training-run.jpg" alt="A laptop on a train tray table running the agent's decision log beside the True Skate game, with the phone-under-test held in hand amid a tangle of charging cables"></div>
     <div class="doc-frame doc-h-figure"><img src="assets/BB-V0-Demo.jpeg" alt="Asher presenting TrueSkate-AI to a seated audience at the Blackbird V0 meetup, with the game and the agent's telemetry on a wall-mounted screen"></div>
   </div>
-  <figcaption class="doc-caption"><b>Fig. 3</b> &mdash; Left: pre-demo training run on a train. Right: demoing the CMA-ES model at a Blackbird V0 meetup.</figcaption>
+  <figcaption class="doc-caption"><b>Fig. 4</b> &mdash; Left: pre-demo training run on a train. Right: demoing the CMA-ES model at a Blackbird V0 meetup.</figcaption>
 </figure>
 
 
 <!-- 03 — HOW IT WORKS -->
 <h2 class="doc-h2" id="s3"><span class="doc-h2__index">03</span><span>HOW IT WORKS</span></h2>
-<p class="doc-text">Six stages. The system started on CMA-ES &mdash; an evolutionary optimizer rewarded by the trick name read off-screen by Apple Vision OCR, which is what landed the 360 flips in section 05 &mdash; and is now built around two-stage behavioral cloning: it learns gestures from expert play instead of searching for them via RL.</p>
+<p class="doc-text">The protoype of this project used covariance matrix adaptation evolution strategy (CMA-ES) – a sample-efficient RL approach – with the on-screen trick name as the reward signal. The project is now being built around two-stage behavioral cloning, outlined below:</p>
 
 <div class="doc-rows doc-rows--offset">
-  <div class="doc-row"><span class="doc-row__index">01</span><span class="doc-row__term">demonstrations</span><span class="doc-row__text">my expert True Skate gameplay captured on via screen recording on my iPhone.</span></div>
+  <div class="doc-row"><span class="doc-row__index">01</span><span class="doc-row__term">demonstrations</span><span class="doc-row__text">expert demonstrations of my True Skate gameplay are screen-recorded and saved.</span></div>
   <div class="doc-row"><span class="doc-row__index">02</span><span class="doc-row__term">gesture corpus</span><span class="doc-row__text">a script performs random gestures via Appium + WebDriverAgent and collects the video frames they produce.</span></div>
   <div class="doc-row"><span class="doc-row__index">03</span><span class="doc-row__term">trace extractor</span><span class="doc-row__text">a small U-Net is trained to predict the gestures that produced a given sequence of video frames for the corpus created in step 02.</span></div>
-  <div class="doc-row"><span class="doc-row__index">04</span><span class="doc-row__term">strokes</span><span class="doc-row__text">per-frame touch points fit into discrete curved drags (waypoints, duration, easing, curvature), normalized across three screen sizes.</span></div>
-  <div class="doc-row"><span class="doc-row__index">05</span><span class="doc-row__term">policy</span><span class="doc-row__text">a transformer (or another architecture) takes recent frames plus recent gestures and predicts the next gesture.</span></div>
-  <div class="doc-row"><span class="doc-row__index">06</span><span class="doc-row__term">inference</span><span class="doc-row__text">gestures are inferred and translated from 2D cartesian trajectories to 3D trajectories executed by the robotic hand on the 2D iPhone screen.</span></div>
+  <div class="doc-row"><span class="doc-row__index">04</span><span class="doc-row__term">policy</span><span class="doc-row__text">a transformer (or another architecture) is trained to take recent frames plus recent gestures and predict the next few gestures.</span></div>
+  <div class="doc-row"><span class="doc-row__index">05</span><span class="doc-row__term">inference</span><span class="doc-row__text">gestures are inferred and translated from 2D gestures to 3D trajectories executed by the robotic hand on the iPhone screen.</span></div>
 </div>
 
 <figure class="doc-figure">
-  <div class="doc-frame doc-h-figure"><img src="assets/posters/training-setup.jpg" alt="The training rig monitor showing three True Skate sessions running side by side, mirrored from three physical iPhones"></div>
-  <figcaption class="doc-caption"><b>Fig. 4</b> &mdash; a still from training-setup.mp4: the rig&rsquo;s monitor, mirroring three physical iPhones running True Skate in parallel. Real hardware, no simulator. The phones themselves are out of frame.</figcaption>
+  <div class="doc-frame doc-h-figure doc-h-figure--clip-wide doc-loop" data-loop>
+    <video src="assets/demos/training-setup-loop.mp4" muted loop playsinline autoplay preload="metadata" aria-label="The training rig monitor showing three True Skate sessions running side by side, mirrored from three physical iPhones"></video>
+    <button class="doc-loop__btn" type="button" aria-pressed="false" aria-label="Pause clip"><svg class="doc-loop__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5l12 7-12 7z"/></svg></button>
+  </div>
+  <figcaption class="doc-caption"><b>Fig. 5</b> &mdash; CMA-ES training on three iPhones in parallel.</figcaption>
 </figure>
 
 <p class="doc-text">An earlier CMA-ES baseline and a collapsed PPO + HER attempt taught me what this noisy real-time setting could and couldn&rsquo;t give back.</p>
@@ -108,14 +115,12 @@
 
 <!-- 04 — THE HAND -->
 <h2 class="doc-h2" id="s4"><span class="doc-h2__index">04</span><span>THE HAND</span></h2>
-<p class="doc-text">Almost every robotic hand is built to grip and are thus optimised for high torque. Mine needs relatively little torque but requires very high speed, acceleration and precision. I&rsquo;m building the open-source ORCA hand with gimbal motors instead of servos and the intention of making hardware modifications until it is optimised for virtual finger skating.</p>
-<p class="doc-text">The first build is a two-finger scaffold (index + middle) to prove the module and the control loop before scaling to five.</p>
+<p class="doc-text">Most robotic hands in the literature are designed to grip and manipulate objects, which means they are optimised for torque rather than speed. Mine needs relatively little torque but requires very high speed, acceleration and precision. I&rsquo;m basing my design on the open-source ORCA hand – with gimbal motors instead of high-torque servos – and intend to make hardware modifications until it is optimised for virtual finger skating.</p>
 
 <div class="doc-rows">
-  <div class="doc-row"><span class="doc-row__index">01</span><span class="doc-row__term">dof</span><span class="doc-row__text">17 (3 per finger, four in the thumb, one in the wrist)</span></div>
-  <div class="doc-row"><span class="doc-row__index">02</span><span class="doc-row__term">drive</span><span class="doc-row__text">tendon-driven</span></div>
-  <div class="doc-row"><span class="doc-row__index">03</span><span class="doc-row__term">load</span><span class="doc-row__text">zero load-bearing</span></div>
-  <div class="doc-row"><span class="doc-row__index">04</span><span class="doc-row__term">references</span><span class="doc-row__text">ORCA Hand &middot; HRI &middot; Ruka-v2</span></div>
+  <div class="doc-row"><span class="doc-row__index"></span><span class="doc-row__term">dof</span><span class="doc-row__text">17 (3 per finger, 4 in the thumb, 1 in the wrist)</span></div>
+  <div class="doc-row"><span class="doc-row__index"></span><span class="doc-row__term">drive</span><span class="doc-row__text">tendon-driven</span></div>
+  <div class="doc-row"><span class="doc-row__index"></span><span class="doc-row__term">references</span><span class="doc-row__text">ORCA Hand &middot; HRI &middot; Ruka-v2</span></div>
 </div>
 
 <figure class="doc-figure">
@@ -124,7 +129,12 @@
     <div class="doc-frame doc-h-figure"><img src="assets/hand/left-hand-concept.jpg" alt="Concept sketch of the left (holding) hand: a motorised thumb for the spin/hold button and a wireless-charging puck in the palm (in design)"></div>
     <div class="doc-frame doc-h-figure"><img src="assets/hand/right-hand-concept.jpg" alt="Concept sketch of the right (skating) hand, two fingers reaching onto the screen"></div>
   </div>
-  <figcaption class="doc-caption"><b>Fig. 5</b> &mdash; original design sketches, left (holding) and right (skating) hands.</figcaption>
+  <figcaption class="doc-caption"><b>Fig. 6</b> &mdash; original design sketches, left (holding) and right (skating) hands.</figcaption>
+</figure>
+
+<figure class="doc-figure">
+  <div class="doc-frame doc-h-photo doc-h-photo--tall"><img src="assets/hand/hand-build.jpg" alt="The partially assembled robotic hand on the bench"></div>
+  <figcaption class="doc-caption"><b>Fig. 7</b> &mdash; the right hand, in-progress.</figcaption>
 </figure>
 
 <!-- <figure class="doc-figure">
@@ -132,99 +142,13 @@
   <figcaption class="doc-caption"><b>Fig. 6</b> &mdash; two-finger actuated hand </figcaption>
 </figure> -->
 
-
-<!-- 05 — UNDER THE HOOD -->
-<h2 class="doc-h2" id="s5"><span class="doc-h2__index">05</span><span>UNDER THE HOOD</span></h2>
-<p class="doc-text">The numbers below are from a single CMA-ES run against the 360 flip &mdash; the one flatground trick that&rsquo;s currently landing reliably, out of the 36 in the target set. Everything is real time on physical hardware; nothing here runs faster than a person would see it.</p>
-
-<div class="doc-stats">
-  <dl class="doc-stat">
-    <dt class="doc-stat__label">clean 360-flip landings</dt>
-    <dd class="doc-stat__value">~1,280 <small>/ one run, not an average</small></dd>
-  </dl>
-  <dl class="doc-stat">
-    <dt class="doc-stat__label">iPhones in parallel</dt>
-    <dd class="doc-stat__value">3 <small>/ real hardware, no simulator</small></dd>
-  </dl>
-  <dl class="doc-stat">
-    <dt class="doc-stat__label">time per evaluation</dt>
-    <dd class="doc-stat__value">~3.5s <small>/ real time, no sim speedup</small></dd>
-  </dl>
-  <dl class="doc-stat">
-    <dt class="doc-stat__label">flatground tricks</dt>
-    <dd class="doc-stat__value">36 <small>/ target set; 1 landed reliably</small></dd>
-  </dl>
-  <dl class="doc-stat">
-    <dt class="doc-stat__label">DOF per finger</dt>
-    <dd class="doc-stat__value">~2&ndash;3 <small>/ in design, nothing built</small></dd>
-  </dl>
-</div>
-
-<figure class="doc-figure">
-  <div class="doc-plot">
-    <svg viewBox="0 0 832 288" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Landings per hundred attempts against evaluation count for the CMA-ES 360-flip run, placeholder shape only">
-      <g class="plot-grid"><line x1="72" y1="40" x2="792" y2="40"></line><line x1="72" y1="104" x2="792" y2="104"></line><line x1="72" y1="168" x2="792" y2="168"></line></g>
-      <line class="plot-axis" x1="72" y1="232" x2="792" y2="232"></line>
-      <line class="plot-axis" x1="72" y1="24" x2="72" y2="232"></line>
-      <polyline class="plot-series plot-series--accent" points="72,229 144,218 216,200 288,178 360,154 432,132 504,112 576,96 648,82 720,70 788,60"></polyline>
-      <g font-family="JetBrains Mono, monospace" font-size="13" fill="currentColor">
-        <text x="60" y="237" text-anchor="end">0</text>
-        <text x="60" y="173" text-anchor="end">20</text>
-        <text x="60" y="109" text-anchor="end">40</text>
-        <text x="60" y="45" text-anchor="end">60</text>
-        <text x="72" y="262">0</text>
-        <text x="432" y="262" text-anchor="middle">evaluations</text>
-        <text x="788" y="262" text-anchor="end">2,000</text>
-      </g>
-    </svg>
-  </div>
-  <figcaption class="doc-caption"><b>Fig. 7</b> &mdash; landings per hundred attempts, CMA-ES on the 360 flip. Placeholder plot: indicative shape only, real run data still to be dropped in.</figcaption>
-</figure>
-
-<div class="doc-rows">
-  <div class="doc-row"><span class="doc-row__index">01</span><span class="doc-row__term">normalization</span><span class="doc-row__text">one policy runs across three screen sizes via a canonical reference frame.</span></div>
-  <div class="doc-row"><span class="doc-row__index">02</span><span class="doc-row__term">headless &amp; remote</span><span class="doc-row__text">training runs on a headless server, monitored remotely over SSH.</span></div>
-  <div class="doc-row"><span class="doc-row__index">03</span><span class="doc-row__term">apple vision</span><span class="doc-row__text">reliable on the short coloured trick names the game prints, where the OCR alternatives I tried weren&rsquo;t.</span></div>
-</div>
-
-
-<!-- 06 — ROADMAP -->
-<h2 class="doc-h2" id="s6"><span class="doc-h2__index">06</span><span>ROADMAP</span></h2>
-<p class="doc-text">Two tracks, neither committed to a date. This is intent, not a schedule.</p>
-
-<p class="doc-text">Track A &middot; the agent (software):</p>
-<div class="doc-rows">
-  <div class="doc-row"><span class="doc-row__index">A1</span><span class="doc-row__term">per-trick mastery</span><span class="doc-row__text">reliable, repeatable landings for individual tricks across the 36-trick flatground set &mdash; currently in progress.</span></div>
-  <div class="doc-row"><span class="doc-row__index">A2</span><span class="doc-row__term">one policy</span><span class="doc-row__text">a single skill-conditioned network that performs any trick on command.</span></div>
-  <div class="doc-row"><span class="doc-row__index">A3</span><span class="doc-row__term">style imitation</span><span class="doc-row__text">an agent that strings tricks into full park lines that look like how I actually skate.</span></div>
-</div>
-
-<p class="doc-text">Track B &middot; the hand (hardware):</p>
-<div class="doc-rows">
-  <div class="doc-row"><span class="doc-row__index">B1</span><span class="doc-row__term">two-finger module</span><span class="doc-row__text">curl and splay on index and middle, proving the mechanism and the control loop before scaling up &mdash; currently in progress.</span></div>
-  <div class="doc-row"><span class="doc-row__index">B2</span><span class="doc-row__term">five-finger hand</span><span class="doc-row__text">scaling the curl-and-splay module to a complete tendon-driven hand.</span></div>
-  <div class="doc-row"><span class="doc-row__index">B3</span><span class="doc-row__term">physical play</span><span class="doc-row__text">a left hand holding the iPhone and a right hand finger-skating on real glass, finished cleanly enough to sit on a podium on long-term display.</span></div>
-</div>
-
-
-<!-- 07 — STATUS -->
-<h2 class="doc-h2" id="s7"><span class="doc-h2__index">07</span><span>STATUS</span></h2>
-<div class="doc-rows">
-  <div class="doc-row"><span class="doc-row__index">ok</span><span class="doc-row__term">working</span><span class="doc-row__text">capture, the trace extractor, the CMA-ES trick loop, and evaluation via the on-screen trick name read by Apple Vision; three phones driven by Appium + WebDriverAgent.</span></div>
-  <div class="doc-row"><span class="doc-row__index">&mdash;</span><span class="doc-row__term">in design</span><span class="doc-row__text">the hand. Nothing built, nothing tested.</span></div>
-  <div class="doc-row"><span class="doc-row__index">&mdash;</span><span class="doc-row__term">not started</span><span class="doc-row__text">a second trick family under behavioral cloning; anything running on the physical hand.</span></div>
-  <div class="doc-row"><span class="doc-row__index doc-row__index--warn">!</span><span class="doc-row__term">known broken</span><span class="doc-row__text">an earlier PPO + HER attempt collapsed in this noisy, real-time setting &mdash; it's why the system moved to behavioral cloning.</span></div>
-</div>
-
-<p class="doc-text">Next is closing the loop on the two-finger module and getting a second trick family running under behavioral cloning.</p>
-
       <footer class="doc-footer">
         <a href="https://github.com/AsherNoble/TrueSkate-AI" target="_blank" rel="noopener">github.com/AsherNoble/TrueSkate-AI</a>
         <a href="https://www.linkedin.com/in/ashernoble/" target="_blank" rel="noopener">linkedin.com/in/ashernoble</a>
         <a href="https://x.com/asherNoble20109" target="_blank" rel="noopener">x.com/asherNoble20109</a>
         <span>last touched 2026-07-31</span>
       </footer>
-      <p class="doc-caption doc-colophon">true skate is a game by <a href="http://trueaxis.com/trueskate.html" target="_blank" rel="noopener">true axis</a>, available on the <a href="https://apps.apple.com/app/true-skate/id549105915" target="_blank" rel="noopener">app store</a> — TrueSkate-AI is an independent research project and is not affiliated with or endorsed by true axis.</p>
+      <p class="doc-caption doc-colophon">True Skate is a game by <a href="http://trueaxis.com/trueskate.html" target="_blank" rel="noopener">True Axis</a>, available on the <a href="https://apps.apple.com/app/true-skate/id549105915" target="_blank" rel="noopener">app store</a> and <a href="https://play.google.com/store/apps/details?id=com.trueaxis.trueskate&amp;hl=en_AU" target="_blank" rel="noopener">play store</a> — TrueSkate-AI is an independent research project and is not affiliated with or endorsed by True Axis.</p>
       </div>
     </main>
   </div>

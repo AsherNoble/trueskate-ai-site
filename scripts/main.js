@@ -1,6 +1,6 @@
 /* ============================================================
    TrueSkate-AI — main.js
-   Core behaviour: nav scrollspy, click-to-play clips.
+   Core behaviour: nav scrollspy, click-to-play clips, tap-to-pause loops.
    No browser-storage APIs are used anywhere.
    ============================================================ */
 (function () {
@@ -73,9 +73,44 @@
     });
   }
 
+  /* ---------- Tap-to-pause looping clips ---------- */
+  function initLoopClips() {
+    var loops = Array.prototype.slice.call(document.querySelectorAll("[data-loop]"));
+    loops.forEach(function (loop) {
+      var video = loop.querySelector("video");
+      var btn = loop.querySelector(".doc-loop__btn");
+      if (!video || !btn) return;
+
+      function setPaused(paused) {
+        loop.classList.toggle("is-paused", paused);
+        btn.setAttribute("aria-pressed", paused ? "true" : "false");
+        btn.setAttribute("aria-label", paused ? "Play clip" : "Pause clip");
+      }
+
+      btn.addEventListener("click", function () {
+        if (video.paused) {
+          var playResult = video.play();
+          if (playResult && typeof playResult.catch === "function") {
+            playResult.catch(function () { setPaused(true); });
+          }
+        } else {
+          video.pause();
+        }
+      });
+
+      video.addEventListener("play", function () { setPaused(false); });
+      video.addEventListener("pause", function () { setPaused(true); });
+
+      /* Autoplay can be refused (low-power mode, reduced-motion settings) —
+         reflect whatever state the video actually settles in. */
+      setPaused(video.paused);
+    });
+  }
+
   function init() {
     initScrollSpy();
     initClips();
+    initLoopClips();
   }
 
   if (document.readyState === "loading") {

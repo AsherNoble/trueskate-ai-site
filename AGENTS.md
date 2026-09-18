@@ -42,7 +42,7 @@ Its PNG output is gitignored.
 ## Build pipeline
 
 `build/assemble.mjs` is the whole build. It:
-- concatenates `build/fragments/01-what.html` … `07-status.html` in the order listed in `sectionFiles`
+- concatenates `build/fragments/01-what.html` … `04-hand.html` in the order listed in `sectionFiles`
 - concatenates `cssOrder` (`doc.css`) into `styles/sections.css`
 - owns everything the fragments don't: `<head>`/meta/favicon, the sidebar rail and its link list, the
   `<h1>`/lead/meta-rule title block, and the footer — all as template literals inside the script
@@ -85,7 +85,7 @@ line-height. Below 860px the rail becomes a horizontal row above the content.
 Engineering document, not an interface: no cards, buttons, border-radius, shadows, gradients or
 scroll reveals. One monospace family, one near-black ground, hairline linework at low white opacity,
 one technical blue accent. `--warn` amber is permitted for exactly one thing — marking a *known
-broken* item in section 07. Motion is one ease and two durations; hover changes colour only.
+broken* item. Motion is one ease and two durations; hover changes colour only.
 
 Markup uses the flat `.doc-*` / `.doc-block__element` classes defined in `doc.css` — reuse them
 rather than adding new ones.
