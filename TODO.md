@@ -3,8 +3,6 @@
 Personal working checklist. (Public-repo-safe — nothing sensitive here.)
 
 ## Placeholders on the page — each names the file it expects
-- [ ] **Fig. 6** — two-finger hand module clip → `assets/hand/module.mp4`. Renders
-      `clip pending — hand/module.mp4` until it exists.
 - [ ] Social share card → `assets/og.png` (1200×630), then uncomment the `og:image` meta in
       `build/assemble.mjs`.
 
