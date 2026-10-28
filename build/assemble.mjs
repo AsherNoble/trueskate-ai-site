@@ -63,7 +63,7 @@ const railLinks = [
 
 const sidebar = `    <aside class="doc-sidebar">
       <a class="doc-brand" href="#main" aria-label="TrueSkate-AI, back to top">TrueSkate<span class="accent">-AI</span></a>
-      <div class="doc-ver">research log · rev 15</div>
+      <div class="doc-ver">research log</div>
       <nav class="doc-nav" aria-label="Contents">
 ${railLinks}
       </nav>
@@ -71,7 +71,6 @@ ${railLinks}
         <a href="https://github.com/AsherNoble/TrueSkate-AI" target="_blank" rel="noopener">github ↗</a>
         <a href="https://www.linkedin.com/in/ashernoble/" target="_blank" rel="noopener">linkedin ↗</a>
         <a href="https://x.com/asherNoble20109" target="_blank" rel="noopener">X ↗</a>
-        <span>rev 15 · 2026-08</span>
       </div>
     </aside>`;
 
@@ -89,7 +88,6 @@ const footer = `      <footer class="doc-footer">
         <a href="https://github.com/AsherNoble/TrueSkate-AI" target="_blank" rel="noopener">github.com/AsherNoble/TrueSkate-AI</a>
         <a href="https://www.linkedin.com/in/ashernoble/" target="_blank" rel="noopener">linkedin.com/in/ashernoble</a>
         <a href="https://x.com/asherNoble20109" target="_blank" rel="noopener">x.com/asherNoble20109</a>
-        <span>last touched 2026-07-31</span>
       </footer>
       <p class="doc-caption doc-colophon">True Skate is a game by <a href="http://trueaxis.com/trueskate.html" target="_blank" rel="noopener">True Axis</a>, available on the <a href="https://apps.apple.com/app/true-skate/id549105915" target="_blank" rel="noopener">app store</a> and <a href="https://play.google.com/store/apps/details?id=com.trueaxis.trueskate&amp;hl=en_AU" target="_blank" rel="noopener">play store</a> — TrueSkate-AI is an independent research project and is not affiliated with or endorsed by True Axis.</p>`;
 

@@ -54,7 +54,7 @@ Where a given edit belongs:
 - section prose/markup → `build/fragments/0N-*.html` (markup only; no `<style>`, no inline styles)
 - layout/component CSS → `build/fragments/doc.css`
 - design tokens → `styles/base.css` (source of truth for tokens; not part of the concatenation)
-- rail labels, title, meta rule, footer, `<head>`, rev number → `build/assemble.mjs`
+- rail labels, title, meta rule, footer, `<head>` → `build/assemble.mjs`
 - behaviour → `scripts/main.js` (scrollspy + click-to-play only; no browser-storage APIs)
 
 Adding a section means: new `0N-*.html` fragment, add it to `sectionFiles`, add a `railLinks` entry,
