@@ -81,6 +81,10 @@
 .doc-h-photo--wide{height:calc(var(--cell) * 20)}
 .doc-h-photo--tall{height:calc(var(--cell) * 33)}
 .doc-h-photo > img{width:100%;height:100%;object-fit:cover}
+/* diagrams are never cropped: contain, letterboxed on --bg (the PNG's own ground).
+   29 cells fits a ~1:1 diagram across the 720px measure. */
+.doc-h-diagram{height:calc(var(--cell) * 29);background:var(--bg)}
+.doc-frame.doc-h-diagram > img{object-fit:contain}
 .doc-loop{position:relative}
 .doc-loop > video{width:100%;height:100%;object-fit:cover}
 .doc-loop__btn{position:absolute;inset:0;width:100%;border:0;padding:0;background:rgba(0,0,0,0.45);cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity var(--dur-hover) var(--ease)}

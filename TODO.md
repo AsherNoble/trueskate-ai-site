@@ -19,7 +19,7 @@ Personal working checklist. (Public-repo-safe — nothing sensitive here.)
       clips are re-shot, re-extract them (see git history for the timestamps and crops used).
 - [ ] `training-setup.mp4` and `gameplay.mp4` are still in the repo but no longer referenced by the
       page. Delete them if they stay unused. (`agent-run.mp4` and `3 phone training setup.mov` are
-      the sources of the Fig. 2 and Fig. 4 loops, `assets/demos/*-loop.mp4` — keep those.)
+      the sources of the Fig. 3 and Fig. 6 loops, `assets/demos/*-loop.mp4` — keep those.)
 
 ## Polish — not blocking
 - [ ] Vendor JetBrains Mono instead of the Google Fonts `<link>` (swap for `@font-face`).
