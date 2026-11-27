@@ -25,9 +25,9 @@
     <aside class="doc-sidebar">
       <a class="doc-brand" href="#main" aria-label="TrueSkate-AI, back to top">TrueSkate<span class="accent">-AI</span></a>
       <div class="doc-ver">research log</div>
-      <nav class="doc-nav" aria-label="Contents">
+      <nav class="doc-nav" id="doc-nav" aria-label="Contents">
         <a class="doc-nav__link" href="#s1" data-nav-link><span class="doc-nav__index">1</span>What it is</a>
-        <a class="doc-nav__link" href="#s2" data-nav-link><span class="doc-nav__index">2</span>Demo</a>
+        <a class="doc-nav__link" href="#s2" data-nav-link><span class="doc-nav__index">2</span>Gallery</a>
         <a class="doc-nav__link" href="#s3" data-nav-link><span class="doc-nav__index">3</span>How it works</a>
         <a class="doc-nav__link" href="#s4" data-nav-link><span class="doc-nav__index">4</span>The hand</a>
       </nav>
@@ -36,6 +36,9 @@
         <a href="https://www.linkedin.com/in/ashernoble/" target="_blank" rel="noopener">linkedin ↗</a>
         <a href="https://x.com/asherNoble20109" target="_blank" rel="noopener">X ↗</a>
       </div>
+      <button class="doc-menu-toggle" type="button" aria-expanded="false" aria-controls="doc-nav" aria-label="Open sections menu">
+        <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
+      </button>
     </aside>
     <main class="doc-main" id="main">
       <div class="doc-wrap">
@@ -45,11 +48,13 @@
           <div class="doc-meta__item"><b>Asher Noble</b></div>
           <div class="doc-meta__item">log started <b>2026-06</b></div>
           <div class="doc-meta__item">status <b>in progress</b></div>
-          <div class="doc-meta__item"><b>no publication</b></div>
         </div>
 <figure class="doc-figure">
-  <div class="doc-frame doc-h-photo doc-h-photo--wide"><img src="assets/hand/hand-render.jpg" alt="A 3D model of the finished hand design"></div>
-  <figcaption class="doc-caption"><b>Fig. 1</b> &mdash; 3D mockup of the completed design.</figcaption>
+  <div class="doc-frame doc-h-clip doc-loop" data-loop>
+    <video src="assets/demos/xr-kickflip.mp4" muted loop playsinline autoplay preload="metadata" aria-label="Animated demo of prototype"></video>
+    <button class="doc-loop__btn" type="button" aria-pressed="false" aria-label="Pause clip"><svg class="doc-loop__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5l12 7-12 7z"/></svg></button>
+  </div>
+  <figcaption class="doc-caption"><b>Fig. 1</b> &mdash; Animated demo of prototype</figcaption>
 </figure>
 
 <!-- 01 — WHAT IT IS -->
@@ -60,24 +65,39 @@
 <p class="doc-text">The long-term vision is a tendon-driven robotic hand tapping and swiping on an actual phone screen (read <a href="#s4">section 04</a> for a thorough overview). I am currently experimenting with offline learning with the intention to translate the 2D trajectories inferred by the trained model into 3D trajectories taken by the fingers of the robotic hand.</p>
 
 
-<!-- 02 — DEMO -->
-<h2 class="doc-h2" id="s2"><span class="doc-h2__index">02</span><span>DEMO</span></h2>
+<!-- 02 — GALLERY -->
+<h2 class="doc-h2" id="s2"><span class="doc-h2__index">02</span><span>GALLERY</span></h2>
 <!-- <p class="doc-text">Three views of the same project: a pitch recording made for an audience, a still from an unedited rollout, and two candid photos from the field.</p> -->
 
 <figure class="doc-figure">
-  <div class="doc-clip doc-h-clip" data-src="assets/demos/protostars-teaser.mp4">
-    <img class="doc-clip__poster" src="assets/demos/protostars-teaser.jpg" alt="TrueSkate-AI Protostars pitch video teaser">
-    <button class="doc-clip__btn" type="button" aria-label="Play the TrueSkate-AI Protostars pitch video, 59 seconds"><span class="doc-clip__label">play ↗</span></button>
+  <div class="doc-figs doc-figs--reels">
+    <div class="doc-frame doc-loop" data-loop>
+      <video src="assets/demos/inverse-dynamics-normal-then-slow.mp4" muted loop playsinline autoplay preload="metadata" aria-label="Inverse dynamics model"></video>
+      <button class="doc-loop__btn" type="button" aria-pressed="false" aria-label="Pause clip"><svg class="doc-loop__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5l12 7-12 7z"/></svg></button>
+    </div>
+    <div class="doc-frame doc-loop" data-loop>
+      <video src="assets/demos/model1-reel-360-double-flip-normal-then-slow.mp4" muted loop playsinline autoplay preload="metadata" aria-label="360 double flip"></video>
+      <button class="doc-loop__btn" type="button" aria-pressed="false" aria-label="Pause clip"><svg class="doc-loop__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5l12 7-12 7z"/></svg></button>
+    </div>
+    <div class="doc-frame doc-loop" data-loop>
+      <video src="assets/demos/model1-reel-double-heelflip-normal-then-slow.mp4" muted loop playsinline autoplay preload="metadata" aria-label="Double heelflip"></video>
+      <button class="doc-loop__btn" type="button" aria-pressed="false" aria-label="Pause clip"><svg class="doc-loop__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5l12 7-12 7z"/></svg></button>
+    </div>
+    <div class="doc-frame doc-loop" data-loop>
+      <video src="assets/demos/model1-reel-double-kickflip-normal-then-slow.mp4" muted loop playsinline autoplay preload="metadata" aria-label="Double kickflip"></video>
+      <button class="doc-loop__btn" type="button" aria-pressed="false" aria-label="Pause clip"><svg class="doc-loop__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5l12 7-12 7z"/></svg></button>
+    </div>
+    <div class="doc-frame doc-loop" data-loop>
+      <video src="assets/demos/model1-reel-hard-flip-normal-then-slow.mp4" muted loop playsinline autoplay preload="metadata" aria-label="Hard flip"></video>
+      <button class="doc-loop__btn" type="button" aria-pressed="false" aria-label="Pause clip"><svg class="doc-loop__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5l12 7-12 7z"/></svg></button>
+    </div>
   </div>
-  <figcaption class="doc-caption"><b>Fig. 2</b> &mdash; My Protostars application video.</figcaption>
+  <figcaption class="doc-caption"><b>Fig. 2</b> &mdash; Inverse dynamics model: Blue line = recovered actions, orange traces = True Skate's built-in finger trace animation</figcaption>
 </figure>
 
-<figure class="doc-figure">
-  <div class="doc-frame doc-h-figure doc-h-figure--clip doc-loop" data-loop>
-    <video src="assets/demos/agent-run-loop.mp4" muted loop playsinline autoplay preload="metadata" aria-label="An unedited agent rollout: the decision-log terminal on the left and the live True Skate game on the right"></video>
-    <button class="doc-loop__btn" type="button" aria-pressed="false" aria-label="Pause clip"><svg class="doc-loop__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5l12 7-12 7z"/></svg></button>
-  </div>
-  <figcaption class="doc-caption"><b>Fig. 3</b> &mdash; Left: the agent&rsquo;s decision log. Right: the live game on a physical iPhone (screen-mirrored) being controlled by the RL agent.</figcaption>
+<figure class="doc-figure" id="fig-homelab">
+  <div class="doc-frame doc-h-photo doc-h-photo--wide"><img src="assets/rig-photo-straightened.jpg" alt="Two iPhone XRs plugged into a USB hub at the homelab"></div>
+  <figcaption class="doc-caption"><b>Fig. 3</b> &mdash; Homelab with two iPhone XRs plugged in</figcaption>
 </figure>
 
 <figure class="doc-figure">
@@ -85,60 +105,59 @@
     <div class="doc-frame doc-h-figure"><img src="assets/dodgy-pre-demo-training-run.jpg" alt="A laptop on a train tray table running the agent's decision log beside the True Skate game, with the phone-under-test held in hand amid a tangle of charging cables"></div>
     <div class="doc-frame doc-h-figure"><img src="assets/BB-V0-Demo.jpeg" alt="Asher presenting TrueSkate-AI to a seated audience at the Blackbird V0 meetup, with the game and the agent's telemetry on a wall-mounted screen"></div>
   </div>
-  <figcaption class="doc-caption"><b>Fig. 4</b> &mdash; Left: pre-demo training run on a train. Right: demoing the CMA-ES model at a Blackbird V0 meetup.</figcaption>
+  <figcaption class="doc-caption"><b>Fig. 4</b> &mdash; <span class="doc-caption__desktop">Left</span><span class="doc-caption__mobile">Top</span>: pre-demo training run on a train, <span class="doc-caption__desktop">Right</span><span class="doc-caption__mobile">Bottom</span>: demoing the CMA-ES model at a Blackbird V0 meetup</figcaption>
 </figure>
 
 
 <!-- 03 — HOW IT WORKS -->
 <h2 class="doc-h2" id="s3"><span class="doc-h2__index">03</span><span>HOW IT WORKS</span></h2>
-<p class="doc-text">The protoype of this project used covariance matrix adaptation evolution strategy (CMA-ES) – a sample-efficient RL approach – with the on-screen trick name as the reward signal. The project is now being built around two-stage behavioral cloning, outlined below:</p>
+<p class="doc-text">The prototype of this project used covariance matrix adaptation evolution strategy (CMA-ES) – a sample-efficient RL approach – with the on-screen trick name as the reward signal. The project is now being built around two-stage behavioral cloning, outlined below:</p>
 
-<div class="doc-rows doc-rows--offset">
-  <div class="doc-row"><span class="doc-row__index">01</span><span class="doc-row__term">demonstrations</span><span class="doc-row__text">expert demonstrations of my True Skate gameplay are screen-recorded and saved.</span></div>
-  <div class="doc-row"><span class="doc-row__index">02</span><span class="doc-row__term">gesture corpus</span><span class="doc-row__text">a script performs random gestures via Appium + WebDriverAgent and collects the video frames they produce.</span></div>
-  <div class="doc-row"><span class="doc-row__index">03</span><span class="doc-row__term">trace extractor</span><span class="doc-row__text">a small U-Net is trained to predict the gestures that produced a given sequence of video frames for the corpus created in step 02.</span></div>
-  <div class="doc-row"><span class="doc-row__index">04</span><span class="doc-row__term">policy</span><span class="doc-row__text">a transformer (or another architecture) is trained to take recent frames plus recent gestures and predict the next few gestures.</span></div>
-  <div class="doc-row"><span class="doc-row__index">05</span><span class="doc-row__term">inference</span><span class="doc-row__text">gestures are inferred and translated from 2D gestures to 3D trajectories executed by the robotic hand on the iPhone screen.</span></div>
+<div class="doc-rows doc-rows--pipeline">
+  <div class="doc-row"><span class="doc-row__index"></span><span class="doc-row__term">Demonstrations</span><span class="doc-row__text">Expert demonstrations of my True Skate gameplay are screen-recorded and saved.</span></div>
+  <div class="doc-row"><span class="doc-row__index"></span><span class="doc-row__term">Data collection</span><span class="doc-row__text">A self-supervised pipeline generates and executes random synthetic touches on two iPhones plugged into my homelab (see <a href="#fig-homelab">Fig. 3</a>), and records the resulting gameplay.</span></div>
+  <div class="doc-row"><span class="doc-row__index"></span><span class="doc-row__term">Inverse dynamics model</span><span class="doc-row__text">A spatiotemporal CNN is trained on the corpus from step 02 to reconstruct the gestures that produced a given sequence of video frames. It is then used to label the expert demonstrations from step 01.</span></div>
+  <div class="doc-row"><span class="doc-row__index"></span><span class="doc-row__term">Policy</span><span class="doc-row__text">A CNN–Transformer is trained through behavioural cloning to predict upcoming gestures from recent gameplay frames and previous gestures.</span></div>
+  <div class="doc-row"><span class="doc-row__index"></span><span class="doc-row__term">Inference</span><span class="doc-row__text">The policy predicts gestures in real time, which are converted into 3D trajectories and executed by the robotic hand using inverse kinematics.</span></div>
 </div>
 
 <figure class="doc-figure">
   <div class="doc-frame doc-h-diagram"><img src="assets/diagrams/architecture.png" alt="Software architecture diagram of TrueSkate-AI: the hand, policy, rig, cloud and data-pipeline blocks and the live-loop and training data flows between them"></div>
-  <figcaption class="doc-caption"><b>Fig. 5</b> &mdash; Software architecture diagram.</figcaption>
+  <figcaption class="doc-caption"><b>Fig. 5</b> &mdash; Software architecture diagram</figcaption>
 </figure>
 
 <figure class="doc-figure">
-  <div class="doc-frame doc-h-figure doc-h-figure--clip-wide doc-loop" data-loop>
-    <video src="assets/demos/training-setup-loop.mp4" muted loop playsinline autoplay preload="metadata" aria-label="The training rig monitor showing three True Skate sessions running side by side, mirrored from three physical iPhones"></video>
-    <button class="doc-loop__btn" type="button" aria-pressed="false" aria-label="Pause clip"><svg class="doc-loop__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5l12 7-12 7z"/></svg></button>
+  <div class="doc-figs doc-figs--paired-clips">
+    <div class="doc-frame doc-loop" data-loop>
+      <video src="assets/demos/training-setup-loop.mp4" muted loop playsinline autoplay preload="metadata" aria-label="The training rig monitor showing three True Skate sessions running side by side, mirrored from three physical iPhones"></video>
+      <button class="doc-loop__btn" type="button" aria-pressed="false" aria-label="Pause clip"><svg class="doc-loop__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5l12 7-12 7z"/></svg></button>
+    </div>
+    <div class="doc-frame doc-loop" data-loop>
+      <video src="assets/demos/agent-run-loop.mp4" muted loop playsinline autoplay preload="metadata" aria-label="An unedited agent rollout: the decision-log terminal on the left and the live True Skate game on the right"></video>
+      <button class="doc-loop__btn" type="button" aria-pressed="false" aria-label="Pause clip"><svg class="doc-loop__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5l12 7-12 7z"/></svg></button>
+    </div>
   </div>
-  <figcaption class="doc-caption"><b>Fig. 6</b> &mdash; CMA-ES training on three iPhones in parallel.</figcaption>
+  <figcaption class="doc-caption"><b>Fig. 6</b> &mdash; <span class="doc-caption__desktop">Left</span><span class="doc-caption__mobile">Top</span>: CMA-ES model (superseded by BC policy) training on three iPhones in parallel, <span class="doc-caption__desktop">Right</span><span class="doc-caption__mobile">Bottom</span>: trained CMA-ES agent and its decision log</figcaption>
 </figure>
-
-<p class="doc-text">An earlier CMA-ES baseline and a collapsed PPO + HER attempt taught me what this noisy real-time setting could and couldn&rsquo;t give back.</p>
 
 
 <!-- 04 — THE HAND -->
 <h2 class="doc-h2" id="s4"><span class="doc-h2__index">04</span><span>THE HAND</span></h2>
 <p class="doc-text">Most robotic hands in the literature are designed to grip and manipulate objects, which means they are optimised for torque rather than speed. Mine needs relatively little torque but requires very high speed, acceleration and precision. I&rsquo;m basing my design on the open-source orcahand v2 – with gimbal motors instead of high-torque servos – and intend to make hardware modifications until it is optimised for virtual finger skating.</p>
 
-<div class="doc-rows">
-  <div class="doc-row"><span class="doc-row__index"></span><span class="doc-row__term">dof</span><span class="doc-row__text">18 (3 per finger, 4 in the thumb, 2 in the wrist)</span></div>
-  <div class="doc-row"><span class="doc-row__index"></span><span class="doc-row__term">drive</span><span class="doc-row__text">tendon-driven</span></div>
-  <div class="doc-row"><span class="doc-row__index"></span><span class="doc-row__term">references</span><span class="doc-row__text">orcahand v2 &middot; RUKA-V2</span></div>
+<div class="doc-rows doc-rows--specs">
+  <div class="doc-row"><span class="doc-row__index"></span><span class="doc-row__term">DoF</span><span class="doc-row__text">18 (3 per finger, 4 in the thumb, 2 in the wrist)</span></div>
+  <div class="doc-row"><span class="doc-row__index"></span><span class="doc-row__term">Drive</span><span class="doc-row__text">Tendon-driven</span></div>
+  <div class="doc-row"><span class="doc-row__index"></span><span class="doc-row__term">References</span><span class="doc-row__text">Orcahand v2 &middot; RUKA-V2</span></div>
 </div>
 
 <figure class="doc-figure">
   <div class="doc-figs">
-    <div class="doc-frame doc-h-figure"><img src="assets/hand/concept-drawing.jpg" alt="Concept drawing: the robotic right hand gripping a phone, two fingers reaching onto the screen to skate in True Skate"></div>
-    <div class="doc-frame doc-h-figure"><img src="assets/hand/left-hand-concept.jpg" alt="Concept sketch of the left (holding) hand: a motorised thumb for the spin/hold button and a wireless-charging puck in the palm (in design)"></div>
-    <div class="doc-frame doc-h-figure"><img src="assets/hand/right-hand-concept.jpg" alt="Concept sketch of the right (skating) hand, two fingers reaching onto the screen"></div>
+    <div class="doc-frame doc-h-photo"><img src="assets/hand/prototype-1.jpeg" alt="Prototype in progress, photo 1"></div>
+    <div class="doc-frame doc-h-photo"><img src="assets/hand/prototype-2.jpeg" alt="Prototype in progress, photo 2"></div>
+    <div class="doc-frame doc-h-photo"><img src="assets/hand/prototype-3.jpeg" alt="Prototype in progress, photo 3"></div>
   </div>
-  <figcaption class="doc-caption"><b>Fig. 7</b> &mdash; original design sketches, left (holding) and right (skating) hands.</figcaption>
-</figure>
-
-<figure class="doc-figure">
-  <div class="doc-frame doc-h-photo doc-h-photo--tall"><img src="assets/hand/hand-build.jpg" alt="The partially assembled robotic hand on the bench"></div>
-  <figcaption class="doc-caption"><b>Fig. 8</b> &mdash; the right hand, in-progress.</figcaption>
+  <figcaption class="doc-caption"><b>Fig. 7</b> &mdash; The prototype, in-progress</figcaption>
 </figure>
 
       <footer class="doc-footer">

@@ -23,7 +23,7 @@ function readReq(p, label) {
 /* ---- sections (in render order) ---- */
 const sectionFiles = [
   "01-what.html",
-  "02-demo.html",
+  "02-gallery.html",
   "03-how.html",
   "04-hand.html",
 ];
@@ -51,7 +51,7 @@ const favicon = "data:image/svg+xml," + faviconSvg.replace(/#/g, "%23").replace(
 /* ---- document shell ---- */
 const railLinks = [
   ["#s1", "1", "What it is"],
-  ["#s2", "2", "Demo"],
+  ["#s2", "2", "Gallery"],
   ["#s3", "3", "How it works"],
   ["#s4", "4", "The hand"],
 ]
@@ -64,7 +64,7 @@ const railLinks = [
 const sidebar = `    <aside class="doc-sidebar">
       <a class="doc-brand" href="#main" aria-label="TrueSkate-AI, back to top">TrueSkate<span class="accent">-AI</span></a>
       <div class="doc-ver">research log</div>
-      <nav class="doc-nav" aria-label="Contents">
+      <nav class="doc-nav" id="doc-nav" aria-label="Contents">
 ${railLinks}
       </nav>
       <div class="doc-sidebar__foot">
@@ -72,6 +72,9 @@ ${railLinks}
         <a href="https://www.linkedin.com/in/ashernoble/" target="_blank" rel="noopener">linkedin ↗</a>
         <a href="https://x.com/asherNoble20109" target="_blank" rel="noopener">X ↗</a>
       </div>
+      <button class="doc-menu-toggle" type="button" aria-expanded="false" aria-controls="doc-nav" aria-label="Open sections menu">
+        <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
+      </button>
     </aside>`;
 
 /* ---- title block: h1, lead, meta rule ---- */
@@ -81,7 +84,6 @@ const titleBlock = `        <h1 class="doc-title">TrueSkate<span class="accent">
           <div class="doc-meta__item"><b>Asher Noble</b></div>
           <div class="doc-meta__item">log started <b>2026-06</b></div>
           <div class="doc-meta__item">status <b>in progress</b></div>
-          <div class="doc-meta__item"><b>no publication</b></div>
         </div>`;
 
 const footer = `      <footer class="doc-footer">

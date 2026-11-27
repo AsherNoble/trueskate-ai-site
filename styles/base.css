@@ -48,21 +48,21 @@
   --font-annotation:var(--font-mono);
 
   /* the whole scale — five steps, px so they stay grid-predictable */
-  --fs-xs:12.5px;   /* stat labels, sidebar meta */
-  --fs-sm:13px;     /* captions, meta rules, footers, row indices */
-  --fs-md:15px;     /* body prose, definition rows */
-  --fs-lg:19px;     /* stat values */
-  --fs-xl:25px;     /* the page title — the only large type on the page */
+  --fs-xs:14.5px;   /* stat labels, sidebar meta */
+  --fs-sm:15px;     /* captions, meta rules, footers, row indices */
+  --fs-md:17px;     /* body prose, definition rows */
+  --fs-lg:21px;     /* stat values */
+  --fs-xl:23px;     /* the page title — the only large type on the page */
 
   /* section headings are SMALL and tracked, not large */
-  --fs-section:13.5px;
+  --fs-section:15.5px;
   --tracking-section:0.14em;
   --tracking-label:0.10em;
 
   --lh:var(--cell);        /* one line = one cell */
   --lh-tight:16px;         /* sidebar links, 2/3 cell */
-  --measure-prose:74ch;
-  --measure-lead:66ch;
+  --measure-prose:100%;
+  --measure-lead:100%;
 
   /* semantic aliases */
   --text-size-body:var(--fs-md);
@@ -73,7 +73,7 @@
      --cell is the ONE spacing unit. Change it and the whole page re-registers. */
   --cell:24px;                              /* the grid module */
   --sidebar-w:264px;                        /* fixed table-of-contents rail */
-  --measure:calc(var(--cell) * 30);          /* 720px reading column */
+  --measure:calc(var(--cell) * 44);          /* 1056px reading column, an even number of cells */
   --doc-pad-x:calc(var(--cell) * 3);
   --doc-pad-top:calc(var(--cell) * 3);
   --doc-pad-bottom:calc(var(--cell) * 4);
@@ -92,7 +92,7 @@
   --stack:var(--cell);                       /* gap between blocks */
   --stack-2:calc(var(--cell) * 2);           /* gap before a section heading */
   --stack-3:calc(var(--cell) * 3);
-  --space-row-pad:12px 0 11px;               /* definition row, borders in */
+  --space-row-pad:0 0 23px;               /* definition row, borders in */
   --space-box-pad:11px 12px;                 /* stat box interior */
 
   /* Radius — there isn't one. This is a drawing, not an interface.
